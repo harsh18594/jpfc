@@ -8,7 +8,7 @@ using jpfc.Models;
 
 namespace jpfc.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : JpfcController
     {
         public IActionResult Index()
         {
@@ -17,19 +17,15 @@ namespace jpfc.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Team()
         {
             return View();
         }
