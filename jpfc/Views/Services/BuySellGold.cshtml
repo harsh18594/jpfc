@@ -2,8 +2,13 @@
     ViewData["Title"] = "Buy & Sell Gold";
 }
 
+@section Styles{
+    <link href="~/lib/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/Buttons-1.5.6/css/buttons.bootstrap4.css" rel="stylesheet" />
+}
+
 <!--Page Title-->
-<section class="page-title" style="background-image:url(images/background/8.jpg)">
+<section class="page-title" style="background-image:url(../../images/banner-images/gold-bar.jpg)">
     <div class="auto-container">
         <div class="content">
             <h1>Buy &amp; Sell Gold</h1>
@@ -27,11 +32,12 @@
                     <!--Blog Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
-                            <li class="active"><a href="services-single.html">Finance Planning</a></li>
-                            <li><a href="services-single.html">Business Insurance</a></li>
-                            <li><a href="services-single.html">Car Insurance</a></li>
-                            <li><a href="services-single.html">Family Insurance</a></li>
-                            <li><a href="services-single.html">Tax management</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="BuySellGold">Sell &amp; Buy Gold</a></li>
+                            <li><a asp-controller="Services" asp-action="Loan">Loan against gold</a></li>
+                            <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
+                            <li><a asp-controller="Services" asp-action="Insurance">Insurance</a></li>
+                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
+                            <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
 
@@ -41,35 +47,35 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 3111 West Allegheny Avenue <br> Pennsylvania 19132</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> 1-982-782-5297 <br> 1-982-125-6378</li>
-                            <li><span class="icon flaticon-comment"></span> support@financ.com</li>
+                            <li><span class="icon flaticon-map-1"></span> 123 Main Street, <br /> ON L1L 1L1</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> 1-416 111 1111</li>
+                            <li><span class="icon flaticon-comment"></span> test@mail.com</li>
                         </ul>
                     </div>
 
                     <!-- Brochures Widget-->
-                    <div class="sidebar-widget brochures-widget">
-                        <div class="sidebar-title">
-                            <h4>Brochures</h4>
-                        </div>
-                        <div class="text">View our 2019 financial prospectus brochure for an easy to read guide on all of the services offer.</div>
-                        <ul class="files">
-                            <li><a href="#"><span class="fa fa-file-pdf-o"></span> Download Brochure</a></li>
-                            <li><a href="#"><span class="fa fa-file-word-o"></span> Characteristics</a></li>
-                        </ul>
-                    </div>
+                    @*<div class="sidebar-widget brochures-widget">
+                            <div class="sidebar-title">
+                                <h4>Brochures</h4>
+                            </div>
+                            <div class="text">View our 2019 financial prospectus brochure for an easy to read guide on all of the services offer.</div>
+                            <ul class="files">
+                                <li><a href="#"><span class="fa fa-file-pdf-o"></span> Download Brochure</a></li>
+                                <li><a href="#"><span class="fa fa-file-word-o"></span> Characteristics</a></li>
+                            </ul>
+                        </div>*@
 
                     <!-- Banner Widget-->
-                    <div class="sidebar-widget banner-widget">
-                        <div class="widget-content" style="background-image:url(images/resource/service-15.jpg)">
-                            <div class="logo">
-                                <img src="images/icons/widget-logo.png" alt="" />
+                    @*<div class="sidebar-widget banner-widget">
+                            <div class="widget-content" style="background-image:url(images/resource/service-15.jpg)">
+                                <div class="logo">
+                                    <img src="images/icons/widget-logo.png" alt="" />
+                                </div>
+                                <div class="title">Securied Business with</div>
+                                <h2>Financ</h2>
+                                <a href="contact.html" class="theme-btn btn-style-seventen">Let’s start now <span class="icon flaticon-link"></span></a>
                             </div>
-                            <div class="title">Securied Business with</div>
-                            <h2>Financ</h2>
-                            <a href="contact.html" class="theme-btn btn-style-seventen">Let’s start now <span class="icon flaticon-link"></span></a>
-                        </div>
-                    </div>
+                        </div>*@
 
                 </aside>
             </div>
@@ -77,48 +83,74 @@
             <!--Content Side-->
             <div class="content-side col-lg-8 col-md-12 col-sm-12">
                 <div class="services-single">
-                    <h4>Finance Planning</h4>
+                    <h4>Buy &amp; Sell Gold</h4>
                     <div class="text">
-                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered altera tion in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden.</p>
-                        <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                        <p>We offer the best price for you which is lower than the market price. We use State of the Art technology for gold evaluation.</p>
                     </div>
                     <ul class="list-style-four">
-                        <li>Sed do eiusmod tempor incididunt ut</li>
-                        <li>Labore et dolore magna aliqua</li>
-                        <li>Ut enim ad minim veniam quis nostrud</li>
-                        <li>Andomised words which don't look</li>
+                        <li>Use of State of Art technology</li>
+                        <li>100% clean gold</li>
+                        <li>Measurements are taken in front of you</li>
                     </ul>
+                    <!-- Price table -->
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h4>Our Price</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered" id="price-table">
+                                <thead>
+                                    <tr>
+                                        <th>10K</th>
+                                        <th>14K</th>
+                                        <th>18K</th>
+                                        <th>20K</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>$847.89</td>
+                                        <td>$897.12</td>
+                                        <td>$918.56</td>
+                                        <td>$1023.33</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <!-- Services Gallery -->
                     <div class="services-gallery">
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-16.jpg" alt="">
+                                    <img src="~/images/resource/service-16.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-17.jpg" alt="">
+                                    <img src="~/images/resource/service-17.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-16.jpg" alt="">
+                                    <img src="~/images/resource/service-16.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-17.jpg" alt="">
+                                    <img src="~/images/resource/service-17.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-16.jpg" alt="">
+                                    <img src="~/images/resource/service-16.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="images/resource/service-17.jpg" alt="">
+                                    <img src="~/images/resource/service-17.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -179,7 +211,7 @@
                         <div class="services-block-two col-lg-6 col-md-6 col-sm-12">
                             <div class="inner-box">
                                 <div class="image">
-                                    <img src="images/resource/service-1.jpg" alt="" />
+                                    <img src="~/images/resource/service-1.jpg" alt="" />
                                     <div class="overlay-box">
                                         <div class="overlay-inner">
                                             <div class="icon-box">
@@ -206,7 +238,7 @@
                         <div class="services-block-two col-lg-6 col-md-6 col-sm-12">
                             <div class="inner-box">
                                 <div class="image">
-                                    <img src="images/resource/service-2.jpg" alt="" />
+                                    <img src="~/images/resource/service-2.jpg" alt="" />
                                     <div class="overlay-box">
                                         <div class="overlay-inner">
                                             <div class="icon-box">
@@ -232,16 +264,16 @@
                     </div>
 
                     <!-- More Services -->
-                    <div class="more-services">
-                        <div class="clearfix">
-                            <div class="pull-left">
-                                <a href="#"><span class="fa fa-angle-double-left"></span> Previous Service</a>
+                    @*<div class="more-services">
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <a href="#"><span class="fa fa-angle-double-left"></span> Previous Service</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#">Newer Service <span class="fa fa-angle-double-right"></span></a>
+                                </div>
                             </div>
-                            <div class="pull-right">
-                                <a href="#">Newer Service <span class="fa fa-angle-double-right"></span></a>
-                            </div>
-                        </div>
-                    </div>
+                        </div>*@
 
                 </div>
             </div>
@@ -250,3 +282,24 @@
     </div>
 </div>
 <!--End Sidebar Page Container-->
+
+@section Scripts{
+    <script src="~/lib/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script src="~/lib/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/DataTables/Buttons-1.5.6/js/dataTables.buttons.js"></script>
+    <script src="~/lib/DataTables/Buttons-1.5.6/js/buttons.bootstrap4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="~/lib/DataTables/Buttons-1.5.6/js/buttons.html5.js"></script>
+
+    <script src="~/js/pages/services-buysellgold.js" asp-append-version="true"></script>
+
+    <script>
+        var vm = {};
+
+        $(document).ready(function () {
+            Jpfc.ServicesBuySellGold.init(vm);
+        });
+    </script>
+}

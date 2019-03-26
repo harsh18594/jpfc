@@ -27,11 +27,12 @@
                     <!--Blog Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
-                            <li class="active"><a href="services-single.html">Finance Planning</a></li>
-                            <li><a href="services-single.html">Business Insurance</a></li>
-                            <li><a href="services-single.html">Car Insurance</a></li>
-                            <li><a href="services-single.html">Family Insurance</a></li>
-                            <li><a href="services-single.html">Tax management</a></li>
+                            <li><a asp-controller="Services" asp-action="BuySellGold">Sell &amp; Buy Gold</a></li>
+                            <li><a asp-controller="Services" asp-action="Loan">Loan against gold</a></li>
+                            <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
+                            <li><a asp-controller="Services" asp-action="Insurance">Insurance</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
+                            <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
 
@@ -41,35 +42,35 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 3111 West Allegheny Avenue <br> Pennsylvania 19132</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> 1-982-782-5297 <br> 1-982-125-6378</li>
-                            <li><span class="icon flaticon-comment"></span> support@financ.com</li>
+                            <li><span class="icon flaticon-map-1"></span> 123 Main Street, <br /> ON L1L 1L1</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> 1-416 111 1111</li>
+                            <li><span class="icon flaticon-comment"></span> test@mail.com</li>
                         </ul>
                     </div>
 
                     <!-- Brochures Widget-->
-                    <div class="sidebar-widget brochures-widget">
-                        <div class="sidebar-title">
-                            <h4>Brochures</h4>
-                        </div>
-                        <div class="text">View our 2019 financial prospectus brochure for an easy to read guide on all of the services offer.</div>
-                        <ul class="files">
-                            <li><a href="#"><span class="fa fa-file-pdf-o"></span> Download Brochure</a></li>
-                            <li><a href="#"><span class="fa fa-file-word-o"></span> Characteristics</a></li>
-                        </ul>
-                    </div>
+                    @*<div class="sidebar-widget brochures-widget">
+                            <div class="sidebar-title">
+                                <h4>Brochures</h4>
+                            </div>
+                            <div class="text">View our 2019 financial prospectus brochure for an easy to read guide on all of the services offer.</div>
+                            <ul class="files">
+                                <li><a href="#"><span class="fa fa-file-pdf-o"></span> Download Brochure</a></li>
+                                <li><a href="#"><span class="fa fa-file-word-o"></span> Characteristics</a></li>
+                            </ul>
+                        </div>*@
 
                     <!-- Banner Widget-->
-                    <div class="sidebar-widget banner-widget">
-                        <div class="widget-content" style="background-image:url(images/resource/service-15.jpg)">
-                            <div class="logo">
-                                <img src="images/icons/widget-logo.png" alt="" />
+                    @*<div class="sidebar-widget banner-widget">
+                            <div class="widget-content" style="background-image:url(images/resource/service-15.jpg)">
+                                <div class="logo">
+                                    <img src="images/icons/widget-logo.png" alt="" />
+                                </div>
+                                <div class="title">Securied Business with</div>
+                                <h2>Financ</h2>
+                                <a href="contact.html" class="theme-btn btn-style-seventen">Let’s start now <span class="icon flaticon-link"></span></a>
                             </div>
-                            <div class="title">Securied Business with</div>
-                            <h2>Financ</h2>
-                            <a href="contact.html" class="theme-btn btn-style-seventen">Let’s start now <span class="icon flaticon-link"></span></a>
-                        </div>
-                    </div>
+                        </div>*@
 
                 </aside>
             </div>
