@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using jpfc.Data;
+using jpfc.Data.Interfaces;
+using jpfc.Models;
+using jpfc.Services;
+using jpfc.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using jpfc.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace jpfc
 {
@@ -37,9 +37,24 @@ namespace jpfc
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // hd.20190331 - removing default identity
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+            {
+                // lockout settings
+                o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                o.Lockout.MaxFailedAccessAttempts = 3;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Add application services.
+            AddServices(services);
+
+            // add mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -69,6 +84,15 @@ namespace jpfc
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public void AddServices(IServiceCollection services)
+        {
+            // services
+            services.AddScoped<ILoginService, LoginService>();
+
+            // repos
+            services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
         }
     }
 }
