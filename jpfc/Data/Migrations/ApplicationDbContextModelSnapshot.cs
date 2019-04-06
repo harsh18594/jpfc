@@ -92,6 +92,81 @@ namespace jpfc.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("jpfc.Models.Karat", b =>
+                {
+                    b.Property<Guid>("KaratId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("InActive");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255);
+
+                    b.HasKey("KaratId");
+
+                    b.ToTable("Karat");
+
+                    b.HasData(
+                        new { KaratId = new Guid("0bab0d22-f831-4b6c-b177-c623ba4bf5b9"), InActive = false, Name = "10K" },
+                        new { KaratId = new Guid("775d10c4-a955-4039-aaf6-16a80b0759f7"), InActive = false, Name = "14K" },
+                        new { KaratId = new Guid("4aaf69a9-7bb0-4f70-956d-4f55cd98fe1e"), InActive = false, Name = "18K" },
+                        new { KaratId = new Guid("4da2d061-e089-4c8d-bfa4-534a301e0c87"), InActive = false, Name = "22K" },
+                        new { KaratId = new Guid("d9fb756f-933d-4cfa-9dc3-76714b84b256"), InActive = false, Name = "24K" }
+                    );
+                });
+
+            modelBuilder.Entity("jpfc.Models.Metal", b =>
+                {
+                    b.Property<Guid>("MetalId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("InActive");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255);
+
+                    b.HasKey("MetalId");
+
+                    b.ToTable("Metal");
+
+                    b.HasData(
+                        new { MetalId = new Guid("807f52d1-8f65-4f91-8408-3c5a04d830dd"), InActive = false, Name = "Gold" },
+                        new { MetalId = new Guid("2a883efe-13fa-4a50-ad2b-ae49b034c8b0"), InActive = false, Name = "Silver" },
+                        new { MetalId = new Guid("b0fd2523-63a0-4cf3-940c-627617b3196f"), InActive = false, Name = "Platinum" }
+                    );
+                });
+
+            modelBuilder.Entity("jpfc.Models.Price", b =>
+                {
+                    b.Property<int>("PriceId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal?>("Amount");
+
+                    b.Property<string>("AuditUserId");
+
+                    b.Property<DateTime?>("AuditUtc");
+
+                    b.Property<string>("CreatedUserId");
+
+                    b.Property<DateTime>("CreatedUtc");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid?>("KaratId");
+
+                    b.Property<Guid>("MetalId");
+
+                    b.HasKey("PriceId");
+
+                    b.HasIndex("KaratId");
+
+                    b.HasIndex("MetalId");
+
+                    b.ToTable("Price");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -200,6 +275,19 @@ namespace jpfc.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("jpfc.Models.Price", b =>
+                {
+                    b.HasOne("jpfc.Models.Karat", "Karat")
+                        .WithMany("Prices")
+                        .HasForeignKey("KaratId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("jpfc.Models.Metal", "Metal")
+                        .WithMany("Prices")
+                        .HasForeignKey("MetalId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

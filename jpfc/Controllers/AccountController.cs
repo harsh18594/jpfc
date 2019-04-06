@@ -104,13 +104,16 @@ namespace jpfc.Controllers
         //    return View(model);
         //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        public async Task<IActionResult> ManageProfile()
+        {
+            return RedirectToAction(controllerName: "Error", actionName: "Index");
         }
 
         #region Helpers

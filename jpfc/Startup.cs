@@ -68,7 +68,7 @@ namespace jpfc
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
             }
 
@@ -90,9 +90,13 @@ namespace jpfc
         {
             // services
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
+            services.AddScoped<IKaratRepository, KaratRepository>();
+            services.AddScoped<IPriceRepository, PriceRepository>();
+            services.AddScoped<IMetalRepository, MetalRepository>();
         }
     }
 }
