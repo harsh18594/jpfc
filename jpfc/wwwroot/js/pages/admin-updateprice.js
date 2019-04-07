@@ -16,6 +16,7 @@ Jpfc.AdminUpdatePrice = function () {
 
     var initDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
+        $.fn.dataTable.moment('DD/MMM/YYYY');
         table = $('#price-table').DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
