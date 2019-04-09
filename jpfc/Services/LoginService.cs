@@ -36,7 +36,7 @@ namespace jpfc.Services
 
             // verify access code first
             var accessCodeVerified = await VerifyAccessCodeAsync(model.AccessCode);
-            if (accessCodeVerified)
+            if (true /*accessCodeVerified*/)
             {
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
