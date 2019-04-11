@@ -6,6 +6,7 @@ Jpfc.AdminUpdatePrice = function () {
     var $form = $('#price-update-form');
     var $saveSpinner = $("#btn-save-price").find('i');
     var isSaving = false;
+    var loadingPriceSpinner = null;
 
     var initDatePickers = function () {
         $('.datepicker').datepicker({
@@ -17,7 +18,9 @@ Jpfc.AdminUpdatePrice = function () {
     var initDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
-        table = $('#price-table').DataTable({
+        table = $('#price-table').on('preXhr.dt', function () {
+            loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('price-table'));
+        }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
                 "targets": [-1, -2, -3],
@@ -29,7 +32,12 @@ Jpfc.AdminUpdatePrice = function () {
                 "data": function (d) {
                     return d;
                 },
-                "dataSrc": ""
+                "dataSrc": function (d) {
+                    if (loadingPriceSpinner !== null) {
+                        loadingPriceSpinner.stop();
+                    }
+                    return d;
+                }
             },
             "columns": [
                 {
