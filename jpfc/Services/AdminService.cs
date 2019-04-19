@@ -156,7 +156,7 @@ namespace jpfc.Services
                     {
                         var newPrice = new Price
                         {
-                            Date = DateTime.Now,
+                            Date = DateTime.Now.Date,
                             MetalId = price.MetalId,
                             KaratId = price.KaratId,
                             Amount = price.Amount,

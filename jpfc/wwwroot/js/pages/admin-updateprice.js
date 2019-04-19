@@ -50,7 +50,7 @@ Jpfc.AdminUpdatePrice = function () {
                     data: "karat"
                 },
                 {
-                    data: "amount"
+                    data: "amountStr"
                 },
                 {
                     render: function (data, type, row) {

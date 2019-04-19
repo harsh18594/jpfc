@@ -91,6 +91,7 @@ namespace jpfc
             // services
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IServicesService, ServicesService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();

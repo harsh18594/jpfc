@@ -12,6 +12,7 @@ namespace jpfc.Models.UpdatePriceViewModels
         public string DateStr => Date.ToString("dd/MMM/yyyy");
 
         public decimal Amount { get; set; }
+        public string AmountStr => Amount.ToString("C");
         public string Metal { get; set; }
         public string Karat { get; set; }
 

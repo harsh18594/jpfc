@@ -4,6 +4,7 @@ Jpfc.ServicesBuySellGold = function () {
     var viewModel;
     var loadingPriceSpinner = null;
     var isInitialLoad = true;
+    var table;
 
     var initDatePickers = function () {
         $('#date-filter').datepicker({
@@ -34,15 +35,17 @@ Jpfc.ServicesBuySellGold = function () {
             ],
             "order": [0, "desc"],
             "columnDefs": [{
-                "targets": [-1, -2, -3],
+                "targets": [-1, -2],
                 "orderable": false
             }],
             "deferLoading": 0,
             "ajax": {
-                "url": "/Admin/ListPrices",
+                "url": "/Services/ListPrices",
                 "method": "get",
-                "data": function (d) {
-                    return d;
+                "data": function () {
+                    return {
+                        date: $('#date-filter').val()
+                    };
                 },
                 "dataSrc": function (d) {
                     if (loadingPriceSpinner !== null) {
@@ -64,9 +67,15 @@ Jpfc.ServicesBuySellGold = function () {
                     data: "karat"
                 },
                 {
-                    data: "amount"
+                    data: "amountStr"
                 }
             ]
+        });
+    };
+
+    var bindEvents = function () {
+        $('#date-filter').on('change', function () {
+            table.ajax.reload();
         });
     };
 
@@ -74,6 +83,7 @@ Jpfc.ServicesBuySellGold = function () {
         console.log("Jpfc.ServicesBuySellGold init");
         initDatePickers();
         initDataTable();
+        bindEvents();
     };
 
     return {

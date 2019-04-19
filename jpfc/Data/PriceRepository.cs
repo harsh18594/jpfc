@@ -2,6 +2,7 @@
 using jpfc.Models;
 using jpfc.Models.UpdatePriceViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,9 +48,10 @@ namespace jpfc.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<ICollection<PriceListViewModel>> ListPricesAsync()
+        public async Task<ICollection<PriceListViewModel>> ListPricesAsync(DateTime? date = null)
         {
             return await _context.Price
+                .Where(e => !date.HasValue || e.Date == date)
                 .Select(e => new PriceListViewModel
                 {
                     PriceId = e.PriceId,
