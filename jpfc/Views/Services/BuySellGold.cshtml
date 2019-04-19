@@ -28,7 +28,7 @@
         <div class="row clearfix">
 
             <!--Sidebar Side-->
-            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+            <div class="sidebar-side col-lg-4 col-md-4 col-sm-12 d-none d-md-block">
                 <aside class="sidebar default-sidebar">
 
                     <!--Blog Category Widget-->
@@ -83,7 +83,7 @@
             </div>
 
             <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <div class="content-side col-lg-8 col-md-8 col-sm-12">
                 <div class="services-single">
                     <h4>Buy &amp; Sell Gold</h4>
                     <div class="text">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="row clearfix">
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-md-4 col-sm-6">
                             <div class="form-group">
                                 <label for="date-filter" class="font-weight-bold">Date</label>
                                 <input id="date-filter" type="text" class="form-control" value="@DateTime.Now.ToString("MM/dd/yyyy")" readonly asp-format="{0:MM/dd/yyyy}" />
@@ -110,19 +110,21 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped table-bordered" id="price-table">
-                                <thead>
-                                    <tr>
-                                        <th width="120px">Date</th>
-                                        <th width="150px">Metal</th>
-                                        <th width="100px">Karat</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @* dataTable ajax *@
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="price-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="120px">Date</th>
+                                            <th width="150px">Metal</th>
+                                            <th width="100px">Karat</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @* dataTable ajax *@
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- Services Gallery -->
