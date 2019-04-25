@@ -12,8 +12,8 @@
     <link href="~/css/style-override.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/responsive.css" rel="stylesheet" asp-append-version="true">
 
-    <link rel="shortcut icon" href="~/images/80pxX60px.PNG" type="image/x-icon" asp-append-version="true">
-    <link rel="icon" href="~/images/80pxX60px.PNG" type="image/x-icon" asp-append-version="true">
+    <link rel="shortcut icon" href="~/images/logo80X60.jpg" type="image/x-icon" asp-append-version="true">
+    <link rel="icon" href="~/images/logo80X60.jpg" type="image/x-icon" asp-append-version="true">
 
     <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
 
@@ -23,7 +23,7 @@
 
     <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
     <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 
@@ -42,9 +42,7 @@
                     <div class="inner-container clearfix">
                         <div class="top-left">
                             <ul class="contact-list clearfix">
-                                <li><i class="fa fa-envelope-o"></i> test@mail.com</li>
-                                <li><i class="fa fa-phone"></i><a href="#">+1 416 111 1111</a></li>
-                                <li><i class="fa fa-map-marker"></i><a href="#">123 Main Street, ON L1L 1L1</a></li>
+                                <li><span>J P Finance Chase Ltd</span></li>
                             </ul>
                         </div>
                     </div>
@@ -59,7 +57,7 @@
                         <div class="pull-left logo-box">
                             <div class="logo">
                                 <a asp-controller="Home" asp-action="Index">
-                                    <img src="~/images/80pxX60px.PNG" alt="" title="J P Finance Chase Ltd">
+                                    <img src="~/images/logo120X90.jpg" alt="" title="J P Finance Chase Ltd">
                                 </a>
                             </div>
                         </div>
@@ -81,13 +79,7 @@
                                         <li>
                                             <a asp-controller="Home" asp-action="Index">Home</a>
                                         </li>
-                                        <li class="dropdown">
-                                            <a href="#">About Us</a>
-                                            <ul>
-                                                <li><a asp-controller="Home" asp-action="About">About Us</a></li>
-                                                <li><a asp-controller="Home" asp-action="Team">Our Team</a></li>
-                                            </ul>
-                                        </li>
+                                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
                                         <li class="dropdown">
                                             <a href="#">Services</a>
                                             <ul>
@@ -159,7 +151,8 @@
                 <div class="auto-container clearfix">
                     <!--Logo-->
                     <div class="logo pull-left">
-                        <a href="index.html" class="img-responsive"><img src="~/images/footer-logo.png" alt="" title=""></a>
+                        <a href="index.html" class="img-responsive"><img src="~/images/logo80X60.jpg" alt="" title=""></a>
+                        <span>J P Finance Chase Ltd</span>
                     </div>
 
                     <!--Right Col-->
@@ -177,13 +170,7 @@
                                     <li class="current">
                                         <a asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
-                                    <li class="dropdown">
-                                        <a href="#">About Us</a>
-                                        <ul>
-                                            <li><a asp-controller="Home" asp-action="About">About Us</a></li>
-                                            <li><a asp-controller="Home" asp-action="Team">Our Team</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a asp-controller="Home" asp-action="About">About Us</a></li>
                                     <li class="dropdown">
                                         <a href="#">Services</a>
                                         <ul>
@@ -244,7 +231,7 @@
                                 <div class="footer-column col-lg-7 col-md-6 col-sm-12">
                                     <div class="footer-widget logo-widget">
                                         <div class="logo">
-                                            <a asp-controller="Home" asp-action="Index"><img src="~/images/80pxX60px.PNG" alt="" /></a>
+                                            <a asp-controller="Home" asp-action="Index"><img src="~/images/logo120X90.jpg" alt="" /></a>
                                         </div>
                                         <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
                                         <ul class="list-style-two">

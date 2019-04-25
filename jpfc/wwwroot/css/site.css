@@ -1,4 +1,25 @@
 ﻿/* datepicker override */
-td.disabled.day{
+td.disabled.day {
     cursor: no-drop !important;
+}
+
+.main-header .top-left .contact-list li span {
+    font-size: 30px;
+    /*color: rgb(209,174,124);*/
+    color: #fff;
+}
+
+.sticky-header .auto-container .logo {
+    padding-top: 10px;
+}
+
+    .sticky-header .auto-container .logo span {
+        margin-left: 10px;
+        color: #fff;
+        font-size: 30px;
+        vertical-align: text-bottom;
+    }
+
+.f-1rem {
+    font-size: 1rem;
 }

@@ -230,11 +230,6 @@
     color: #3241ff;
 }
 
-.main-slider.style-four .content .title {
-    color: #3241ff;
-    font-weight: 600;
-}
-
 .main-header .top-right .cart-box .cart-box-btn .total-cart {
     position: absolute;
     right: 16px;
@@ -337,3 +332,41 @@
     .btn-style-twelve:hover {
         color: #ffffff;
     }
+
+.main-slider.style-four .content .title {
+    color: #fff;
+    font-weight: 600;
+}
+
+/*.main-slider.style-four .content h1 {
+    color: rgb(209,174,124);
+}*/
+
+/*.main-slider.style-four .content h1:before {
+    background-color: rgb(209,174,124);
+}*/
+
+/*.main-slider.style-four .content .text {
+    color: rgb(209,174,124);
+}*/
+
+.main-header .top-left:before {
+    border-top: 67px solid #000000;
+}
+
+/*.main-slider.style-four .content {
+    background-color: rgba(209,174,124, 0.7);
+}*/
+
+.page-title:before {
+    background-color: rgba(209,174,124, 0.7);
+}
+
+.page-title .content {
+    border-left-color: rgba(209,174,124, 0.7);
+}
+
+/*.blog-cat li.active a, .blog-cat li a:hover {
+    border-color: rgba(209,174,124, 0.7);
+    background-color: rgba(209,174,124, 0.7);
+}*/
