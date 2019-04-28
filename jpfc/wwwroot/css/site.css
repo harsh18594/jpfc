@@ -20,6 +20,10 @@ td.disabled.day {
         vertical-align: text-bottom;
     }
 
+        .sticky-header .auto-container .logo span a {
+            color: #fff;
+        }
+
 .f-1rem {
     font-size: 1rem;
 }

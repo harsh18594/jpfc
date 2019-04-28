@@ -42,6 +42,10 @@ namespace jpfc.Data
             {
                 entity.HasKey(a => a.KaratId);
                 entity.Property(e => e.Name).HasMaxLength(255);
+
+                entity.HasOne(e => e.Metal)
+                .WithMany(m => m.Karat)
+                .HasForeignKey(e => e.MetalId);
             });
 
             builder.Entity<Price>(entity =>

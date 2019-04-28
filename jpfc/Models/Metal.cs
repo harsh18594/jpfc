@@ -12,5 +12,6 @@ namespace jpfc.Models
         public bool InActive { get; set; }
 
         public virtual ICollection<Price> Prices { get; set; }
+        public virtual ICollection<Karat> Karat { get; set; }
     }
 }

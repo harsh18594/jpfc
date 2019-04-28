@@ -9,6 +9,10 @@ namespace jpfc.Models
     {
         public Guid KaratId { get; set; }
         public string Name { get; set; }
+
+        public Guid MetalId { get; set; }
+        public virtual Metal Metal { get; set; }
+        
         public bool InActive { get; set; }
 
         public virtual ICollection<Price> Prices { get; set; }

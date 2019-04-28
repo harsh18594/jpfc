@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace jpfc.Data
 {
@@ -16,9 +17,12 @@ namespace jpfc.Data
             _context = context;
         }
 
-        public async Task<ICollection<Karat>> ListKaratsAsync()
+        public async Task<ICollection<Karat>> ListKaratsAsync(Guid? metalId = null)
         {
-            return await _context.Karat.OrderBy(e => e.Name).ToListAsync();
+            return await _context.Karat
+                .Where(e=> !metalId.HasValue || e.MetalId == metalId)
+                .OrderBy(e => e.Name)
+                .ToListAsync();
         }
     }
 }

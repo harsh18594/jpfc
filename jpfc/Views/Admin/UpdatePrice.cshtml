@@ -1,5 +1,4 @@
 ﻿@inject IMetalRepository MetalRepository
-@inject IKaratRepository KaratRepository
 @model jpfc.Models.UpdatePriceViewModels.CreatePriceViewModel
 
 @{
@@ -68,9 +67,8 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
-                        <label asp-for="KaratId" class="font-weight-bold"></label>
-                        <select asp-for="KaratId" class="form-control"
-                                asp-items="@(new SelectList(await KaratRepository.ListKaratsAsync(), "KaratId", "Name"))">
+                        <label asp-for="KaratId" class="font-weight-bold"></label> <i class="fa fa-info-circle" data-toggle="tooltip" title="Select metal to view associated karat values"></i>
+                        <select asp-for="KaratId" class="form-control">
                             <option value=""></option>
                         </select>
                         <span asp-validation-for="KaratId" class="text-danger"></span>

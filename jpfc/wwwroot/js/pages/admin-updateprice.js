@@ -70,11 +70,33 @@ Jpfc.AdminUpdatePrice = function () {
         });
     };
 
+    var populateKaratDropdown = function (karatId) {
+        $.ajax({
+            url: "/Karat/FetchKarats",
+            method: "get",
+            data: {
+                metalId: $('#MetalId').val()
+            }
+        }).done(function (result) {
+            var $dropdown = $('#KaratId');
+            $dropdown.find('option').not(':first').remove();
+            $.each(result.model, function () {
+                $dropdown.append($("<option />").val(this.value).text(this.text));
+            });
+
+            // select karatId if required
+            if (karatId) {
+                $('#KaratId').val(karatId);
+            }
+        }).fail(function () {
+        });
+    };
+
     var clearFormForNewEntry = function (isCancelButtonRequest) {
         $form.find('#PriceId').val('0');
         $form.find('#BuyPrice').val('');
         $form.find('#SellPrice').val('');
-        $form.find('#LoanPrice').val('');       
+        $form.find('#LoanPrice').val('');
         $form.find('#KaratId').val('');
         $form.find('#Date').datepicker('setDate', new Date());
 
@@ -85,6 +107,8 @@ Jpfc.AdminUpdatePrice = function () {
             $form.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid');
             $form.find('#MetalId').val('');
             $form.find('#LoanPricePercent').val('');
+
+            $('#KaratId').find('option').not(':first').remove();
         }
     };
 
@@ -125,7 +149,7 @@ Jpfc.AdminUpdatePrice = function () {
         }
     };
 
-    var editPrice = function (id) {
+    var editPrice = function (id) {       
         $.ajax({
             "url": "/Admin/EditPrice",
             "method": "get",
@@ -135,6 +159,7 @@ Jpfc.AdminUpdatePrice = function () {
         }).done(function (result) {
             if (result.success) {
                 populateFormForEdit(result.model);
+                populateKaratDropdown(result.model.karatId);                
                 $('html,body').animate({
                     scrollTop: $('#content-container').offset().top - 100
                 }, 'slow');
@@ -250,6 +275,10 @@ Jpfc.AdminUpdatePrice = function () {
 
         $('#LoanPrice').on('keyup', function () {
             calculateLoanPercent();
+        });
+
+        $('#MetalId').on('change', function () {
+            populateKaratDropdown();
         });
     };
 
