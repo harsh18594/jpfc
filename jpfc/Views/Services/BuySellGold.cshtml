@@ -101,10 +101,20 @@
                         </div>
                     </div>
                     <div class="row clearfix">
+                        <div class="col-12">
+                            <span class="font-italic" style="color: blue "><b>Note: All the prices are per gram.</b></span>
+                        </div>
+                    </div>
+                    <div class="row clearfix mt-2">
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                <label for="date-filter" class="font-weight-bold">Date</label>
-                                <input id="date-filter" type="text" class="form-control" value="@DateTime.Now.ToString("MM/dd/yyyy")" readonly asp-format="{0:MM/dd/yyyy}" />
+                                @*<label for="date-filter" class="font-weight-bold">Date</label>*@
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <input id="date-filter" type="text" class="form-control" value="@DateTime.Now.ToString("MM/dd/yyyy")" readonly asp-format="{0:MM/dd/yyyy}" style="cursor: pointer;" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,7 +127,7 @@
                                             <th width="120px">Date</th>
                                             <th width="150px">Metal</th>
                                             <th width="100px">Karat</th>
-                                            <th>Price</th>
+                                            <th>Buy At (CAD)</th>
                                         </tr>
                                     </thead>
                                     <tbody>

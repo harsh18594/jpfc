@@ -73,7 +73,10 @@ namespace jpfc.Services
                 price.Date = model.Date.Value;
                 price.MetalId = model.MetalId;
                 price.KaratId = model.KaratId;
-                price.Amount = model.Amount;
+                price.BuyPrice = model.BuyPrice;
+                price.SellPrice = model.SellPrice;
+                price.LoanPrice = model.LoanPrice;
+                price.LoanPricePercent = model.LoanPricePercent;
 
                 await _priceRepository.SavePriceAsync(price);
 
@@ -159,7 +162,10 @@ namespace jpfc.Services
                             Date = DateTime.Now.Date,
                             MetalId = price.MetalId,
                             KaratId = price.KaratId,
-                            Amount = price.Amount,
+                            BuyPrice = price.BuyPrice,
+                            SellPrice = price.SellPrice,
+                            LoanPrice = price.LoanPrice,
+                            LoanPricePercent = price.LoanPricePercent,
                             CreatedUserId = userId,
                             CreatedUtc = DateTime.UtcNow
                         };
@@ -201,7 +207,10 @@ namespace jpfc.Services
                     {
                         model.PriceId = price.PriceId;
                         model.Date = price.Date;
-                        model.Amount = price.Amount;
+                        model.BuyPrice = price.BuyPrice;
+                        model.SellPrice = price.SellPrice;
+                        model.LoanPrice = price.LoanPrice;
+                        model.LoanPricePercent = price.LoanPricePercent;
                         model.KaratId = price.KaratId;
                         model.MetalId = price.MetalId;
 

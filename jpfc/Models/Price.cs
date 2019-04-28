@@ -17,7 +17,10 @@ namespace jpfc.Models
         public Guid? KaratId { get; set; }
         public virtual Karat Karat { get; set; }
 
-        public decimal? Amount { get; set; }
+        public decimal? BuyPrice { get; set; }
+        public decimal? SellPrice { get; set; }
+        public decimal? LoanPricePercent { get; set; }
+        public decimal? LoanPrice { get; set; }
 
         public DateTime CreatedUtc { get; set; }
         public string CreatedUserId { get; set; }

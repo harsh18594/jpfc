@@ -23,7 +23,7 @@ Jpfc.AdminUpdatePrice = function () {
         }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
-                "targets": [-1, -2, -3],
+                "targets": [-1, -2, -3, -4],
                 "orderable": false
             }],
             "ajax": {
@@ -50,7 +50,13 @@ Jpfc.AdminUpdatePrice = function () {
                     data: "karat"
                 },
                 {
-                    data: "amountStr"
+                    data: "buyPriceStr"
+                },
+                {
+                    data: "sellPriceStr"
+                },
+                {
+                    data: "loanPriceStr"
                 },
                 {
                     render: function (data, type, row) {
@@ -64,18 +70,30 @@ Jpfc.AdminUpdatePrice = function () {
         });
     };
 
-    var clearFormForNewEntry = function () {
+    var clearFormForNewEntry = function (isCancelButtonRequest) {
         $form.find('#PriceId').val('0');
-        $form.find('#Amount').val('');
+        $form.find('#BuyPrice').val('');
+        $form.find('#SellPrice').val('');
+        $form.find('#LoanPrice').val('');       
         $form.find('#KaratId').val('');
         $form.find('#Date').datepicker('setDate', new Date());
 
         $form.validate().resetForm();
+
+        if (isCancelButtonRequest) {
+            $form.find('.field-validation-error').html('');
+            $form.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid');
+            $form.find('#MetalId').val('');
+            $form.find('#LoanPricePercent').val('');
+        }
     };
 
     var populateFormForEdit = function (data) {
         $form.find('#PriceId').val(data.priceId);
-        $form.find('#Amount').val(data.amount);
+        $form.find('#BuyPrice').val(data.buyPrice);
+        $form.find('#SellPrice').val(data.sellPrice);
+        $form.find('#LoanPrice').val(data.loanPrice);
+        $form.find('#LoanPricePercent').val(data.loanPricePercent);
         $form.find('#KaratId').val(data.karatId);
         $form.find('#MetalId').val(data.metalId);
         $form.find('#Date').val(data.dateStr).datepicker('update');
@@ -190,10 +208,48 @@ Jpfc.AdminUpdatePrice = function () {
         });
     };
 
+    var calculateLoanPrice = function () {
+        //var loanPrice = $('#LoanPrice').val();
+        //var isLoanPriceAlreadyAdded = loanPrice !== null && loanPrice !== undefined && loanPrice !== '';
+        //if (!isLoanPriceAlreadyAdded) {
+        var buyPrice = $('#BuyPrice').val();
+        var loanPricePercent = $('#LoanPricePercent').val();
+        if (Number(buyPrice) && Number(loanPricePercent)) {
+            var loanPrice = (buyPrice * loanPricePercent) / 100;
+            $('#LoanPrice').val(loanPrice);
+        } else {
+            $('#LoanPrice').val('');
+        }
+        //}
+    };
+
+    var calculateLoanPercent = function () {
+        var buyPrice = $('#BuyPrice').val();
+        var loanPrice = $('#LoanPrice').val();
+        if (Number(buyPrice) && Number(loanPrice)) {
+            var loanPricePercent = (100 * loanPrice) / buyPrice;
+            $('#LoanPricePercent').val(loanPricePercent.toFixed(2));
+        } else {
+            $('#LoanPricePercent').val('');
+        }
+    };
+
     var bindEvents = function () {
         $('#price-update-form').on('submit', function (e) {
             e.preventDefault();
             savePrice();
+        });
+
+        $('#btn-cancel-price').on('click', function () {
+            clearFormForNewEntry(true);
+        });
+
+        $('#BuyPrice, #LoanPricePercent').on('keyup', function () {
+            calculateLoanPrice();
+        });
+
+        $('#LoanPrice').on('keyup', function () {
+            calculateLoanPercent();
         });
     };
 

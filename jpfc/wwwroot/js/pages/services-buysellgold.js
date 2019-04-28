@@ -67,7 +67,7 @@ Jpfc.ServicesBuySellGold = function () {
                     data: "karat"
                 },
                 {
-                    data: "amountStr"
+                    data: "buyPriceStr"
                 }
             ]
         });

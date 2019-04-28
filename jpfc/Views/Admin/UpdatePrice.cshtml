@@ -34,6 +34,18 @@
             @*<div class="title">New Price</div>*@
             <h2>Enter Price Below</h2>
         </div>
+        <div class="row clearfix mb-3">
+            <div class="col-12">
+                <h5>Terminology</h5>
+            </div>
+            <div class="col-12">
+                <ul>
+                    <li><span class="font-weight-bold">Buy Price:</span> Client will buy metal at this price from J P Finance</li>
+                    <li><span class="font-weight-bold">Sell Price:</span> Client will sell metal at this price to J P Finance</li>
+                    <li><span class="font-weight-bold">Loan Price:</span> Client will get loan on metal at this price from J P Finance</li>
+                </ul>
+            </div>
+        </div>
         <form method="post" id="price-update-form">
             <input asp-for="PriceId" />
             <div class="row clearfix">
@@ -64,17 +76,41 @@
                         <span asp-validation-for="KaratId" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+            <div class="row clearfix">
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
-                        <label asp-for="Amount" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <input asp-for="Amount" type="text" class="form-control" />
-                        <span asp-validation-for="Amount" class="text-danger"></span>
+                        <label asp-for="BuyPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="BuyPrice" type="text" class="form-control" />
+                        <span asp-validation-for="BuyPrice" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="SellPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="SellPrice" type="text" class="form-control" />
+                        <span asp-validation-for="SellPrice" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="LoanPricePercent" class="font-weight-bold"></label>
+                        <input asp-for="LoanPricePercent" type="text" class="form-control" />
+                        <span asp-validation-for="LoanPricePercent" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="LoanPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="LoanPrice" type="text" class="form-control" />
+                        <span asp-validation-for="LoanPrice" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="row clearfix">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="btn-save-price">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
+                    <button type="button" class="btn btn-warning" id="btn-cancel-price">Clear</button>
                 </div>
             </div>
         </form>
@@ -93,7 +129,9 @@
                                 <th width="120px">Date</th>
                                 <th width="150px">Metal</th>
                                 <th width="100px">Karat</th>
-                                <th>Price</th>
+                                <th>Buy Price</th>
+                                <th>Sell Price</th>
+                                <th>Loan Price</th>
                                 <th width="130px"></th>
                             </tr>
                         </thead>

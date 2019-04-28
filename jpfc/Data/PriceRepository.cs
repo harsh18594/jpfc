@@ -56,7 +56,9 @@ namespace jpfc.Data
                 {
                     PriceId = e.PriceId,
                     Date = e.Date,
-                    Amount = e.Amount.Value,
+                    BuyPrice = e.BuyPrice,
+                    SellPrice = e.SellPrice,
+                    LoanPrice = e.LoanPrice,
                     Metal = e.Metal.Name,
                     Karat = e.Karat.Name,
                     CreatedUtc = e.CreatedUtc

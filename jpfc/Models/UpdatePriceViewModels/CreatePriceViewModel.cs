@@ -27,6 +27,18 @@ namespace jpfc.Models.UpdatePriceViewModels
         public string DateStr => Date?.ToString("MM/dd/yyyy");
 
         [Required]
-        public decimal? Amount { get; set; }
+        [Display(Name ="Buy Price")]
+        public decimal? BuyPrice { get; set; }
+
+        [Required]
+        [Display(Name = "Sell Price")]
+        public decimal? SellPrice { get; set; }
+
+        [Required]
+        [Display(Name = "Loan Price")]
+        public decimal? LoanPrice { get; set; }
+
+        [Display(Name = "Loan Price Percentage")]
+        public decimal? LoanPricePercent { get; set; }
     }
 }
