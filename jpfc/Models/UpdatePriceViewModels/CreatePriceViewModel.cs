@@ -17,7 +17,7 @@ namespace jpfc.Models.UpdatePriceViewModels
         public Guid MetalId { get; set; }
 
         //[Required]
-        [Display(Name = "Karat")]
+        [Display(Name = "Purity")]
         public Guid? KaratId { get; set; }
 
         [Required]

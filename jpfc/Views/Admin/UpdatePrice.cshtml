@@ -35,10 +35,7 @@
         </div>
         <div class="row clearfix mb-3">
             <div class="col-12">
-                <h5>Terminology</h5>
-            </div>
-            <div class="col-12">
-                <ul>
+                <ul class="list-style-four">
                     <li><span class="font-weight-bold">Buy Price:</span> Client will buy metal at this price from J P Finance</li>
                     <li><span class="font-weight-bold">Sell Price:</span> Client will sell metal at this price to J P Finance</li>
                     <li><span class="font-weight-bold">Loan Price:</span> Client will get loan on metal at this price from J P Finance</li>
@@ -67,7 +64,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
-                        <label asp-for="KaratId" class="font-weight-bold"></label> <i class="fa fa-info-circle" data-toggle="tooltip" title="Select metal to view associated karat values"></i>
+                        <label asp-for="KaratId" class="font-weight-bold"></label> <i class="fa fa-info-circle" data-toggle="tooltip" title="Select metal to view associated purity values"></i>
                         <select asp-for="KaratId" class="form-control">
                             <option value=""></option>
                         </select>
@@ -126,7 +123,7 @@
                             <tr>
                                 <th width="120px">Date</th>
                                 <th width="150px">Metal</th>
-                                <th width="100px">Karat</th>
+                                <th width="100px">Purity</th>
                                 <th>Buy Price</th>
                                 <th>Sell Price</th>
                                 <th>Loan Price</th>

@@ -14,6 +14,9 @@ Jpfc.AdminUpdatePrice = function () {
             format: "mm-dd-yyyy"
         });
     };
+    var initTooltip = function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    };
 
     var initDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
@@ -149,7 +152,7 @@ Jpfc.AdminUpdatePrice = function () {
         }
     };
 
-    var editPrice = function (id) {       
+    var editPrice = function (id) {
         $.ajax({
             "url": "/Admin/EditPrice",
             "method": "get",
@@ -159,7 +162,7 @@ Jpfc.AdminUpdatePrice = function () {
         }).done(function (result) {
             if (result.success) {
                 populateFormForEdit(result.model);
-                populateKaratDropdown(result.model.karatId);                
+                populateKaratDropdown(result.model.karatId);
                 $('html,body').animate({
                     scrollTop: $('#content-container').offset().top - 100
                 }, 'slow');
@@ -289,6 +292,7 @@ Jpfc.AdminUpdatePrice = function () {
         initDatePickers();
         initDataTable();
         bindEvents();
+        initTooltip();
     };
 
     return {
