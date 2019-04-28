@@ -68,5 +68,22 @@ namespace jpfc.Data
                 .ThenByDescending(e => e.CreatedUtc)
                 .ToListAsync();
         }
+
+        public async Task<ICollection<Price>> ListBasePricesByDateAsync(DateTime date)
+        {
+            return await _context.Price
+                .Where(e => e.Date == date)
+                .OrderBy(e => e.Metal)
+                .ThenBy(e => e.Karat)
+                .ThenByDescending(e => e.CreatedUtc)
+                .ToListAsync();
+        }
+
+        public async Task<Price> FetchLatestPriceByMetalIdKaratIdAsync(Guid metalId, Guid? karatId)
+        {
+            return await _context.Price
+                .Where(e => e.Date == DateTime.Now.Date && e.MetalId == metalId && e.KaratId == karatId)
+                .FirstOrDefaultAsync();
+        }
     }
 }
