@@ -94,12 +94,15 @@ namespace jpfc
             services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IKaratService, KaratService>();
             services.AddScoped<IScheduledTaskService, ScheduledTaskService>();
+            services.AddScoped<IClientService, ClientService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
             services.AddScoped<IKaratRepository, KaratRepository>();
             services.AddScoped<IPriceRepository, PriceRepository>();
             services.AddScoped<IMetalRepository, MetalRepository>();
+            services.AddScoped<IIdentificationDocumentRepository, IdentificationDocumentRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
         }
     }
 }

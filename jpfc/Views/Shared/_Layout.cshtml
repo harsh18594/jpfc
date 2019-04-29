@@ -380,7 +380,11 @@
         <script src="~/js/map-script.js"></script>*@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script>
+        $(document).ready(function () {
+            Jpfc.Site.init();
+        });
+    </script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
     @RenderSection("Scripts", required: false)
 

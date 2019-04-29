@@ -1,4 +1,5 @@
 ﻿using jpfc.Models;
+using jpfc.Models.ClientReceiptViewModels;
 using jpfc.Models.UpdatePriceViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -33,6 +34,7 @@ namespace jpfc.Controllers
             return View();
         }
 
+        #region Price
         [HttpGet]
         public IActionResult UpdatePrice()
         {
@@ -121,5 +123,6 @@ namespace jpfc.Controllers
                 model = result.Model
             });
         }
+        #endregion
     }
 }

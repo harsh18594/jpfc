@@ -14,6 +14,9 @@ namespace jpfc.Data
         public DbSet<Price> Price { get; set; }
         public DbSet<Karat> Karat { get; set; }
         public DbSet<Metal> Metal { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<ClientBelonging> ClientBelonging { get; set; }
+        public DbSet<IdentificationDocument> IdentificationDocument { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -63,9 +66,50 @@ namespace jpfc.Data
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
+            builder.Entity<IdentificationDocument>(entity =>
+            {
+                entity.HasKey(e => e.IdentificationDocumentId);
+            });
+
+            builder.Entity<Client>(entity =>
+            {
+                entity.HasKey(e => e.ClientId);
+                entity.Property(e => e.Address).HasMaxLength(500);
+                entity.Property(e => e.IdentificationDocumentNumber).HasMaxLength(50);
+                entity.Property(e => e.ReferenceNumber).HasMaxLength(50);
+                entity.Property(e => e.EmailAddress).HasMaxLength(100);
+                entity.Property(e => e.ContactNumber).HasMaxLength(20);
+
+                entity.HasOne(e => e.IdentificationDocument)
+                .WithMany()
+                .HasForeignKey(e => e.IdentificationDocumentId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<ClientBelonging>(entity=> 
+            {
+                entity.HasKey(e => e.ClientBelongingId);
+
+                entity.HasOne(e => e.Client)
+                .WithMany(c => c.ClientBelongings)
+                .HasForeignKey(e => e.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Metal)
+                .WithMany()
+                .HasForeignKey(e => e.MetalId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Karat)
+                .WithMany()
+                .HasForeignKey(e => e.KaratId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
             // Seed Data ===========================================
             builder.Entity<Metal>().HasData(MetalSeed.Data);
             builder.Entity<Karat>().HasData(KaratSeed.Data);
+            builder.Entity<IdentificationDocument>().HasData(IdentificationDocumentSeed.Data);
         }
     }
 }

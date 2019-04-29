@@ -14,9 +14,6 @@ Jpfc.AdminUpdatePrice = function () {
             format: "mm-dd-yyyy"
         });
     };
-    var initTooltip = function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    };
 
     var initDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
@@ -292,7 +289,6 @@ Jpfc.AdminUpdatePrice = function () {
         initDatePickers();
         initDataTable();
         bindEvents();
-        initTooltip();
     };
 
     return {

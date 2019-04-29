@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿Jpfc = Jpfc || {};
 
-// Write your JavaScript code.
+Jpfc.Site = function () {
+    var initTooltip = function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    };
+
+    var init = function () {
+        console.log("Jpfc.Site init");
+        initTooltip();
+    };
+
+    return {
+        init: init
+    };
+}();
