@@ -205,7 +205,7 @@ Jpfc.AdminUpdatePrice = function () {
     var deletePrice = function (id) {
         swal({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "Once deleted, you will not be able to recover this data.",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#337ab7',

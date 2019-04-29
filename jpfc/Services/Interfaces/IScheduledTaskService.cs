@@ -7,6 +7,6 @@ namespace jpfc.Services.Interfaces
 {
     public interface IScheduledTaskService
     {
-        Task CopyPricesToTodayAsync();
+        Task<bool> CopyPricesToTodayAsync();
     }
 }

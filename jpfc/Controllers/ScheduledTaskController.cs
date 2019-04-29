@@ -21,9 +21,13 @@ namespace jpfc.Controllers
         {
             _logger.LogInformation(GetLogDetails());
 
-            await _scheduledTaskService.CopyPricesToTodayAsync();
+            var success = await _scheduledTaskService.CopyPricesToTodayAsync();
 
-            return Ok();
+            if (success)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

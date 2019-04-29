@@ -1,4 +1,5 @@
 ﻿using jpfc.Data.Interfaces;
+using jpfc.Models;
 using jpfc.Models.ClientReceiptViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -53,9 +54,8 @@ namespace jpfc.Services
                 }
                 else
                 {
-                    var totalCount = await _clientRepository.GetTotalClientsByDateAsync(DateTime.Now.Date);
-                    var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}-{totalCount + 1}";
-                    model.ReferenceNumber = refNumber;
+
+                    model.ReferenceNumber = "";
                     model.Date = DateTime.Now.Date;
 
                     success = true;
@@ -88,6 +88,95 @@ namespace jpfc.Services
             }
 
             return (Success: success, Error: error, Model: model);
+        }
+
+        public async Task<(bool Success, string Error, int ClientId)> SaveClientAsync(CreateClientViewModel model, string userId)
+        {
+            var success = false;
+            var error = string.Empty;
+            var clientId = 0;
+
+            try
+            {
+                Client client = null;
+                if (model.ClientId > 0)
+                {
+                    client = await _clientRepository.FetchBaseByIdAsync(model.ClientId.Value);
+                }
+                if (client == null)
+                {
+                    client = new Client
+                    {
+                        CreatedUserId = userId,
+                        CreatedUtc = DateTime.UtcNow
+                    };
+
+                    // save reference number for new records
+                    var maxClientId = await _clientRepository.GetMaxClientIdByDateAsync(DateTime.Now.Date);
+                    var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}-{maxClientId + 1}";
+                    client.ReferenceNumber = refNumber;
+                }
+                else
+                {
+                    client.AuditUserId = userId;
+                    client.AuditUtc = DateTime.UtcNow;
+                }
+
+                // save other values
+                client.Address = model.Address;
+                client.Date = model.Date;
+                client.IdentificationDocumentId = model.IdentificationDocumentId;
+                client.IdentificationDocumentNumber = model.IdentificationDocumentNumber;
+                client.Name = model.Name;
+                client.ContactNumber = model.ContactNumber;
+                client.EmailAddress = model.EmailAddress;
+
+                await _clientRepository.SaveClientAsync(client);
+
+                clientId = client.ClientId;
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.SaveClientAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, ClientId: clientId);
+        }
+
+        public async Task<(bool Success, string Error)> DeleteClientByIdAsync(int id)
+        {
+            var success = false;
+            var error = string.Empty;
+
+            try
+            {
+                if (id > 0)
+                {
+                    var client = await _clientRepository.FetchBaseByIdAsync(id);
+                    if (client != null)
+                    {
+                        await _clientRepository.DeleteClientAsync(client);
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to locate client information.";
+                    }
+                }
+                else
+                {
+                    error = "Invalid Id.";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.DeleteClientByIdAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error);
         }
     }
 }

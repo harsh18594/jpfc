@@ -18,12 +18,13 @@ namespace jpfc.Data
             _context = context;
         }
 
-        public async Task<decimal> GetTotalClientsByDateAsync(DateTime date)
+        public async Task<decimal> GetMaxClientIdByDateAsync(DateTime date)
         {
             return await _context.Client
                 .Where(c => c.Date == date)
                 .Select(c => c.ClientId)
-                .SumAsync();
+                .DefaultIfEmpty(0)
+                .MaxAsync();
         }
 
         public async Task<Client> FetchBaseByIdAsync(int clientId)
@@ -45,6 +46,34 @@ namespace jpfc.Data
                 })
                 .OrderByDescending(vm => vm.CreatedUtc)
                 .ToListAsync();
+        }
+
+        public async Task<bool> SaveClientAsync(Client client)
+        {
+            if (_context.Entry(client).State == EntityState.Detached)
+            {
+                _context.Add(client);
+            }
+            else if (_context.Entry(client).State == EntityState.Modified)
+            {
+                _context.Update(client);
+            }
+
+            if (_context.Entry(client).State == EntityState.Unchanged)
+            {
+                return true;
+            }
+
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteClientAsync(Client client)
+        {
+            var clientBelongings = await _context.ClientBelonging.Where(cb => cb.ClientId == client.ClientId).ToListAsync();
+            _context.RemoveRange(clientBelongings);
+
+            _context.Client.Remove(client);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

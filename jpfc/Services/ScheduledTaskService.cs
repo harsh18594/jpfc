@@ -21,8 +21,10 @@ namespace jpfc.Services
             _priceRepository = priceRepository;
         }
 
-        public async Task CopyPricesToTodayAsync()
+        public async Task<bool> CopyPricesToTodayAsync()
         {
+            var success = true;
+
             try
             {
                 var previousDate = DateTime.Now.AddDays(-1).Date;
@@ -51,12 +53,16 @@ namespace jpfc.Services
                             await _priceRepository.SavePriceAsync(newPrice);
                         }                        
                     }
-                }
+
+                    success = true;
+                }                
             }
             catch (Exception ex)
             {
                 _logger.LogError("ScheduledTaskService.CopyPricesToTodayAsync - exception:{@Ex}", args: new object[] { ex });
             }
+
+            return success;
         }
     }
 }
