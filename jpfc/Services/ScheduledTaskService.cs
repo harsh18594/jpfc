@@ -27,7 +27,7 @@ namespace jpfc.Services
 
             try
             {
-                var previousDate = DateTime.Now.AddDays(-1).Date;
+                var previousDate = DateTime.UtcNow.AddDays(-1).Date;
                 var previousDayPrices = await _priceRepository.ListBasePricesByDateAsync(previousDate);
                 if (previousDayPrices.Any())
                 {
@@ -39,7 +39,7 @@ namespace jpfc.Services
                         {
                             var newPrice = new Price
                             {
-                                Date = DateTime.Now.Date,
+                                Date = DateTime.UtcNow.Date,
                                 MetalId = price.MetalId,
                                 KaratId = price.KaratId,
                                 BuyPrice = price.BuyPrice,
