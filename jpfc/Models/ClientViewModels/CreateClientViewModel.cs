@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace jpfc.Models.ClientReceiptViewModels
+namespace jpfc.Models.ClientViewModels
 {
     public class CreateClientViewModel
     {
@@ -39,5 +39,7 @@ namespace jpfc.Models.ClientReceiptViewModels
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone Number is not valid")]
         public string ContactNumber { get; set; }
+
+        public ClientBelongingViewModel ClientBelongingViewModel { get; set; }
     }
 }

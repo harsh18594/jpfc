@@ -1,5 +1,5 @@
 ﻿using jpfc.Models;
-using jpfc.Models.ClientReceiptViewModels;
+using jpfc.Models.ClientViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

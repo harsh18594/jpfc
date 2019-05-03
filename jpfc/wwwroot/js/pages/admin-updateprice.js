@@ -71,25 +71,31 @@ Jpfc.AdminUpdatePrice = function () {
     };
 
     var populateKaratDropdown = function (karatId) {
-        $.ajax({
-            url: "/Karat/FetchKarats",
-            method: "get",
-            data: {
-                metalId: $('#MetalId').val()
-            }
-        }).done(function (result) {
-            var $dropdown = $('#KaratId');
-            $dropdown.find('option').not(':first').remove();
-            $.each(result.model, function () {
-                $dropdown.append($("<option />").val(this.value).text(this.text));
-            });
+        var metalId = $('#MetalId').val();
+        var $dropdown = $('#KaratId');
+        if (metalId) {
+            $.ajax({
+                url: "/Karat/FetchKarats",
+                method: "get",
+                data: {
+                    metalId: metalId
+                }
+            }).done(function (result) {
 
-            // select karatId if required
-            if (karatId) {
-                $('#KaratId').val(karatId);
-            }
-        }).fail(function () {
-        });
+                $dropdown.find('option').not(':first').remove();
+                $.each(result.model, function () {
+                    $dropdown.append($("<option />").val(this.value).text(this.text));
+                });
+
+                // select karatId if required
+                if (karatId) {
+                    $('#KaratId').val(karatId);
+                }
+            }).fail(function () {
+            });
+        } else {
+            $dropdown.find('option').not(':first').remove();
+        }
     };
 
     var clearFormForNewEntry = function (isCancelButtonRequest) {

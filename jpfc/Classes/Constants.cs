@@ -23,5 +23,12 @@
             public const string SiteAjaxMessageView = "SiteAjaxMessageView";
             public const string SiteMessageView = "SiteMessageView";
         }
+
+        public static class ClientAction
+        {
+            public const string Sell = "Sell";
+            public const string Purchase = "Purchase";
+            public const string Loan = "Loan";
+        }
     }
 }

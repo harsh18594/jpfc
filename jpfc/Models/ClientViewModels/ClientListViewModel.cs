@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace jpfc.Models.ClientReceiptViewModels
+namespace jpfc.Models.ClientViewModels
 {
     public class ClientListViewModel
     {

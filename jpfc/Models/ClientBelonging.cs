@@ -9,6 +9,9 @@ namespace jpfc.Models
     {
         public int ClientBelongingId { get; set; }
 
+        public DateTime Date { get; set; }
+        public string ClientAction { get; set; }
+
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using jpfc.Data.Interfaces;
 using jpfc.Models;
-using jpfc.Models.ClientReceiptViewModels;
+using jpfc.Models.ClientViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,7 +26,13 @@ namespace jpfc.Services
         {
             var success = false;
             string error = string.Empty;
-            var model = new CreateClientViewModel();
+            var model = new CreateClientViewModel
+            {
+                ClientBelongingViewModel = new ClientBelongingViewModel
+                {
+                    BelDate = DateTime.Now
+                }
+            };
 
             try
             {

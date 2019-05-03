@@ -1,6 +1,6 @@
 ﻿using jpfc.Data.Interfaces;
 using jpfc.Models;
-using jpfc.Models.ClientReceiptViewModels;
+using jpfc.Models.ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

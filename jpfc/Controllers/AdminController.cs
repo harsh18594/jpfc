@@ -1,5 +1,5 @@
 ﻿using jpfc.Models;
-using jpfc.Models.ClientReceiptViewModels;
+using jpfc.Models.ClientViewModels;
 using jpfc.Models.UpdatePriceViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
