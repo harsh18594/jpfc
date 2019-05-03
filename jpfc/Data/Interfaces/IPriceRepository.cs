@@ -13,6 +13,6 @@ namespace jpfc.Data.Interfaces
         Task<bool> DeletePriceAsync(Price price);
         Task<ICollection<PriceListViewModel>> ListPricesAsync(DateTime? date = null);
         Task<ICollection<Price>> ListBasePricesByDateAsync(DateTime date);
-        Task<Price> FetchLatestPriceByMetalIdKaratIdAsync(Guid metalId, Guid? karatId);
+        Task<Price> FetchPriceByMetalIdKaratIdAsync(Guid metalId, Guid? karatId, DateTime? date = null);
     }
 }

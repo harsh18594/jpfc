@@ -27,19 +27,20 @@ namespace jpfc.Services
 
             try
             {
-                var previousDate = DateTime.UtcNow.AddDays(-1).Date;
+                var utcNow = DateTime.UtcNow;
+                var previousDate = utcNow.AddDays(-1).Date;
                 var previousDayPrices = await _priceRepository.ListBasePricesByDateAsync(previousDate);
                 if (previousDayPrices.Any())
                 {
                     foreach (var price in previousDayPrices)
                     {
                         // avoid copying, if the price already exist
-                        var possibleExistingPrice = await _priceRepository.FetchLatestPriceByMetalIdKaratIdAsync(price.MetalId, price.KaratId);
+                        var possibleExistingPrice = await _priceRepository.FetchPriceByMetalIdKaratIdAsync(price.MetalId, price.KaratId, utcNow.Date);
                         if (possibleExistingPrice == null)
                         {
                             var newPrice = new Price
                             {
-                                Date = DateTime.UtcNow.Date,
+                                Date = utcNow.Date,
                                 MetalId = price.MetalId,
                                 KaratId = price.KaratId,
                                 BuyPrice = price.BuyPrice,

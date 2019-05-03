@@ -79,10 +79,10 @@ namespace jpfc.Data
                 .ToListAsync();
         }
 
-        public async Task<Price> FetchLatestPriceByMetalIdKaratIdAsync(Guid metalId, Guid? karatId)
+        public async Task<Price> FetchPriceByMetalIdKaratIdAsync(Guid metalId, Guid? karatId, DateTime? date = null)
         {
             return await _context.Price
-                .Where(e => e.Date == DateTime.Now.Date && e.MetalId == metalId && e.KaratId == karatId)
+                .Where(e => e.MetalId == metalId && e.KaratId == karatId && (!date.HasValue || e.Date == date))
                 .FirstOrDefaultAsync();
         }
     }
