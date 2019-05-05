@@ -2,6 +2,8 @@
 
 Jpfc.ClientAddClient = function () {
     var itemDatatable;
+    var loadingBelongingSpinner = null;
+    var loadingPriceSpinner = null;
 
     var initDatePickers = function () {
         $('.datepicker').datepicker({
@@ -14,7 +16,7 @@ Jpfc.ClientAddClient = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
         itemDatatable = $('#belonging-table').on('preXhr.dt', function () {
-            loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('price-table'));
+            loadingBelongingSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('price-table'));
         }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
@@ -28,8 +30,8 @@ Jpfc.ClientAddClient = function () {
                     return d;
                 },
                 "dataSrc": function (d) {
-                    if (loadingPriceSpinner !== null) {
-                        loadingPriceSpinner.stop();
+                    if (loadingBelongingSpinner !== null) {
+                        loadingBelongingSpinner.stop();
                     }
                     return d;
                 }
@@ -110,8 +112,65 @@ Jpfc.ClientAddClient = function () {
         }
     };
 
+    var fetchPrice = function () {
+        loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('client-belonging-form'));
+
+        // delay actual execution, if it was a change in metal, it will load karat values from server
+        setTimeout(function () {
+            var metalId = $('#MetalId').val();
+            var karatId = $('#KaratId').val();
+            var date = $('#BelDate').val();
+            $('#ItemPrice').val('');
+            $('#FinalPrice').val('');
+
+            if (metalId && metalId !== "other" && karatId && karatId !== "other" && date) {
+                $.ajax({
+                    url: '/Admin/FetchMetalPrice',
+                    method: 'get',
+                    data: {
+                        metalId: metalId,
+                        karatId: karatId,
+                        date: date,
+                        clientAction: $('#ClientAction').val()
+                    }
+                }).done(function (result) {
+                    if (result.success) {
+                        $('#ItemPrice').val(result.price).trigger('keyup');
+                    } else {
+                        toastr.error(result.error, '', Jpfc.Toastr.config);
+                    }
+
+                    if (loadingPriceSpinner !== null) {
+                        loadingPriceSpinner.stop();
+                    }
+                }).fail(function () {
+                    toastr.error("Unexpected error occurred while fetching the price", '', Jpfc.Toastr.config);
+
+                    if (loadingPriceSpinner !== null) {
+                        loadingPriceSpinner.stop();
+                    }
+                });
+            } else {
+                if (loadingPriceSpinner !== null) {
+                    loadingPriceSpinner.stop();
+                }
+            }
+        }, 500);
+    };
+
+    var calculateFinalPrice = function () {
+        var itemPrice = $('#ItemPrice').val();
+        var weight = $('#Weight').val();
+        if (Number(itemPrice) && Number(weight)) {
+            var finalPrice = itemPrice * weight;
+            $('#FinalPrice').val(finalPrice.toFixed(2));
+        } else {
+            $('#FinalPrice').val('');
+        }
+    };
+
     var clearBelongingForm = function () {
-        $('#BelDate').datepicker('setDate', new Date());
+
         $("#ClientAction").val($("#ClientAction option:first").val());
         $('#MetalId').val('');
         $('#KaratId').val('');
@@ -120,9 +179,26 @@ Jpfc.ClientAddClient = function () {
         $('#Weight').val('');
         $('#ItemPrice').val('');
         $('#FinalPrice').val('');
+        $('#BelDate').datepicker('setDate', new Date());
 
         $('#client-belonging-form').find('.field-validation-error').html('');
         $('#client-belonging-form').find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid');
+    };
+
+    var isBelongingFormValid = function () {
+        var isValid = true;
+
+        if (!$('#client-belonging-form').valid()) {
+            isValid = false;
+        }
+
+        return isValid;
+    };
+
+    var saveBelonging = function () {
+        if (isBelongingFormValid()) {
+
+        }
     };
 
     var bindEvents = function () {
@@ -140,8 +216,20 @@ Jpfc.ClientAddClient = function () {
             handleViewForKaratDropdown();
         });
 
+        $('#BelDate, #ClientAction, #MetalId, #KaratId').on('change', function () {
+            fetchPrice();
+        });
+
+        $('#Weight, #ItemPrice').on('keyup', function () {
+            calculateFinalPrice();
+        });
+
         $("#belonging-modal").on("hidden.bs.modal", function () {
             clearBelongingForm();
+        });
+
+        $('#btn-save-belonging').on('click', function () {
+            saveBelonging();
         });
     };
 

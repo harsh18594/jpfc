@@ -16,7 +16,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="BelDate" class="font-weight-bold"></label>
-                                <input asp-for="BelDate" class="form-control datepicker" type="text" asp-format="{0:MM/dd/yyyy}" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <input asp-for="BelDate" class="form-control datepicker" type="text" asp-format="{0:MM/dd/yyyy}" />
+                                </div>                               
                                 <span asp-validation-for="BelDate" class="text-danger"></span>
                             </div>
                         </div>
@@ -64,7 +69,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="Weight" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                                <input asp-for="Weight" class="form-control" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
+                                    </div>
+                                    <input asp-for="Weight" class="form-control" />
+                                </div>
                                 <span asp-validation-for="Weight" class="text-danger"></span>
                             </div>
                         </div>
@@ -75,14 +85,24 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="ItemPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                                <input asp-for="ItemPrice" type="text" class="form-control" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                    </div>
+                                    <input asp-for="ItemPrice" type="text" class="form-control" />
+                                </div>
                                 <span asp-validation-for="ItemPrice" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="FinalPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                                <input asp-for="FinalPrice" type="text" class="form-control" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                    </div>
+                                    <input asp-for="FinalPrice" type="text" class="form-control" />
+                                </div>
                                 <span asp-validation-for="FinalPrice" class="text-danger"></span>
                             </div>
                         </div>

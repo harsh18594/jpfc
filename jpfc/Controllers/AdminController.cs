@@ -123,6 +123,22 @@ namespace jpfc.Controllers
                 model = result.Model
             });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FetchMetalPrice(Guid metalId, Guid? karatId, DateTime? date, string clientAction)
+        {
+            _logger.LogInformation(GetLogDetails() + " - metalId:{@MetalId}, karatId:{@KaratId}, date:{@Date}, clientAction:{@ClientAction}",
+                args: new object[] { metalId, karatId, date, clientAction });
+
+            var userId = _userManager.GetUserId(User);
+            var result = await _adminService.FetchMetalPriceAsync(metalId, karatId, date, clientAction);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                price = result.Price
+            });
+        }
         #endregion
     }
 }

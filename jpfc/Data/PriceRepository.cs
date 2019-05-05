@@ -83,6 +83,7 @@ namespace jpfc.Data
         {
             return await _context.Price
                 .Where(e => e.MetalId == metalId && e.KaratId == karatId && (!date.HasValue || e.Date == date))
+                .OrderByDescending(e => e.Date)
                 .FirstOrDefaultAsync();
         }
     }

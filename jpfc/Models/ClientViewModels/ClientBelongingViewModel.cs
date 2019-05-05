@@ -8,9 +8,11 @@ namespace jpfc.Models.ClientViewModels
 {
     public class ClientBelongingViewModel
     {
+        [Required]
         [Display(Name = "Date")]
         public DateTime BelDate { get; set; }
 
+        [Required]
         [Display(Name = "Action")]
         public string ClientAction { get; set; }
 

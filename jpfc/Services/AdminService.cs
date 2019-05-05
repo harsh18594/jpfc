@@ -1,4 +1,5 @@
-﻿using jpfc.Data.Interfaces;
+﻿using jpfc.Classes;
+using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.UpdatePriceViewModels;
 using jpfc.Services.Interfaces;
@@ -233,6 +234,49 @@ namespace jpfc.Services
             }
 
             return (Success: success, Error: error, Model: model);
+        }
+
+        public async Task<(bool Success, string Error, decimal? Price)> FetchMetalPriceAsync(Guid metalId, Guid? karatId, DateTime? date, string clientAction)
+        {
+            var success = false;
+            string error = "";
+            decimal? price = 0;
+
+            try
+            {
+                if (date.HasValue)
+                {
+                    var priceInfo = await _priceRepository.FetchPriceByMetalIdKaratIdAsync(metalId, karatId, date);
+                    if (priceInfo != null)
+                    {
+                        if (clientAction == Constants.ClientAction.Purchase)
+                        {
+                            price = priceInfo.BuyPrice;
+                        }
+                        else if (clientAction == Constants.ClientAction.Sell)
+                        {
+                            price = priceInfo.SellPrice;
+                        }
+                        else if (clientAction == Constants.ClientAction.Loan)
+                        {
+                            price = priceInfo.LoanPrice;
+                        }
+
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to find a price for the selected Metal, Karat and Date";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Unexpected error occurred while processing your request";
+                _logger.LogError("AdminService.FetchMetalPriceAsync - Exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, Price: price);
         }
     }
 }
