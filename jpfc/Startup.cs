@@ -108,6 +108,7 @@ namespace jpfc
             services.AddScoped<IMetalRepository, MetalRepository>();
             services.AddScoped<IIdentificationDocumentRepository, IdentificationDocumentRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IClientBelongingRepository, ClientBelongingRepository>();
         }
     }
 }

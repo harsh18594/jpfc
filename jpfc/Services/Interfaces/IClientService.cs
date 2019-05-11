@@ -12,5 +12,9 @@ namespace jpfc.Services.Interfaces
         Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync();
         Task<(bool Success, string Error, int ClientId)> SaveClientAsync(CreateClientViewModel model, string userId);
         Task<(bool Success, string Error)> DeleteClientByIdAsync(int id);
+        Task<(bool Success, string Error, ICollection<ClientBelongingListViewModel> Model)> FetchClientBelongingListAsync(int clientId);
+        Task<(bool Success, string Error)> SaveClientBelongingAsync(ClientBelongingViewModel model, string userId);
+        Task<(bool Success, string Error)> DeleteClientBelongingAsync(int id);
+        Task<(bool Success, string Error, ClientBelongingViewModel Model)> FetchClientBelongingViewModelForEditAsync(int id);
     }
 }

@@ -24,6 +24,7 @@ namespace jpfc.Models
         public string KaratOther { get; set; }
 
         public decimal? ItemWeight { get; set; }
+        public decimal? ItemPrice { get; set; }
         public decimal? FinalPrice { get; set; }
 
         public string CreatedUserId { get; set; }
