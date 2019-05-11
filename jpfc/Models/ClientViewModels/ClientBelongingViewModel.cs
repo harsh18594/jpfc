@@ -1,4 +1,5 @@
-﻿using System;
+﻿using jpfc.ValidationAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Item")]
         public Guid MetalId { get; set; }
 
+        [RequiredIf(Property = "MetalId", HasValue = "other")]
         [Display(Name = "Item Description")]
         public string MetalOther { get; set; }
 
