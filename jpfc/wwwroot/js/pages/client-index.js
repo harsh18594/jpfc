@@ -40,7 +40,7 @@ Jpfc.ClientIndex = function () {
                 },
                 {
                     render: function (data, type, row) {
-                        var html = '<a class="btn btn-primary" title="Edit Price" href="/Client/AddClient/' + row.clientId + '"><i class="fa fa-pencil text-white"></i></a>' +
+                        var html = '<a class="btn btn-primary" title="Edit Client" href="/Client/AddClient/' + row.clientId + '"><i class="fa fa-pencil text-white"></i></a>' +
                             ' <a class="btn btn-danger" title = "Delete Client"  onclick="Jpfc.ClientIndex.deleteClient(' + row.clientId + ')"><i class="fa fa-trash text-white"></i></a>';
                         return html;
                     }

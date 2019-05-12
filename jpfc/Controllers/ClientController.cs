@@ -145,5 +145,19 @@ namespace jpfc.Controllers
                 model = result.Model
             });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FetchAmountSummary(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
+
+            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                model = result.Model
+            });
+        }
     }
 }

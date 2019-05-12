@@ -365,6 +365,48 @@ namespace jpfc.Services
 
             return (Success: success, Error: error, Model: model);
         }
+
+        public async Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchAmountSummaryViewModelAsync(int clientId)
+        {
+            var success = false;
+            var error = "";
+            var model = new AmountSummaryViewModel();
+
+            try
+            {
+                if (clientId > 0)
+                {
+                    var belongings = await _clientBelongingRepository.ListClientBelongingAsync(clientId);
+                    if (belongings != null && belongings.Any())
+                    {
+                        foreach (var item in belongings)
+                        {
+                            if (item.BusinessGetsMoney)
+                            {
+                                model.ClientPays += item.FinalPrice ?? 0;
+                            }
+                            if (item.BusinessPaysMoney)
+                            {
+                                model.ClientGets += item.FinalPrice ?? 0;
+                            }
+                        }
+                    }
+
+                    success = true;
+                }
+                else
+                {
+                    error = "Invalid request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.FetchAmountSummaryViewModelAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, Model: model);
+        }
         #endregion
     }
 }

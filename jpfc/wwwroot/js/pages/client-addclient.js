@@ -22,6 +22,7 @@ Jpfc.ClientAddClient = function () {
         });
     };
 
+    // load belongings 
     var initItemsDatatable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
@@ -45,6 +46,8 @@ Jpfc.ClientAddClient = function () {
                     if (loadingBelongingSpinner !== null) {
                         loadingBelongingSpinner.stop();
                     }
+                    // update amount summary
+                    fetchAmountSummary();
                     return d;
                 }
             },
@@ -62,7 +65,16 @@ Jpfc.ClientAddClient = function () {
                     data: "itemPriceStr"
                 },
                 {
-                    data: "finalPriceStr"
+                    className: 'font-weight-bold',
+                    render: function (data, type, row) {
+                        var className = '';
+                        if (row.businessPaysMoney) {
+                            className = 'text-danger';
+                        } else if (row.businessGetsMoney) {
+                            className = 'text-success bold';
+                        }
+                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span class="badge badge-info">' + row.clientAction + '</span>';
+                    }
                 },
                 {
                     render: function (data, type, row) {
@@ -105,14 +117,7 @@ Jpfc.ClientAddClient = function () {
 
     var populateBelongingForm = function (data) {
         $("#ClientAction").val(data.clientAction);
-        if (data.metalOther) {
-            $('#MetalId').val("other");
-            $('#MetalOther').val(data.metalOther);
-            $("#metal-other-container").show();
-        } else {
-            $('#MetalId').val(data.metalId);
-        }
-
+        // handle karat other first
         if (data.karatOther) {
             $('#KaratId').val("other");
             $('#KaratOther').val(data.karatOther);
@@ -120,6 +125,19 @@ Jpfc.ClientAddClient = function () {
             $("#karat-other-container").show();
         } else {
             $('#KaratId').val(data.karatId);
+        }
+
+        // handle metal other, if metal other is selected, hide karat dropdown and show karat other
+        if (data.metalOther) {
+            $('#MetalId').val("other");
+            $('#MetalOther').val(data.metalOther);
+            $("#metal-other-container").show();
+
+            $('#KaratId').val("");
+            $("#karat-dd-container").hide();
+            $("#karat-other-container").show();
+        } else {
+            $('#MetalId').val(data.metalId);
         }
 
         $('#Weight').val(data.weight);
@@ -282,6 +300,7 @@ Jpfc.ClientAddClient = function () {
         }).done(function (result) {
             if (result.success) {
                 $('#MetalId').val(result.model.metalId);
+                // this function will handle populating  form because it has to make an ajax call
                 fetchKaratList(true, result.model);
                 $("#belonging-modal").modal('show');
             } else {
@@ -320,6 +339,24 @@ Jpfc.ClientAddClient = function () {
                     toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
                 });
             }
+        });
+    };
+
+    var fetchAmountSummary = function () {
+        $.ajax({
+            url: '/Client/FetchAmountSummary',
+            method: 'get',
+            data: {
+                clientId: $('#client-belonging-form #ClientId').val()
+            }
+        }).done(function (result) {
+            if (result.success) {
+                $('#client-gets-amount').html(result.model.clientGetsStr);
+                $('#client-pays-amount').html(result.model.clientPaysStr);
+                $('#total-amount').html(result.model.totalAmountStr);
+                $('#summary-blurb').html(result.model.summaryBlurb);
+            }
+        }).fail(function () {
         });
     };
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using jpfc.Models.ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using jpfc.Models;
+using jpfc.Classes;
 
 namespace jpfc.Data
 {
@@ -30,7 +31,10 @@ namespace jpfc.Data
                     Weight = e.ItemWeight,
                     ItemPrice = e.ItemPrice,
                     FinalPrice = e.FinalPrice,
-                    CreatedUtc = e.CreatedUtc
+                    CreatedUtc = e.CreatedUtc,
+                    BusinessPaysMoney = e.ClientAction == Constants.ClientAction.Loan || e.ClientAction == Constants.ClientAction.Sell,
+                    BusinessGetsMoney = e.ClientAction == Constants.ClientAction.Purchase,
+                    ClientAction = e.ClientAction
                 })
                 .OrderByDescending(vm => vm.CreatedUtc)
                 .ToListAsync();

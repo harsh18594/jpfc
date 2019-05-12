@@ -21,5 +21,9 @@ namespace jpfc.Models.ClientViewModels
         public string FinalPriceStr => FinalPrice?.ToString("C");
 
         public DateTime CreatedUtc { get; set; }
+
+        public bool BusinessPaysMoney { get; set; }
+        public bool BusinessGetsMoney { get; set; }
+        public string ClientAction { get; set; }
     }
 }
