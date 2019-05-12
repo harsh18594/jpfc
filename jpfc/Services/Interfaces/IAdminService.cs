@@ -9,7 +9,7 @@ namespace jpfc.Services.Interfaces
     {
         (bool Success, string Error, CreatePriceViewModel Model) GetUpdatePriceViewModel();
         Task<(bool Success, string Error)> SavePriceAsync(CreatePriceViewModel model, string userId);
-        Task<(bool Success, string Error, ICollection<PriceListViewModel> Model)> GetPriceListAsync();
+        Task<(bool Success, string Error, ICollection<PriceListViewModel> Model)> GetPriceListAsync(DateTime? startDate, DateTime? endDate);
         Task<(bool Success, string Error)> DeletePriceAsync(int id);
         Task<(bool Success, string Error)> CopyPriceAsync(int id, string userId);
         Task<(bool Success, string Error, CreatePriceViewModel Model)> GetPriceForEditAsync(int id);

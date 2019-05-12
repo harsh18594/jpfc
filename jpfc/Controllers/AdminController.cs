@@ -74,11 +74,11 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListPrices()
+        public async Task<IActionResult> ListPrices(DateTime? startDate, DateTime? endDate)
         {
-            _logger.LogInformation(GetLogDetails());
+            _logger.LogInformation(GetLogDetails() + " - startDate:{@StartDate}, endDate:{@EndDate}", args: new object[] { startDate, endDate });
 
-            var result = await _adminService.GetPriceListAsync();
+            var result = await _adminService.GetPriceListAsync(startDate, endDate);
             return Json(result.Model);
         }
 

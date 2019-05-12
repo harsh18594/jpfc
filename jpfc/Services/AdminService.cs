@@ -31,7 +31,13 @@ namespace jpfc.Services
 
             try
             {
-                model.Date = DateTime.Now;
+                var now = DateTime.Now;
+                var filterStartDate = new DateTime(now.Year, now.Month, 1);
+                var filterEndDate = filterStartDate.AddMonths(1).AddDays(-1);
+
+                model.Date = now;
+                model.FilterStartDate = filterStartDate;
+                model.FilterEndDate = filterEndDate;
                 success = true;
             }
             catch (Exception ex)
@@ -92,7 +98,7 @@ namespace jpfc.Services
             return (Success: success, Error: error);
         }
 
-        public async Task<(bool Success, string Error, ICollection<PriceListViewModel> Model)> GetPriceListAsync()
+        public async Task<(bool Success, string Error, ICollection<PriceListViewModel> Model)> GetPriceListAsync(DateTime? startDate, DateTime? endDate)
         {
             bool success = false;
             string error = string.Empty;
@@ -100,7 +106,7 @@ namespace jpfc.Services
 
             try
             {
-                model = await _priceRepository.ListPricesAsync();
+                model = await _priceRepository.ListPricesByDateRangeAsync(startDate, endDate);
                 success = true;
             }
             catch (Exception ex)

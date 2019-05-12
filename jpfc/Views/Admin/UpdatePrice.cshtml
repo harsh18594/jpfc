@@ -48,26 +48,42 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="Date" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <input asp-for="Date" type="text" class="form-control datepicker" asp-format="{0:MM/dd/yyyy}" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input asp-for="Date" type="text" class="form-control datepicker" asp-format="{0:MM/dd/yyyy}" />
+                        </div>
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="MetalId" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <select asp-for="MetalId" class="form-control"
-                                asp-items="@(new SelectList(await MetalRepository.ListMetalsAsync(), "MetalId", "Name"))">
-                            <option value=""></option>
-                        </select>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="flaticon flaticon-menu-button"></i></span>
+                            </div>
+                            <select asp-for="MetalId" class="form-control"
+                                    asp-items="@(new SelectList(await MetalRepository.ListMetalsAsync(), "MetalId", "Name"))">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
                         <span asp-validation-for="MetalId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="KaratId" class="font-weight-bold"></label> <i class="fa fa-info-circle" data-toggle="tooltip" title="Select metal to view associated purity values"></i>
-                        <select asp-for="KaratId" class="form-control">
-                            <option value=""></option>
-                        </select>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="flaticon flaticon-price-tag"></i></span>
+                            </div>
+                            <select asp-for="KaratId" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
                         <span asp-validation-for="KaratId" class="text-danger"></span>
                     </div>
                 </div>
@@ -76,28 +92,49 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="BuyPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <input asp-for="BuyPrice" type="text" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                            </div>
+                            <input asp-for="BuyPrice" type="text" class="form-control" />
+                        </div>
+
                         <span asp-validation-for="BuyPrice" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="SellPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <input asp-for="SellPrice" type="text" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                            </div>
+                            <input asp-for="SellPrice" type="text" class="form-control" />
+                        </div>
                         <span asp-validation-for="SellPrice" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="LoanPricePercent" class="font-weight-bold"></label>
-                        <input asp-for="LoanPricePercent" type="text" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                            </div>
+                            <input asp-for="LoanPricePercent" type="text" class="form-control" />
+                        </div>
                         <span asp-validation-for="LoanPricePercent" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="form-group">
                         <label asp-for="LoanPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                        <input asp-for="LoanPrice" type="text" class="form-control" />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                            </div>
+                            <input asp-for="LoanPrice" type="text" class="form-control" />
+                        </div>
                         <span asp-validation-for="LoanPrice" class="text-danger"></span>
                     </div>
                 </div>
@@ -106,6 +143,7 @@
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="btn-save-price">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
                     <button type="button" class="btn btn-warning" id="btn-cancel-price">Clear</button>
+                    <a class="btn btn-danger" asp-controller="Admin" asp-action="Index">Cancel</a>
                 </div>
             </div>
         </form>
@@ -114,6 +152,33 @@
         <div class="sec-title centered">
             @*<div class="title">Saved Prices</div>*@
             <h2>Saved Prices</h2>
+        </div>
+        <div class="row clearfix mt-3">
+            <div class="col-12">
+                <h5>Filter</h5>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label asp-for="FilterStartDate" class="font-weight-bold"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input asp-for="FilterStartDate" type="text" class="form-control" asp-format="{0:MM/dd/yyyy}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label asp-for="FilterEndDate" class="font-weight-bold"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input asp-for="FilterEndDate" type="text" class="form-control" asp-format="{0:MM/dd/yyyy}" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row clearfix mt-3">
             <div class="col-12">

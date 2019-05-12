@@ -1,5 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Clients";
+
+    var now = DateTime.Now;
+    var filterStartDate = new DateTime(now.Year, now.Month, 1);
+    var filterEndDate = filterStartDate.AddMonths(1).AddDays(-1);
 }
 
 @section Styles{
@@ -35,6 +39,33 @@
         <!-- Sec Title -->
         <div class="sec-title centered">
             <h2>Saved Clients</h2>
+        </div>
+        <div class="row clearfix mt-3">
+            <div class="col-12">
+                <h5>Filter</h5>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label for="FilterStartDate" class="font-weight-bold">Start Date</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input id="FilterStartDate" type="text" class="form-control" value="@filterStartDate.ToString("MM/dd/yyyy")" asp-format="{0:MM/dd/yyyy}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label for="FilterEndDate" class="font-weight-bold">End Date</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input id="FilterEndDate" type="text" class="form-control" value="@filterEndDate.ToString("MM/dd/yyyy")" asp-format="{0:MM/dd/yyyy}" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row clearfix mt-3">
             <div class="col-12">

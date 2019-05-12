@@ -34,9 +34,10 @@ namespace jpfc.Data
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<ClientListViewModel>> ListClientsAsync()
+        public async Task<ICollection<ClientListViewModel>> ListClientsAsync(DateTime? startDate, DateTime? endDate)
         {
             return await _context.Client
+                .Where(e=> (!startDate.HasValue || e.Date >= startDate) && (!endDate.HasValue || e.Date <= endDate))
                 .Select(e => new ClientListViewModel
                 {
                     ClientId = e.ClientId,

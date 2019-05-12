@@ -73,10 +73,10 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClientList()
+        public async Task<IActionResult> GetClientList(DateTime? startDate, DateTime? endDate)
         {
-            _logger.LogInformation(GetLogDetails());
-            var result = await _clientService.GetClientListViewModelAsync();
+            _logger.LogInformation(GetLogDetails() + " - startDate:{@StartDate}, endDate:{@EndDate}", args: new object[] { startDate, endDate });
+            var result = await _clientService.GetClientListViewModelAsync(startDate, endDate);
             return Json(result.Model);
         }
 

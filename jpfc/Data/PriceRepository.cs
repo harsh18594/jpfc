@@ -69,6 +69,27 @@ namespace jpfc.Data
                 .ToListAsync();
         }
 
+        public async Task<ICollection<PriceListViewModel>> ListPricesByDateRangeAsync(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            return await _context.Price
+                .Where(e => (!startDate.HasValue || e.Date >= startDate) && (!endDate.HasValue || e.Date <= endDate))
+                .Select(e => new PriceListViewModel
+                {
+                    PriceId = e.PriceId,
+                    Date = e.Date,
+                    BuyPrice = e.BuyPrice,
+                    SellPrice = e.SellPrice,
+                    LoanPrice = e.LoanPrice,
+                    Metal = e.Metal.Name,
+                    Karat = e.Karat.Name,
+                    CreatedUtc = e.CreatedUtc
+                })
+                .OrderBy(e => e.Metal)
+                .ThenBy(e => e.Karat)
+                .ThenByDescending(e => e.CreatedUtc)
+                .ToListAsync();
+        }
+
         public async Task<ICollection<Price>> ListBasePricesByDateAsync(DateTime date)
         {
             return await _context.Price

@@ -40,5 +40,11 @@ namespace jpfc.Models.UpdatePriceViewModels
 
         [Display(Name = "Loan Price Percentage")]
         public decimal? LoanPricePercent { get; set; }
+
+        [Display(Name ="Start Date")]
+        public DateTime? FilterStartDate { get; set; }
+
+        [Display(Name = "End Date")]
+        public DateTime? FilterEndDate { get; set; }
     }
 }

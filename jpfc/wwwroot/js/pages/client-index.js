@@ -4,11 +4,22 @@ Jpfc.ClientIndex = function () {
     var loadingPriceSpinner = null;
     var table;
 
+    var initDatePickers = function () {
+        $('#FilterStartDate, #FilterEndDate').datepicker({
+            autoclose: true,
+            format: "mm-dd-yyyy",
+            clearBtn: true,
+            todayBtn: 'linked'
+        }).on('change', function () {
+            table.ajax.reload();
+        });
+    };
+
     var initDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
         table = $('#client-table').on('preXhr.dt', function () {
-            loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('price-table'));
+            loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('client-table'));
         }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
@@ -19,7 +30,10 @@ Jpfc.ClientIndex = function () {
                 "url": "/Client/GetClientList",
                 "method": "get",
                 "data": function (d) {
-                    return d;
+                    return {
+                        startDate: $('#FilterStartDate').val(),
+                        endDate: $('#FilterEndDate').val()
+                    };
                 },
                 "dataSrc": function (d) {
                     if (loadingPriceSpinner !== null) {
@@ -82,6 +96,7 @@ Jpfc.ClientIndex = function () {
 
     var init = function () {
         initDataTable();
+        initDatePickers();
     };
 
     return {

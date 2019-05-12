@@ -13,6 +13,14 @@ Jpfc.AdminUpdatePrice = function () {
             autoclose: true,
             format: "mm-dd-yyyy"
         });
+        $('#FilterStartDate, #FilterEndDate').datepicker({
+            autoclose: true,
+            format: "mm-dd-yyyy",
+            clearBtn: true,
+            todayBtn: 'linked'
+        }).on('change', function () {
+            table.ajax.reload();
+        });
     };
 
     var initDataTable = function () {
@@ -23,14 +31,17 @@ Jpfc.AdminUpdatePrice = function () {
         }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
-                "targets": [-1, -2, -3, -4],
+                "targets": [-1, -2, -3, -4, -5],
                 "orderable": false
             }],
             "ajax": {
                 "url": "/Admin/ListPrices",
                 "method": "get",
                 "data": function (d) {
-                    return d;
+                    return {
+                        startDate: $('#FilterStartDate').val(),
+                        endDate: $('#FilterEndDate').val()
+                    };
                 },
                 "dataSrc": function (d) {
                     if (loadingPriceSpinner !== null) {

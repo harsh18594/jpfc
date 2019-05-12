@@ -81,7 +81,7 @@ namespace jpfc.Services
             return (Success: success, Error: error, Model: model);
         }
 
-        public async Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync()
+        public async Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(DateTime? startDate, DateTime? endDate)
         {
             var success = false;
             string error = string.Empty;
@@ -89,7 +89,7 @@ namespace jpfc.Services
 
             try
             {
-                model = await _clientRepository.ListClientsAsync();
+                model = await _clientRepository.ListClientsAsync(startDate, endDate);
                 success = true;
             }
             catch (Exception ex)
