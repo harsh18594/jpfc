@@ -343,6 +343,7 @@ Jpfc.ClientAddClient = function () {
     };
 
     var fetchAmountSummary = function () {
+        $('#summary-loading-spinner').show();
         $.ajax({
             url: '/Client/FetchAmountSummary',
             method: 'get',
@@ -356,7 +357,9 @@ Jpfc.ClientAddClient = function () {
                 $('#total-amount').html(result.model.totalAmountStr);
                 $('#summary-blurb').html(result.model.summaryBlurb);
             }
+            $('#summary-loading-spinner').hide();
         }).fail(function () {
+            $('#summary-loading-spinner').hide();
         });
     };
 
