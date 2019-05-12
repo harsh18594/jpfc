@@ -54,7 +54,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="Date" class="font-weight-bold"></label>
-                                <input asp-for="Date" class="form-control" type="text" readonly asp-format="{0:MM/dd/yyyy}" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <input asp-for="Date" class="form-control" type="text" readonly asp-format="{0:MM/dd/yyyy}" />
+                                </div>                              
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
                         </div>
@@ -63,7 +68,12 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label asp-for="ReferenceNumber" class="font-weight-bold"></label>
-                                    <input asp-for="ReferenceNumber" class="form-control" readonly />
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                                        </div>
+                                        <input asp-for="ReferenceNumber" class="form-control" readonly />
+                                    </div>                                    
                                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
                                 </div>
                             </div>
@@ -137,7 +147,7 @@
             <div class="row clearfix">
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="btn-save-client">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
-                    <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Cancel</a>
+                    <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Back</a>
                     @if (Model.ClientId > 0)
                     {
                         <a asp-controller="Client" asp-action="AddClient" asp-route-id="" class="ml-3 btn btn-success"><i class="fa fa-plus"></i> Add New Client</a>
