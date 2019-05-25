@@ -373,3 +373,9 @@
     border-color: rgba(209,174,124, 0.7);
     background-color: rgba(209,174,124, 0.7);
 }*/
+
+.main-slider.style-four .content {
+    max-width: 610px;
+    padding: 50px 50px 50px;
+    background-color: rgba(0,0,0,0.85);
+}
