@@ -27,3 +27,13 @@ td.disabled.day {
 .f-1rem {
     font-size: 1rem;
 }
+
+/* marquee */
+.marquee {
+    height: 30px;
+    overflow: hidden;
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+    line-height: 35px;
+    text-align: center;
+}
