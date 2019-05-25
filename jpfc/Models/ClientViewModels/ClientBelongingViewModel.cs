@@ -44,13 +44,17 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Weight in gram")]
         public decimal? Weight { get; set; }
 
-        [Required]
+        [RequiredIf(Property = "MetalId", NotHasValue = "other")]
         [Display(Name = "Item Price")]
         public decimal? ItemPrice { get; set; }
 
         [Required]
         [Display(Name = "Final Price")]
         public decimal? FinalPrice { get; set; }
+
+        [Required]
+        [Display(Name = "Replacement Value")]
+        public decimal? ReplacementValue { get; set; }
 
         public string BelDateStr => BelDate.ToString("MM-dd-yyyy");
     }

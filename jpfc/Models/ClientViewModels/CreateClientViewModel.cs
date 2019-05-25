@@ -22,12 +22,15 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Identification Document")]
         public Guid? IdentificationDocumentId { get; set; }
 
+        [Required]
         [Display(Name = "Identification Document Number")]
         public string IdentificationDocumentNumber { get; set; }
 
+        [Required]
         [Display(Name = "Address")]
         public string Address { get; set; }
 
@@ -35,6 +38,7 @@ namespace jpfc.Models.ClientViewModels
         [EmailAddress]
         public string EmailAddress { get; set; }
 
+        [Required]
         [Display(Name = "Contact Number")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone Number is not valid")]

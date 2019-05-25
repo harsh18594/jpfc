@@ -123,6 +123,18 @@
                                 <span asp-validation-for="FinalPrice" class="text-danger"></span>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="ReplacementValue" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                    </div>
+                                    <input asp-for="ReplacementValue" type="text" class="form-control" />
+                                </div>
+                                <span asp-validation-for="ReplacementValue" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

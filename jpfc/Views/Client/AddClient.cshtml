@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label asp-for="IdentificationDocumentId" class="font-weight-bold"></label>
+                                <label asp-for="IdentificationDocumentId" class="font-weight-bold"></label> <span class="text-danger">*</span>
                                 <select asp-for="IdentificationDocumentId" class="form-control"
                                         asp-items="@(new SelectList(await IdentificationDocumentRepository.ListIdentificationDocumentsAsync(), "IdentificationDocumentId", "Name"))">
                                     <option value="">-- Select Id Type --</option>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label asp-for="IdentificationDocumentNumber" class="font-weight-bold"></label>
+                                <label asp-for="IdentificationDocumentNumber" class="font-weight-bold"></label> <span class="text-danger">*</span>
                                 <input asp-for="IdentificationDocumentNumber" class="form-control" />
                                 <span asp-validation-for="IdentificationDocumentNumber" class="text-danger"></span>
                             </div>
@@ -129,14 +129,14 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label asp-for="ContactNumber" class="font-weight-bold"></label>
+                                <label asp-for="ContactNumber" class="font-weight-bold"></label> <span class="text-danger">*</span>
                                 <input asp-for="ContactNumber" type="text" class="form-control" />
                                 <span asp-validation-for="ContactNumber" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label asp-for="Address" class="font-weight-bold"></label>
+                                <label asp-for="Address" class="font-weight-bold"></label> <span class="text-danger">*</span>
                                 <textarea asp-for="Address" rows="5" class="form-control"></textarea>
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
@@ -203,7 +203,7 @@
                                     <th width="150px">Purity/Brand</th>
                                     <th width="100px">Weight (gms)</th>
                                     <th width="150px">Item Price (per gm)</th>
-                                    <th>Final Price</th>
+                                    <th>Final Price [Replacement Value]</th>
                                     <th width="100px"></th>
                                 </tr>
                             </thead>

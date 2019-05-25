@@ -31,6 +31,7 @@ namespace jpfc.Data
                     Weight = e.ItemWeight,
                     ItemPrice = e.ItemPrice,
                     FinalPrice = e.FinalPrice,
+                    ReplacementValue = e.ReplacementValue,
                     CreatedUtc = e.CreatedUtc,
                     BusinessPaysMoney = e.TransactionAction == Constants.TransactionAction.Loan || e.TransactionAction == Constants.TransactionAction.Purchase,
                     BusinessGetsMoney = e.TransactionAction == Constants.TransactionAction.Sell,

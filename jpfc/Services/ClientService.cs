@@ -269,6 +269,7 @@ namespace jpfc.Services
                     clientBelonging.ItemWeight = model.Weight;
                     clientBelonging.ItemPrice = model.ItemPrice;
                     clientBelonging.FinalPrice = model.FinalPrice;
+                    clientBelonging.ReplacementValue = model.ReplacementValue;
 
                     await _clientBelongingRepository.SaveClientBelongingAsync(clientBelonging);
                     success = true;
@@ -344,6 +345,7 @@ namespace jpfc.Services
                         model.Weight = belonging.ItemWeight;
                         model.ItemPrice = belonging.ItemPrice;
                         model.FinalPrice = belonging.FinalPrice;
+                        model.ReplacementValue = belonging.ReplacementValue;
 
                         success = true;
                     }

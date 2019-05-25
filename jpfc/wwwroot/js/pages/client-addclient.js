@@ -62,7 +62,7 @@ Jpfc.ClientAddClient = function () {
                     data: "weightStr"
                 },
                 {
-                    data: "itemPriceStr"
+                    data: "itemPriceStr",
                 },
                 {
                     className: 'font-weight-bold',
@@ -73,7 +73,7 @@ Jpfc.ClientAddClient = function () {
                         } else if (row.businessGetsMoney) {
                             className = 'text-success bold';
                         }
-                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span class="badge badge-info">' + row.transactionAction + '</span>';
+                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span>' + ' [' + row.replacementValueStr + '] </span> <span class="badge badge-info">' + row.transactionAction + '</span>';
                     }
                 },
                 {
@@ -102,6 +102,7 @@ Jpfc.ClientAddClient = function () {
         $('#Weight').val('');
         $('#ItemPrice').val('');
         $('#FinalPrice').val('');
+        $('#ReplacementValue').val('');
         $('#BelDate').datepicker('setDate', new Date());
         $('#ClientBelongingId').val('0');
 
@@ -143,6 +144,7 @@ Jpfc.ClientAddClient = function () {
         $('#Weight').val(data.weight);
         $('#ItemPrice').val(data.itemPrice);
         $('#FinalPrice').val(data.finalPrice);
+        $('#ReplacementValue').val(data.replacementValue);
         $('#BelDate').val(data.belDateStr);
         $('#BelDate').datepicker('update');
         $('#ClientBelongingId').val(data.clientBelongingId);

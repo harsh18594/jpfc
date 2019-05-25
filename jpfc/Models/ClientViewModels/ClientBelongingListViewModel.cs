@@ -20,6 +20,9 @@ namespace jpfc.Models.ClientViewModels
         public decimal? FinalPrice { get; set; }
         public string FinalPriceStr => FinalPrice?.ToString("C");
 
+        public decimal? ReplacementValue { get; set; }
+        public string ReplacementValueStr => ReplacementValue?.ToString("C");
+
         public DateTime CreatedUtc { get; set; }
 
         public bool BusinessPaysMoney { get; set; }
