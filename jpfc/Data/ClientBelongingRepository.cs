@@ -32,9 +32,9 @@ namespace jpfc.Data
                     ItemPrice = e.ItemPrice,
                     FinalPrice = e.FinalPrice,
                     CreatedUtc = e.CreatedUtc,
-                    BusinessPaysMoney = e.ClientAction == Constants.ClientAction.Loan || e.ClientAction == Constants.ClientAction.Sell,
-                    BusinessGetsMoney = e.ClientAction == Constants.ClientAction.Purchase,
-                    ClientAction = e.ClientAction
+                    BusinessPaysMoney = e.TransactionAction == Constants.TransactionAction.Loan || e.TransactionAction == Constants.TransactionAction.Purchase,
+                    BusinessGetsMoney = e.TransactionAction == Constants.TransactionAction.Sell,
+                    TransactionAction = e.TransactionAction
                 })
                 .OrderByDescending(vm => vm.CreatedUtc)
                 .ToListAsync();

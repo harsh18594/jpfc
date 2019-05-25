@@ -244,7 +244,7 @@ namespace jpfc.Services
                     // save other values
                     clientBelonging.ClientId = model.ClientId;
                     clientBelonging.Date = model.BelDate;
-                    clientBelonging.ClientAction = model.ClientAction;
+                    clientBelonging.TransactionAction = model.TransactionAction;
                     if (model.MetalId.HasValue && model.MetalId != Guid.Empty)
                     {
                         clientBelonging.MetalId = model.MetalId;
@@ -336,7 +336,7 @@ namespace jpfc.Services
                     {
                         model.ClientBelongingId = belonging.ClientBelongingId;
                         model.BelDate = belonging.Date;
-                        model.ClientAction = belonging.ClientAction;
+                        model.TransactionAction = belonging.TransactionAction;
                         model.MetalId = belonging.MetalId;
                         model.MetalOther = belonging.MetalOther;
                         model.KaratId = belonging.KaratId;

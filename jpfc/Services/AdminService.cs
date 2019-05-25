@@ -242,7 +242,7 @@ namespace jpfc.Services
             return (Success: success, Error: error, Model: model);
         }
 
-        public async Task<(bool Success, string Error, decimal? Price)> FetchMetalPriceAsync(Guid metalId, Guid? karatId, DateTime? date, string clientAction)
+        public async Task<(bool Success, string Error, decimal? Price)> FetchMetalPriceAsync(Guid metalId, Guid? karatId, DateTime? date, string transactionAction)
         {
             var success = false;
             string error = "";
@@ -255,15 +255,15 @@ namespace jpfc.Services
                     var priceInfo = await _priceRepository.FetchPriceByMetalIdKaratIdAsync(metalId, karatId, date);
                     if (priceInfo != null)
                     {
-                        if (clientAction == Constants.ClientAction.Purchase)
+                        if (transactionAction == Constants.TransactionAction.Purchase)
                         {
                             price = priceInfo.BuyPrice;
                         }
-                        else if (clientAction == Constants.ClientAction.Sell)
+                        else if (transactionAction == Constants.TransactionAction.Sell)
                         {
                             price = priceInfo.SellPrice;
                         }
-                        else if (clientAction == Constants.ClientAction.Loan)
+                        else if (transactionAction == Constants.TransactionAction.Loan)
                         {
                             price = priceInfo.LoanPrice;
                         }

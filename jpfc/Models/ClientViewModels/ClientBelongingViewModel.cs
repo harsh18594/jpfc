@@ -21,8 +21,8 @@ namespace jpfc.Models.ClientViewModels
         public DateTime BelDate { get; set; }
 
         [Required]
-        [Display(Name = " Client Action")]
-        public string ClientAction { get; set; }
+        [Display(Name = "Transaction Action")]
+        public string TransactionAction { get; set; }
 
         [RequiredIf(Property = "MetalOther", NotHasValue = null)]
         [Display(Name = "Item")]

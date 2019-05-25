@@ -125,13 +125,13 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> FetchMetalPrice(Guid metalId, Guid? karatId, DateTime? date, string clientAction)
+        public async Task<IActionResult> FetchMetalPrice(Guid metalId, Guid? karatId, DateTime? date, string transactionAction)
         {
-            _logger.LogInformation(GetLogDetails() + " - metalId:{@MetalId}, karatId:{@KaratId}, date:{@Date}, clientAction:{@ClientAction}",
-                args: new object[] { metalId, karatId, date, clientAction });
+            _logger.LogInformation(GetLogDetails() + " - metalId:{@MetalId}, karatId:{@KaratId}, date:{@Date}, transactionAction:{@TransactionAction}",
+                args: new object[] { metalId, karatId, date, transactionAction });
 
             var userId = _userManager.GetUserId(User);
-            var result = await _adminService.FetchMetalPriceAsync(metalId, karatId, date, clientAction);
+            var result = await _adminService.FetchMetalPriceAsync(metalId, karatId, date, transactionAction);
             return Json(new
             {
                 success = result.Success,

@@ -28,15 +28,15 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <label asp-for="ClientAction" class="font-weight-bold"></label> <i class="fa fa-info-circle" title="What is client doing?" data-toggle="tooltip"></i>
+                            <label asp-for="TransactionAction" class="font-weight-bold"></label> <i class="fa fa-info-circle" title="What is J P Finance doing?" data-toggle="tooltip"></i>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="flaticon flaticon-hand-shake-1"></i></span>
                                 </div>
-                                <select asp-for="ClientAction" class="form-control">
-                                    <option value="@Constants.ClientAction.Sell">@Constants.ClientAction.Sell</option>
-                                    <option value="@Constants.ClientAction.Purchase">@Constants.ClientAction.Purchase</option>
-                                    <option value="@Constants.ClientAction.Loan">@Constants.ClientAction.Loan</option>
+                                <select asp-for="TransactionAction" class="form-control">
+                                    <option value="@Constants.TransactionAction.Sell">@Constants.TransactionAction.Sell</option>
+                                    <option value="@Constants.TransactionAction.Purchase">@Constants.TransactionAction.Purchase</option>
+                                    <option value="@Constants.TransactionAction.Loan">@Constants.TransactionAction.Loan</option>
                                 </select>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                     <div class="row clearfix">
                         <div class="col-12">
                             <div class="form-group">
-                                <label asp-for="ItemPrice" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <label asp-for="ItemPrice" class="font-weight-bold"></label> <span class="text-danger">*</span><span>(per gram)</span>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-dollar"></i></span>

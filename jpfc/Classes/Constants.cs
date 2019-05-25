@@ -24,7 +24,7 @@
             public const string SiteMessageView = "SiteMessageView";
         }
 
-        public static class ClientAction
+        public static class TransactionAction
         {
             public const string Sell = "Sell";
             public const string Purchase = "Purchase";

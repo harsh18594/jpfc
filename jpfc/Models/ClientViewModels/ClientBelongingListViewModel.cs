@@ -24,6 +24,6 @@ namespace jpfc.Models.ClientViewModels
 
         public bool BusinessPaysMoney { get; set; }
         public bool BusinessGetsMoney { get; set; }
-        public string ClientAction { get; set; }
+        public string TransactionAction { get; set; }
     }
 }

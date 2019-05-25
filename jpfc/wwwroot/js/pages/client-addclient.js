@@ -73,7 +73,7 @@ Jpfc.ClientAddClient = function () {
                         } else if (row.businessGetsMoney) {
                             className = 'text-success bold';
                         }
-                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span class="badge badge-info">' + row.clientAction + '</span>';
+                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span class="badge badge-info">' + row.transactionAction + '</span>';
                     }
                 },
                 {
@@ -94,7 +94,7 @@ Jpfc.ClientAddClient = function () {
 
     var clearBelongingForm = function () {
 
-        $("#ClientAction").val($("#ClientAction option:first").val());
+        $("#TransactionAction").val($("#TransactionAction option:first").val());
         $('#MetalId').val('');
         $('#KaratId').val('');
         $('#MetalOther').val('');
@@ -116,7 +116,7 @@ Jpfc.ClientAddClient = function () {
     };
 
     var populateBelongingForm = function (data) {
-        $("#ClientAction").val(data.clientAction);
+        $("#TransactionAction").val(data.transactionAction);
         // handle karat other first
         if (data.karatOther) {
             $('#KaratId').val("other");
@@ -226,7 +226,7 @@ Jpfc.ClientAddClient = function () {
                         metalId: metalId,
                         karatId: karatId,
                         date: date,
-                        clientAction: $('#ClientAction').val()
+                        transactionAction: $('#TransactionAction').val()
                     }
                 }).done(function (result) {
                     if (result.success) {
@@ -378,7 +378,7 @@ Jpfc.ClientAddClient = function () {
             handleViewForKaratDropdown();
         });
 
-        $('#BelDate, #ClientAction, #MetalId, #KaratId').on('change', function () {
+        $('#BelDate, #TransactionAction, #MetalId, #KaratId').on('change', function () {
             fetchPrice();
         });
 
