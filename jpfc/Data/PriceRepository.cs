@@ -61,6 +61,7 @@ namespace jpfc.Data
                     LoanPrice = e.LoanPrice,
                     Metal = e.Metal.Name,
                     Karat = e.Karat.Name,
+                    KaratId = e.KaratId,
                     CreatedUtc = e.CreatedUtc
                 })
                 .OrderBy(e => e.Metal)

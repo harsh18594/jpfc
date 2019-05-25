@@ -22,6 +22,7 @@ namespace jpfc.Models.UpdatePriceViewModels
         public string LoanPriceStr => LoanPrice?.ToString("C");
 
         public string Metal { get; set; }
+        public Guid? KaratId { get; set; }
         public string Karat { get; set; }
         public bool PerOunce { get; set; }
         public DateTime CreatedUtc { get; set; }

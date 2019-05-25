@@ -1,4 +1,5 @@
-﻿using jpfc.Data.Interfaces;
+﻿using jpfc.Classes;
+using jpfc.Data.Interfaces;
 using jpfc.Models.UpdatePriceViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,14 @@ namespace jpfc.Services
 
             try
             {
-                model = await _priceRepository.ListPricesAsync(date);
+                var data = await _priceRepository.ListPricesAsync(date);
+                var listObj = data.ToList();
+                // only display 24K, 925 and 950 purity prices
+                listObj.RemoveAll(e => !string.Equals(e.KaratId?.ToString(), Constants.KaratId._24K, StringComparison.InvariantCultureIgnoreCase)
+                                            && !string.Equals(e.KaratId?.ToString(), Constants.KaratId._925, StringComparison.InvariantCultureIgnoreCase)
+                                            && !string.Equals(e.KaratId?.ToString(), Constants.KaratId._950, StringComparison.InvariantCultureIgnoreCase));
+
+                model = listObj;
                 success = true;
             }
             catch (Exception ex)
