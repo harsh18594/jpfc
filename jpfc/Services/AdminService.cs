@@ -271,6 +271,12 @@ namespace jpfc.Services
                             price = priceInfo.LoanPrice;
                         }
 
+                        // calculate price per gram before sending it
+                        if (priceInfo.PerOunce && price.HasValue)
+                        {
+                            price = decimal.Round(price.Value / Constants.OzToGm._1Oz, 2);
+                        }
+
                         success = true;
                     }
                     else

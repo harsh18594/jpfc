@@ -30,5 +30,10 @@
             public const string Purchase = "Purchase";
             public const string Loan = "Loan";
         }
+
+        public static class OzToGm
+        {
+            public const decimal _1Oz = (decimal)31.103;
+        }
     }
 }
