@@ -23,7 +23,7 @@ namespace jpfc.Models.UpdatePriceViewModels
 
         public string Metal { get; set; }
         public string Karat { get; set; }
-
+        public bool PerOunce { get; set; }
         public DateTime CreatedUtc { get; set; }
     }
 }

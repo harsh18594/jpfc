@@ -22,6 +22,8 @@ namespace jpfc.Models
         public decimal? LoanPricePercent { get; set; }
         public decimal? LoanPrice { get; set; }
 
+        public bool PerOunce { get; set; }
+
         public DateTime CreatedUtc { get; set; }
         public string CreatedUserId { get; set; }
         public DateTime? AuditUtc { get; set; }

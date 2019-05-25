@@ -46,5 +46,8 @@ namespace jpfc.Models.UpdatePriceViewModels
 
         [Display(Name = "End Date")]
         public DateTime? FilterEndDate { get; set; }
+
+        [Display(Name = "Price Unit")]
+        public bool PerOunce { get; set; }
     }
 }

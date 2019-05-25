@@ -87,6 +87,14 @@
                         <span asp-validation-for="KaratId" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="PerOunce" class="font-weight-bold"></label><br />
+                        <label><input asp-for="PerOunce" type="radio" value="true" /> Per Ounce</label>&nbsp;&nbsp;&nbsp;
+                        <label><input asp-for="PerOunce" type="radio" value="false" checked /> Per Gram</label>
+                        <span asp-validation-for="PerOunce" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="row clearfix">
                 <div class="col-12 col-md-6 col-lg-3">
@@ -192,6 +200,7 @@
                                 <th>Buy Price</th>
                                 <th>Sell Price</th>
                                 <th>Loan Price</th>
+                                <th>Per Ounce</th>
                                 <th width="130px"></th>
                             </tr>
                         </thead>

@@ -47,6 +47,7 @@ namespace jpfc.Services
                                 SellPrice = price.SellPrice,
                                 LoanPrice = price.LoanPrice,
                                 LoanPricePercent = price.LoanPricePercent,
+                                PerOunce = price.PerOunce,
                                 CreatedUserId = null,
                                 CreatedUtc = DateTime.UtcNow
                             };

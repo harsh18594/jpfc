@@ -84,6 +84,7 @@ namespace jpfc.Services
                 price.SellPrice = model.SellPrice;
                 price.LoanPrice = model.LoanPrice;
                 price.LoanPricePercent = model.LoanPricePercent;
+                price.PerOunce = model.PerOunce;
 
                 await _priceRepository.SavePriceAsync(price);
 
@@ -173,6 +174,7 @@ namespace jpfc.Services
                             SellPrice = price.SellPrice,
                             LoanPrice = price.LoanPrice,
                             LoanPricePercent = price.LoanPricePercent,
+                            PerOunce = price.PerOunce,
                             CreatedUserId = userId,
                             CreatedUtc = DateTime.UtcNow
                         };
@@ -220,6 +222,7 @@ namespace jpfc.Services
                         model.LoanPricePercent = price.LoanPricePercent;
                         model.KaratId = price.KaratId;
                         model.MetalId = price.MetalId;
+                        model.PerOunce = price.PerOunce;
 
                         success = true;
                     }

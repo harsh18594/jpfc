@@ -71,6 +71,15 @@ Jpfc.AdminUpdatePrice = function () {
                 },
                 {
                     render: function (data, type, row) {
+                        var html = '<span><i class="fa fa-close text-danger"></i></span>';
+                        if (row.perOunce) {
+                            html = '<span><i class="fa fa-check text-success"></i></span>';
+                        }
+                        return html;
+                    }
+                },
+                {
+                    render: function (data, type, row) {
                         var html = '<a class="btn btn-primary" title="Edit Price" onclick="Jpfc.AdminUpdatePrice.editPrice(' + row.priceId + ')"><i class="fa fa-pencil text-white"></i></a>' +
                             ' <a class="btn btn-warning" title="Copy Price" onclick="Jpfc.AdminUpdatePrice.copyPrice(' + row.priceId + ')"><i class="fa fa-copy text-white"></i></a>' +
                             ' <a class="btn btn-danger" title = "Delete Price"  onclick="Jpfc.AdminUpdatePrice.deletePrice(' + row.priceId + ')"><i class="fa fa-trash text-white"></i></a>';
@@ -116,6 +125,7 @@ Jpfc.AdminUpdatePrice = function () {
         $form.find('#LoanPrice').val('');
         $form.find('#KaratId').val('');
         $form.find('#Date').datepicker('setDate', new Date());
+        $("input[name=PerOunce][value=false]").prop('checked', true);
 
         $form.validate().resetForm();
 
@@ -138,10 +148,20 @@ Jpfc.AdminUpdatePrice = function () {
         $form.find('#KaratId').val(data.karatId);
         $form.find('#MetalId').val(data.metalId);
         $form.find('#Date').val(data.dateStr).datepicker('update');
+        $("input[name=PerOunce][value=" + data.perOunce + "]").prop('checked', true);
     };
 
     var savePrice = function () {
         if ($form.valid() && !isSaving) {
+
+            if ($('#BuyPrice').val() > $('#SellPrice').val()) {
+                swal({
+                    title: 'Potentially invalid price',
+                    text: "Buy price is higher than the sell price.",
+                    type: 'warning'
+                });
+            }
+
             isSaving = true;
             $saveSpinner.show();
             $.ajax({
@@ -286,7 +306,7 @@ Jpfc.AdminUpdatePrice = function () {
             clearFormForNewEntry(true);
         });
 
-        $('#BuyPrice, #LoanPricePercent').on('keyup', function () {
+        $('#SellPrice, #LoanPricePercent').on('keyup', function () {
             calculateLoanPrice();
         });
 
