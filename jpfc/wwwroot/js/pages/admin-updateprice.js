@@ -274,10 +274,10 @@ Jpfc.AdminUpdatePrice = function () {
         //var loanPrice = $('#LoanPrice').val();
         //var isLoanPriceAlreadyAdded = loanPrice !== null && loanPrice !== undefined && loanPrice !== '';
         //if (!isLoanPriceAlreadyAdded) {
-        var sellPrice = $('#SellPrice').val();
+        var buyPrice = $('#BuyPrice').val();
         var loanPricePercent = $('#LoanPricePercent').val();
-        if (Number(sellPrice) && Number(loanPricePercent)) {
-            var loanPrice = (sellPrice * loanPricePercent) / 100;
+        if (Number(buyPrice) && Number(loanPricePercent)) {
+            var loanPrice = (buyPrice * loanPricePercent) / 100;
             $('#LoanPrice').val(loanPrice);
         } else {
             $('#LoanPrice').val('');
@@ -286,10 +286,10 @@ Jpfc.AdminUpdatePrice = function () {
     };
 
     var calculateLoanPercent = function () {
-        var sellPrice = $('#SellPrice').val();
+        var buyPrice = $('#BuyPrice').val();
         var loanPrice = $('#LoanPrice').val();
-        if (Number(sellPrice) && Number(loanPrice)) {
-            var loanPricePercent = (100 * loanPrice) / sellPrice;
+        if (Number(buyPrice) && Number(loanPrice)) {
+            var loanPricePercent = (100 * loanPrice) / buyPrice;
             $('#LoanPricePercent').val(loanPricePercent.toFixed(2));
         } else {
             $('#LoanPricePercent').val('');
@@ -306,7 +306,7 @@ Jpfc.AdminUpdatePrice = function () {
             clearFormForNewEntry(true);
         });
 
-        $('#SellPrice, #LoanPricePercent').on('keyup', function () {
+        $('#BuyPrice, #LoanPricePercent').on('keyup', function () {
             calculateLoanPrice();
         });
 
