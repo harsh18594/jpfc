@@ -37,3 +37,7 @@ td.disabled.day {
     line-height: 35px;
     text-align: center;
 }
+
+#toast-container > div {
+    opacity: 1;
+}

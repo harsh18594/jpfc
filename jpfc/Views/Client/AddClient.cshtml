@@ -59,7 +59,7 @@
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
                                     <input asp-for="Date" class="form-control" type="text" readonly asp-format="{0:MM/dd/yyyy}" />
-                                </div>                              
+                                </div>
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                             <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
                                         </div>
                                         <input asp-for="ReferenceNumber" class="form-control" readonly />
-                                    </div>                                    
+                                    </div>
                                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
                                 </div>
                             </div>
@@ -162,9 +162,16 @@
             <div class="sec-title centered">
                 <div class="title">Belongings</div>
             </div>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#belonging-modal">
-                <i class="fa fa-plus"></i> Add belonging
-            </button>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#belonging-modal">
+                        <i class="fa fa-plus"></i> Add belonging
+                    </button>
+                    <button type="button" id="btn-print-receipt" class="btn btn-success">
+                       <i class="fa fa-file-pdf-o"></i> Download Receipt <i id="receipt-loading-spinner" class="fa fa-spinner fa-spin" style="display: none;"></i>
+                    </button>
+                </div>
+            </div>
 
             <div class="row clearfix mt-3">
                 <div class="col-12">

@@ -358,10 +358,35 @@ Jpfc.ClientAddClient = function () {
                 $('#client-pays-amount').html(result.model.clientPaysStr);
                 $('#total-amount').html(result.model.totalAmountStr);
                 $('#summary-blurb').html(result.model.summaryBlurb);
+            } else {
+                toastr.error(result.error, '', Jpfc.Toastr.config);
             }
             $('#summary-loading-spinner').hide();
         }).fail(function () {
             $('#summary-loading-spinner').hide();
+            toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
+        });
+    };
+
+    var downloadReceipt = function () {
+        $('#btn-print-receipt').find('#receipt-loading-spinner').show();
+        $.ajax({
+            url: "/Client/ExportReceipt",
+            method: "post",
+            data: {
+                clientId: $('#ClientId').val()
+            }
+        }).done(function (result) {
+            if (result.success) {
+                var bytes = Jpfc.Helper.base64ToArrayBuffer(result.fileBytes);
+                Jpfc.Helper.downloadFile(result.fileName, bytes);
+            } else {
+                toastr.error(result.error, '', Jpfc.Toastr.config);
+            }
+            $('#btn-print-receipt').find('#receipt-loading-spinner').hide();
+        }).fail(function () {
+            toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
+            $('#btn-print-receipt').find('#receipt-loading-spinner').hide();
         });
     };
 
@@ -408,6 +433,9 @@ Jpfc.ClientAddClient = function () {
             if (e.keyCode === 13) {
                 saveBelonging();
             }
+        });
+        $('#btn-print-receipt').on('click', function () {
+            downloadReceipt();
         });
     };
 

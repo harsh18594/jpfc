@@ -2,9 +2,12 @@
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
 using jpfc.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using MigraDoc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,14 +18,17 @@ namespace jpfc.Services
         private readonly ILogger _logger;
         private readonly IClientRepository _clientRepository;
         private readonly IClientBelongingRepository _clientBelongingRepository;
+        private readonly IHostingEnvironment _env;
 
         public ClientService(ILogger<ClientService> logger,
             IClientRepository clientRepository,
-            IClientBelongingRepository clientBelongingRepository)
+            IClientBelongingRepository clientBelongingRepository,
+            IHostingEnvironment env)
         {
             _logger = logger;
             _clientRepository = clientRepository;
             _clientBelongingRepository = clientBelongingRepository;
+            _env = env;
         }
 
         #region Client
@@ -408,6 +414,93 @@ namespace jpfc.Services
             }
 
             return (Success: success, Error: error, Model: model);
+        }
+        #endregion
+
+        #region Client Receipt
+        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> GenerateReceiptByClientAsync(int clientId)
+        {
+            var success = false;
+            var error = "";
+            byte[] fileBytes = null;
+            var fileName = "";
+
+            try
+            {
+                // fetch client info
+                var client = await _clientRepository.FetchBaseByIdAsync(clientId);
+                if (client != null)
+                {
+                    // prepare belonging list
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingAsync(clientId);
+                    decimal clientPays = 0;
+                    decimal clientGets = 0;
+                    decimal billAmount = 0;
+                    bool clientPaysFinal = false;
+
+                    if (belongingsList?.Any() == true)
+                    {
+                        // order by name
+                        belongingsList = belongingsList.OrderBy(b => b.Metal).ToList();
+                        foreach (var item in belongingsList)
+                        {
+                            // calculate bill amount
+                            if (item.BusinessGetsMoney)
+                            {
+                                clientPays += item.FinalPrice ?? 0;
+                            }
+                            if (item.BusinessPaysMoney)
+                            {
+                                clientGets += item.FinalPrice ?? 0;
+                            }
+                            billAmount = Math.Abs(clientPays - clientGets);
+                            clientPaysFinal = clientPays > clientGets;
+                        }
+                    }
+
+                    var invoice = new ClientReceipt(client.Date, client.ReferenceNumber, client.Name, client.Address, Classes.Helper.FormatPhoneNumber(client.ContactNumber),
+                        client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
+
+                    // Create the document using MigraDoc.
+                    var document = invoice.CreateDocument();
+                    document.UseCmykColor = true;
+
+                    // Create a renderer for PDF that uses Unicode font encoding.
+                    var pdfRenderer = new PdfDocumentRenderer(true);
+
+                    // Set the MigraDoc document.
+                    pdfRenderer.Document = document;
+
+                    // Create the PDF document.
+                    pdfRenderer.RenderDocument();
+
+                    // Save the PDF document...
+                    using (var stream = new MemoryStream())
+                    {
+                        pdfRenderer.Save(stream, false);
+                        fileBytes = stream.ToArray();
+                    }
+                    //var stream = new MemoryStream();
+                    //pdfRenderer.Save(stream, false);
+                    //fileBytes = stream.ToArray();
+                    //stream.Close();
+
+                    fileName = $"{client.Name}_{client.ReferenceNumber}_Bill.pdf";
+                    success = true;
+                }
+                else
+                {
+                    error = "Unable to locate client information";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.FetchAmountSummaryViewModelAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);
         }
         #endregion
     }

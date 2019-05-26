@@ -159,5 +159,20 @@ namespace jpfc.Controllers
                 model = result.Model
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ExportReceipt(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });
+
+            var result = await _clientService.GenerateReceiptByClientAsync(clientId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                fileBytes = result.FileBytes,
+                fileName = result.FileName
+            });
+        }
     }
 }
