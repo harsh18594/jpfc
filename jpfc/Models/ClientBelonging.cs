@@ -8,12 +8,11 @@ namespace jpfc.Models
     public class ClientBelonging
     {
         public int ClientBelongingId { get; set; }
-
-        public DateTime Date { get; set; }
+        
         public string TransactionAction { get; set; }
 
-        public int ClientId { get; set; }
-        public virtual Client Client { get; set; }
+        public int ClientReceiptId { get; set; }
+        public virtual ClientReceipt ClientReceipt { get; set; }
 
         public Guid? MetalId { get; set; }
         public virtual Metal Metal { get; set; }

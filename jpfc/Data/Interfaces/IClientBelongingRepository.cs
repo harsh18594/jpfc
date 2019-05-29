@@ -9,7 +9,7 @@ namespace jpfc.Data.Interfaces
 {
     public interface IClientBelongingRepository
     {
-        Task<ICollection<ClientBelongingListViewModel>> ListClientBelongingAsync(int clientId);
+        Task<ICollection<ClientBelongingListViewModel>> ListClientBelongingByReceiptIdAsync(int receiptId);
         Task<ClientBelonging> FetchBaseByIdAsync(int clientBelongingId);
         Task<bool> SaveClientBelongingAsync(ClientBelonging clientBelonging);
         Task<bool> DeleteBelongingAsync(ClientBelonging belonging);

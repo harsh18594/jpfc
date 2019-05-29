@@ -36,7 +36,37 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddClient(int id)
+        public IActionResult CreateClient()
+        {
+            _logger.LogInformation(GetLogDetails());
+            var model = new CreateClientViewModel { Date = DateTime.Now };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateClient(CreateClientViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", args: new object[] { model });
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var result = await _clientService.CreateClientAsync(model, userId);
+                if (result.Success)
+                {
+                    SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Client saved successfully");
+                    return RedirectToAction(nameof(EditClient), routeValues: new { id = result.ClientId });
+                }
+                else
+                {
+                    SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditClient(int id)
         {
             _logger.LogInformation(GetLogDetails() + " - id:{@Id}", args: new object[] { id });
 
@@ -51,17 +81,19 @@ namespace jpfc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClient(CreateClientViewModel model)
+        public async Task<IActionResult> EditClient(CreateClientViewModel model)
         {
             _logger.LogInformation(GetLogDetails() + " - model:{@Model}", args: new object[] { model });
+            ModelState.Remove("IdentificationDocumentId");
+            ModelState.Remove("IdentificationDocumentNumber");
             if (ModelState.IsValid)
             {
                 var userId = _userManager.GetUserId(User);
-                var result = await _clientService.SaveClientAsync(model, userId);
+                var result = await _clientService.UpdateClientAsync(model, userId);
                 if (result.Success)
                 {
                     SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Client saved successfully");
-                    return RedirectToAction(nameof(AddClient), routeValues: new { id = result.ClientId });
+                    return RedirectToAction(nameof(EditClient), routeValues: new { id = result.ClientId });
                 }
                 else
                 {
@@ -98,7 +130,7 @@ namespace jpfc.Controllers
         {
             _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
 
-            var result = await _clientService.FetchClientBelongingListAsync(clientId);
+            var result = await _clientService.FetchClientBelongingListByReceiptIdAsync(clientId);
             return Json(result.Model);
         }
 

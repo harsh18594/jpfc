@@ -19,74 +19,22 @@ namespace jpfc.Services
         private readonly IClientRepository _clientRepository;
         private readonly IClientBelongingRepository _clientBelongingRepository;
         private readonly IHostingEnvironment _env;
+        private readonly IClientIdentificationRepository _clientIdentificationRepository;
 
         public ClientService(ILogger<ClientService> logger,
             IClientRepository clientRepository,
             IClientBelongingRepository clientBelongingRepository,
-            IHostingEnvironment env)
+            IHostingEnvironment env,
+            IClientIdentificationRepository clientIdentificationRepository)
         {
             _logger = logger;
             _clientRepository = clientRepository;
             _clientBelongingRepository = clientBelongingRepository;
             _env = env;
+            _clientIdentificationRepository = clientIdentificationRepository;
         }
 
         #region Client
-        public async Task<(bool Success, string Error, CreateClientViewModel Model)> GetCreateClientViewModelAsync(int clientId)
-        {
-            var success = false;
-            string error = string.Empty;
-            var model = new CreateClientViewModel
-            {
-                ClientBelongingViewModel = new ClientBelongingViewModel
-                {
-                    BelDate = DateTime.Now,
-                    ClientId = clientId
-                }
-            };
-
-            try
-            {
-                if (clientId > 0)
-                {
-                    var client = await _clientRepository.FetchBaseByIdAsync(clientId);
-                    if (client != null)
-                    {
-                        model.ClientId = client.ClientId;
-                        model.Date = client.Date;
-                        model.ReferenceNumber = client.ReferenceNumber;
-                        model.Name = client.Name;
-                        model.EmailAddress = client.EmailAddress;
-                        model.ContactNumber = client.ContactNumber;
-                        model.Address = client.Address;
-                        model.IdentificationDocumentId = client.IdentificationDocumentId;
-                        model.IdentificationDocumentNumber = client.IdentificationDocumentNumber;
-
-                        success = true;
-                    }
-                    else
-                    {
-                        error = "Unable to locate client information. Please try again.";
-                    }
-                }
-                else
-                {
-
-                    model.ReferenceNumber = "";
-                    model.Date = DateTime.Now.Date;
-
-                    success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                error = "Somethong went wrong while processing your request.";
-                _logger.LogError("ClientService.GetCreateClientViewModelAsync - exception:{@Ex}", args: new object[] { ex });
-            }
-
-            return (Success: success, Error: error, Model: model);
-        }
-
         public async Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(DateTime? startDate, DateTime? endDate)
         {
             var success = false;
@@ -107,7 +55,49 @@ namespace jpfc.Services
             return (Success: success, Error: error, Model: model);
         }
 
-        public async Task<(bool Success, string Error, int ClientId)> SaveClientAsync(CreateClientViewModel model, string userId)
+        public async Task<(bool Success, string Error, CreateClientViewModel Model)> GetCreateClientViewModelAsync(int clientId)
+        {
+            var success = false;
+            string error = string.Empty;
+            var model = new CreateClientViewModel();
+
+            try
+            {
+                if (clientId > 0)
+                {
+                    var client = await _clientRepository.FetchBaseByIdAsync(clientId);
+                    if (client != null)
+                    {
+                        model.ClientId = client.ClientId;
+                        model.Date = client.Date;
+                        model.ReferenceNumber = client.ReferenceNumber;
+                        model.Name = client.Name;
+                        model.EmailAddress = client.EmailAddress;
+                        model.ContactNumber = client.ContactNumber;
+                        model.Address = client.Address;
+
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to locate client information. Please try again.";
+                    }
+                }
+                else
+                {
+                    error = "Invalid Request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.GetCreateClientViewModelAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, Model: model);
+        }
+
+        public async Task<(bool Success, string Error, int ClientId)> CreateClientAsync(CreateClientViewModel model, string userId)
         {
             var success = false;
             var error = string.Empty;
@@ -115,40 +105,36 @@ namespace jpfc.Services
 
             try
             {
-                Client client = null;
-                if (model.ClientId > 0)
+                var client = new Client
                 {
-                    client = await _clientRepository.FetchBaseByIdAsync(model.ClientId.Value);
-                }
-                if (client == null)
-                {
-                    client = new Client
-                    {
-                        CreatedUserId = userId,
-                        CreatedUtc = DateTime.UtcNow
-                    };
+                    CreatedUserId = userId,
+                    CreatedUtc = DateTime.UtcNow
+                };
 
-                    // save reference number for new records
-                    var maxClientId = await _clientRepository.GetMaxClientIdByDateAsync(DateTime.Now.Date);
-                    var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}-{maxClientId + 1}";
-                    client.ReferenceNumber = refNumber;
-                }
-                else
-                {
-                    client.AuditUserId = userId;
-                    client.AuditUtc = DateTime.UtcNow;
-                }
+                // save reference number for new records
+                var maxClientId = await _clientRepository.GetMaxClientIdByDateAsync(DateTime.Now.Date);
+                var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}-{maxClientId + 1}";
+                client.ReferenceNumber = refNumber;
 
                 // save other values
                 client.Address = model.Address;
                 client.Date = model.Date;
-                client.IdentificationDocumentId = model.IdentificationDocumentId;
-                client.IdentificationDocumentNumber = model.IdentificationDocumentNumber;
                 client.Name = model.Name;
                 client.ContactNumber = model.ContactNumber;
                 client.EmailAddress = model.EmailAddress;
 
                 await _clientRepository.SaveClientAsync(client);
+
+                // save client identification information once client is saved
+                var clientIdentification = new ClientIdentification
+                {
+                    ClientId = client.ClientId,
+                    IdentificationDocumentId = model.IdentificationDocumentId,
+                    IdentificationDocumentNumber = model.IdentificationDocumentNumber,
+                    CreatedUserId = userId,
+                    CreatedUtc = DateTime.UtcNow
+                };
+                await _clientIdentificationRepository.SaveClientIdentificationAsync(clientIdentification);
 
                 clientId = client.ClientId;
                 success = true;
@@ -156,7 +142,45 @@ namespace jpfc.Services
             catch (Exception ex)
             {
                 error = "Somethong went wrong while processing your request.";
-                _logger.LogError("ClientService.SaveClientAsync - exception:{@Ex}", args: new object[] { ex });
+                _logger.LogError("ClientService.CreateClientAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, ClientId: clientId);
+        }
+
+        public async Task<(bool Success, string Error, int ClientId)> UpdateClientAsync(CreateClientViewModel model, string userId)
+        {
+            var success = false;
+            var error = string.Empty;
+            var clientId = 0;
+
+            try
+            {
+                if (model.ClientId > 0)
+                {
+                    var client = await _clientRepository.FetchBaseByIdAsync(model.ClientId.Value);
+                    client.AuditUserId = userId;
+                    client.AuditUtc = DateTime.UtcNow;
+                    client.Address = model.Address;
+                    client.Date = model.Date;
+                    client.Name = model.Name;
+                    client.ContactNumber = model.ContactNumber;
+                    client.EmailAddress = model.EmailAddress;
+
+                    await _clientRepository.SaveClientAsync(client);
+
+                    clientId = client.ClientId;
+                    success = true;
+                }
+                else
+                {
+                    error = "Invalid Request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.UpdateClientAsync - exception:{@Ex}", args: new object[] { ex });
             }
 
             return (Success: success, Error: error, ClientId: clientId);
@@ -199,7 +223,7 @@ namespace jpfc.Services
 
         #region Client Belonging
 
-        public async Task<(bool Success, string Error, ICollection<ClientBelongingListViewModel> Model)> FetchClientBelongingListAsync(int clientId)
+        public async Task<(bool Success, string Error, ICollection<ClientBelongingListViewModel> Model)> FetchClientBelongingListByReceiptIdAsync(int receiptId)
         {
             var success = false;
             string error = string.Empty;
@@ -207,13 +231,13 @@ namespace jpfc.Services
 
             try
             {
-                model = await _clientBelongingRepository.ListClientBelongingAsync(clientId);
+                model = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(receiptId);
                 success = true;
             }
             catch (Exception ex)
             {
                 error = "Somethong went wrong while processing your request.";
-                _logger.LogError("ClientService.FetchClientBelongingListAsync - exception:{@Ex}", args: new object[] { ex });
+                _logger.LogError("ClientService.FetchClientBelongingListByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
             }
 
             return (Success: success, Error: error, Model: model);
@@ -226,7 +250,7 @@ namespace jpfc.Services
 
             try
             {
-                if (model.ClientId > 0)
+                if (model.ClientReceiptId > 0)
                 {
                     ClientBelonging clientBelonging = null;
                     if (model.ClientBelongingId > 0)
@@ -248,8 +272,7 @@ namespace jpfc.Services
                     }
 
                     // save other values
-                    clientBelonging.ClientId = model.ClientId;
-                    clientBelonging.Date = model.BelDate;
+                    clientBelonging.ClientReceiptId = model.ClientReceiptId;
                     clientBelonging.TransactionAction = model.TransactionAction;
                     if (model.MetalId.HasValue && model.MetalId != Guid.Empty)
                     {
@@ -342,7 +365,6 @@ namespace jpfc.Services
                     if (belonging != null)
                     {
                         model.ClientBelongingId = belonging.ClientBelongingId;
-                        model.BelDate = belonging.Date;
                         model.TransactionAction = belonging.TransactionAction;
                         model.MetalId = belonging.MetalId;
                         model.MetalOther = belonging.MetalOther;
@@ -384,7 +406,7 @@ namespace jpfc.Services
             {
                 if (clientId > 0)
                 {
-                    var belongings = await _clientBelongingRepository.ListClientBelongingAsync(clientId);
+                    var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientId);
                     if (belongings != null && belongings.Any())
                     {
                         foreach (var item in belongings)
@@ -432,7 +454,7 @@ namespace jpfc.Services
                 if (client != null)
                 {
                     // prepare belonging list
-                    var belongingsList = await _clientBelongingRepository.ListClientBelongingAsync(clientId);
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientId);
                     decimal clientPays = 0;
                     decimal clientGets = 0;
                     decimal billAmount = 0;

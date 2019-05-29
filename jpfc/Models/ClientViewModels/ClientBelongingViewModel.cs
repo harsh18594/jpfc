@@ -14,7 +14,7 @@ namespace jpfc.Models.ClientViewModels
         public int? ClientBelongingId { get; set; }
 
         [HiddenInput]
-        public int ClientId { get; set; }
+        public int ClientReceiptId { get; set; }
 
         [Required]
         [Display(Name = "Date")]

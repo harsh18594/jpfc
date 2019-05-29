@@ -70,8 +70,11 @@ namespace jpfc.Data
 
         public async Task<bool> DeleteClientAsync(Client client)
         {
-            var clientBelongings = await _context.ClientBelonging.Where(cb => cb.ClientId == client.ClientId).ToListAsync();
-            _context.RemoveRange(clientBelongings);
+            var clientReceipts = await _context.ClientReceipt.Where(cr => cr.ClientId == client.ClientId).ToListAsync();
+            _context.RemoveRange(clientReceipts);
+            
+            var clientIdentification = await _context.ClientIdentification.Where(cr => cr.ClientId == client.ClientId).ToListAsync();
+            _context.RemoveRange(clientIdentification);
 
             _context.Client.Remove(client);
             return await _context.SaveChangesAsync() > 0;

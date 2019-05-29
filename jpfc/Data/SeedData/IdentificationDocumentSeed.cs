@@ -15,12 +15,6 @@ namespace jpfc.Data.SeedData
             },
             new IdentificationDocument
             {
-                IdentificationDocumentId = new Guid("4894bd7a-0476-4ea0-97c9-cd82fb40f2b2"),
-                Name = "Health Card",
-                SortOrder = null
-            },
-            new IdentificationDocument
-            {
                 IdentificationDocumentId = new Guid("4eed5d73-e2b9-406f-979f-7c124813eef3"),
                 Name = "Passport",
                 SortOrder = null

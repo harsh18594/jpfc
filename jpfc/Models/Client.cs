@@ -11,9 +11,7 @@ namespace jpfc.Models
         public DateTime Date { get; set; }
         public string ReferenceNumber { get; set; }
         public string Name { get; set; }
-        public Guid? IdentificationDocumentId { get; set; }
-        public virtual IdentificationDocument IdentificationDocument { get; set; }
-        public string IdentificationDocumentNumber { get; set; }
+       
         public string Address { get; set; }
         public string EmailAddress { get; set; }
         public string ContactNumber { get; set; }
@@ -23,6 +21,7 @@ namespace jpfc.Models
         public string AuditUserId { get; set; }
         public DateTime? AuditUtc { get; set; }
 
-        public virtual ICollection<ClientBelonging> ClientBelongings { get; set; } = new HashSet<ClientBelonging>();
+        public virtual ICollection<ClientIdentification> Identifications { get; set; } = new HashSet<ClientIdentification>();
+        public virtual ICollection<ClientReceipt> Receipts { get; set; } = new HashSet<ClientReceipt>();
     }
 }

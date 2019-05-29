@@ -17,6 +17,8 @@ namespace jpfc.Data
         public DbSet<Client> Client { get; set; }
         public DbSet<ClientBelonging> ClientBelonging { get; set; }
         public DbSet<IdentificationDocument> IdentificationDocument { get; set; }
+        public DbSet<ClientReceipt> ClientReceipt { get; set; }
+        public DbSet<ClientIdentification> ClientIdentification { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -75,24 +77,18 @@ namespace jpfc.Data
             {
                 entity.HasKey(e => e.ClientId);
                 entity.Property(e => e.Address).HasMaxLength(500);
-                entity.Property(e => e.IdentificationDocumentNumber).HasMaxLength(50);
                 entity.Property(e => e.ReferenceNumber).HasMaxLength(50);
                 entity.Property(e => e.EmailAddress).HasMaxLength(100);
                 entity.Property(e => e.ContactNumber).HasMaxLength(20);
-
-                entity.HasOne(e => e.IdentificationDocument)
-                .WithMany()
-                .HasForeignKey(e => e.IdentificationDocumentId)
-                .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<ClientBelonging>(entity=> 
+            builder.Entity<ClientBelonging>(entity =>
             {
                 entity.HasKey(e => e.ClientBelongingId);
 
-                entity.HasOne(e => e.Client)
+                entity.HasOne(e => e.ClientReceipt)
                 .WithMany(c => c.ClientBelongings)
-                .HasForeignKey(e => e.ClientId)
+                .HasForeignKey(e => e.ClientReceiptId)
                 .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Metal)
@@ -103,6 +99,38 @@ namespace jpfc.Data
                 entity.HasOne(e => e.Karat)
                 .WithMany()
                 .HasForeignKey(e => e.KaratId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<ClientReceipt>(entity =>
+            {
+                entity.HasKey(e => e.ClientReceiptId);
+                entity.Property(e => e.ReceiptNumber).HasMaxLength(255);
+
+                entity.HasOne(e => e.Client)
+                .WithMany(c => c.Receipts)
+                .HasForeignKey(e => e.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.ClientIdentification)
+               .WithMany(i => i.ClientReceipts)
+               .HasForeignKey(e => e.ClientIdentificationId)
+               .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<ClientIdentification>(entity =>
+            {
+                entity.HasKey(e => e.ClientIdentificationId);
+                entity.Property(e => e.IdentificationDocumentNumber).HasMaxLength(255);
+
+                entity.HasOne(e => e.Client)
+                .WithMany(c => c.Identifications)
+                .HasForeignKey(e => e.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.IdentificationDocument)
+                .WithMany()
+                .HasForeignKey(e => e.IdentificationDocumentId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 

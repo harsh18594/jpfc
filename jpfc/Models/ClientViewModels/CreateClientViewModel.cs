@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using jpfc.ValidationAttributes;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -43,7 +44,5 @@ namespace jpfc.Models.ClientViewModels
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Phone Number is not valid")]
         public string ContactNumber { get; set; }
-
-        public ClientBelongingViewModel ClientBelongingViewModel { get; set; }
     }
 }

@@ -19,10 +19,10 @@ namespace jpfc.Data
             _context = context;
         }
 
-        public async Task<ICollection<ClientBelongingListViewModel>> ListClientBelongingAsync(int clientId)
+        public async Task<ICollection<ClientBelongingListViewModel>> ListClientBelongingByReceiptIdAsync(int receiptId)
         {
             return await _context.ClientBelonging
-                .Where(e => e.ClientId == clientId)
+                .Where(e => e.ClientReceiptId == receiptId)
                 .Select(e => new ClientBelongingListViewModel
                 {
                     ClientBelongingId = e.ClientBelongingId,
