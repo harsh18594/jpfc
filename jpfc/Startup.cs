@@ -100,6 +100,7 @@ namespace jpfc
             services.AddScoped<IKaratService, KaratService>();
             services.AddScoped<IScheduledTaskService, ScheduledTaskService>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IClientIdentificationService, ClientIdentificationService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();

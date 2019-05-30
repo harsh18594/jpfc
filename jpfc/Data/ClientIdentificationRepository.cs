@@ -1,5 +1,6 @@
 ﻿using jpfc.Data.Interfaces;
 using jpfc.Models;
+using jpfc.Models.ClientViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,41 @@ namespace jpfc.Data
             }
 
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<ClientIdentification> FetchBaseByIdAsync(int id)
+        {
+            return await _context.ClientIdentification
+                .Where(c => c.ClientIdentificationId == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<ClientIdentification> FetchFullByIdAsync(int id)
+        {
+            return await _context.ClientIdentification
+                .Where(c => c.ClientIdentificationId == id)
+                .Include(c => c.ClientReceipts)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> DeleteClientIdentificationAsync(ClientIdentification id)
+        {
+            _context.Remove(id);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<ICollection<ClientIdentificationListViewModel>> ListClientIdentificationByClientIdAsync(int clientId)
+        {
+            return await _context.ClientIdentification
+                .Where(e => e.ClientId == clientId)
+                .Select(e => new ClientIdentificationListViewModel
+                {
+                    ClientIdentificationId = e.ClientIdentificationId,
+                    IdentificationType = e.IdentificationDocument.Name,
+                    IdentificationNumber = e.IdentificationDocumentNumber
+                })
+                .OrderBy(vm => vm.IdentificationType)
+                .ToListAsync();
         }
     }
 }

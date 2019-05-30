@@ -18,14 +18,17 @@ namespace jpfc.Controllers
         private readonly ILogger _logger;
         private readonly IClientService _clientService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IClientIdentificationService _clientIdentificationService;
 
         public ClientController(ILogger<AdminController> logger,
             IClientService clientService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IClientIdentificationService clientIdentificationService)
         {
             _logger = logger;
             _clientService = clientService;
             _userManager = userManager;
+            _clientIdentificationService = clientIdentificationService;
         }
 
         [HttpGet]
@@ -84,6 +87,7 @@ namespace jpfc.Controllers
         public async Task<IActionResult> EditClient(CreateClientViewModel model)
         {
             _logger.LogInformation(GetLogDetails() + " - model:{@Model}", args: new object[] { model });
+            // remove extra validations from viewmodel
             ModelState.Remove("IdentificationDocumentId");
             ModelState.Remove("IdentificationDocumentNumber");
             if (ModelState.IsValid)
@@ -206,5 +210,69 @@ namespace jpfc.Controllers
                 fileName = result.FileName
             });
         }
+
+        #region Client Identification
+        [HttpPost]
+        public async Task<IActionResult> SaveClientIdentification(CreateClientIdentificationViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", new object[] { model });
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var result = await _clientIdentificationService.SaveClientIdentificationAsync(model, userId);
+                return Json(new
+                {
+                    success = result.Success,
+                    error = result.Error
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = "Invalid Request"
+                });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetClientIdentificationList(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
+
+            var result = await _clientIdentificationService.FetchClientIdentificationListAsync(clientId);
+            return Json(result.Model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditClientIdentification(int identificationId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - identificationId:{@IdentificationId}", args: new object[] { identificationId });
+
+            // process request
+            var result = await _clientIdentificationService.FetchCreateClientIdentificationViewModelForEditAsync(identificationId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                model = result.Model
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteClientIdentification(int id)
+        {
+            _logger.LogInformation(GetLogDetails() + " - id:{@Id}", args: new object[] { id });
+
+            // process request
+            var result = await _clientIdentificationService.DeleteClientIdentificationAsync(id);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error
+            });
+        }
+        #endregion
     }
 }

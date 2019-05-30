@@ -59,7 +59,13 @@ namespace jpfc.Services
         {
             var success = false;
             string error = string.Empty;
-            var model = new CreateClientViewModel();
+            var model = new CreateClientViewModel
+            {
+                CreateClientIdentificationViewModel = new CreateClientIdentificationViewModel
+                {
+                    ClientId = clientId
+                }
+            };
 
             try
             {
@@ -112,8 +118,8 @@ namespace jpfc.Services
                 };
 
                 // save reference number for new records
-                var maxClientId = await _clientRepository.GetMaxClientIdByDateAsync(DateTime.Now.Date);
-                var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}-{maxClientId + 1}";
+                var maxClientId = await _clientRepository.GetMaxClientIdAsync();
+                var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}{maxClientId + 1}";
                 client.ReferenceNumber = refNumber;
 
                 // save other values

@@ -1,0 +1,42 @@
+﻿@model jpfc.Models.ClientViewModels.CreateClientIdentificationViewModel
+@inject IIdentificationDocumentRepository IdentificationDocumentRepository
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Identification Document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="client-id-form">
+            <input asp-for="ClientId" />
+            <input asp-for="ClientIdentificationId" />
+
+            <div class="row clearfix">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="IdentificationDocumentId" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <select asp-for="IdentificationDocumentId" class="form-control"
+                                asp-items="@(new SelectList(await IdentificationDocumentRepository.ListIdentificationDocumentsAsync(), "IdentificationDocumentId", "Name"))">
+                            <option value="">-- Select Id Type --</option>
+                        </select>
+                        <span asp-validation-for="IdentificationDocumentId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="IdentificationDocumentNumber" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="IdentificationDocumentNumber" class="form-control" maxlength="255" />
+                        <span asp-validation-for="IdentificationDocumentNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-save-client-id">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
+        <a class="btn btn-warning text-dark" data-dismiss="modal">Close</a>
+    </div>
+</div>

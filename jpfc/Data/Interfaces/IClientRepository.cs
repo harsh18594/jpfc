@@ -9,7 +9,7 @@ namespace jpfc.Data.Interfaces
 {
     public interface IClientRepository
     {
-        Task<decimal> GetMaxClientIdByDateAsync(DateTime date);
+        Task<decimal> GetMaxClientIdAsync();
         Task<Client> FetchBaseByIdAsync(int clientId);
         Task<ICollection<ClientListViewModel>> ListClientsAsync(DateTime? startDate, DateTime? endDate);
         Task<bool> SaveClientAsync(Client client);

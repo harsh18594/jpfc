@@ -18,10 +18,9 @@ namespace jpfc.Data
             _context = context;
         }
 
-        public async Task<decimal> GetMaxClientIdByDateAsync(DateTime date)
+        public async Task<decimal> GetMaxClientIdAsync()
         {
             return await _context.Client
-                .Where(c => c.Date == date)
                 .Select(c => c.ClientId)
                 .DefaultIfEmpty(0)
                 .MaxAsync();
@@ -33,7 +32,7 @@ namespace jpfc.Data
                 .Where(c => c.ClientId == clientId)
                 .FirstOrDefaultAsync();
         }
-        
+
         public async Task<ICollection<ClientListViewModel>> ListClientsAsync(DateTime? startDate, DateTime? endDate)
         {
             return await _context.Client
@@ -72,7 +71,7 @@ namespace jpfc.Data
         {
             var clientReceipts = await _context.ClientReceipt.Where(cr => cr.ClientId == client.ClientId).ToListAsync();
             _context.RemoveRange(clientReceipts);
-            
+
             var clientIdentification = await _context.ClientIdentification.Where(cr => cr.ClientId == client.ClientId).ToListAsync();
             _context.RemoveRange(clientIdentification);
 
