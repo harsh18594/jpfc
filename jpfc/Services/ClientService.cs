@@ -522,7 +522,7 @@ namespace jpfc.Services
                 }
                 else
                 {
-                    error = "Unable to locate client information";
+                    error = "Unable to locate receipt information";
                 }
 
             }

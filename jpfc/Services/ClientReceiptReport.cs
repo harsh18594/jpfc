@@ -126,6 +126,11 @@ namespace jpfc.Services
             style.Font.Size = 10;
             style.ParagraphFormat.SpaceAfter = 10;
 
+            // Create a new style called SectionTitle based on style Normal.
+            style = _document.Styles.AddStyle("Conditions", "Normal");
+            style.Font.Bold = false;
+            style.Font.Size = 7;
+
             // Create a new style called TitleUnderlined based on style Normal.
             style = _document.Styles.AddStyle("TitleUnderlined", "Normal");
             style.Font.Bold = true;
@@ -470,8 +475,9 @@ namespace jpfc.Services
 
             // add terms and conditions
             paragraph = _document.LastSection.AddParagraph();
+            paragraph.Style = "Conditions";
             paragraph.Format.SpaceBefore = "1cm";
-            paragraph.AddText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi aliquam tincidunt lectus, nec pulvinar dui pharetra quis. Nulla eleifend consequat interdum. Praesent a tellus tincidunt, sollicitudin sem sed, consequat sapien. In maximus, velit eget efficitur tincidunt, sapien quam condimentum quam, at porta lectus odio ut enim. ");
+            paragraph.AddText("1) The client hereby acknowledges receipt of Loan/Sell amount, copy of this contract and payment schedule. 2) We agree to return the described property(ies) to the client only upon presentation of this contract and payment of Principal Loan amount plus Applicable Interest and Service charges. 3) Client hereby certifies that he or she is legal owner of the property(ies) as described above, empowered to sell or dispose of the above property(ies) and is/are free and clear of all liens and encumbrances. 4) Client will be responsible for any legal fees incurred by J.P. Finance Chase Ltd. resulting from this transaction. 5) All Interest charges, Service fee, Storage Fee are calculated per month and due 30 days from the date of this Loan Contract. 6) No credit shall be allowed for redemption in less than 30 days. 7)  This loan is due in 12 months from the date of this contract and if we do not receive Principal Loan amount plus Interest, Service Fee, Storage Fee as mentioned in this contract, you will forfeit your ownership of the above property(ies).  If the above contract is not redeemed within 12 months, the above property(ies) may be sold at public or private sale by J.P. Finance Chase Ltd. 8) Once Property(ies) is/are sold to J.P. Finance Chase Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. 9) As per Pawn Broker Law, you allow us to share your information with Legal Authorities if requested by Court order, Police Department, or any other official Government authorities.");
 
             // add date and sign area
             paragraph = _document.LastSection.AddParagraph();
