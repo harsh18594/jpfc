@@ -17,14 +17,17 @@ namespace jpfc.Services
         public readonly ILogger _logger;
         public readonly IClientReceiptRepository _clientReceiptRepository;
         public readonly IClientIdentificationRepository _clientIdentificationRepository;
+        public readonly IClientRepository _clientRepository;
 
         public ClientReceiptService(ILogger<ClientReceiptService> logger,
             IClientReceiptRepository clientReceiptRepository,
-            IClientIdentificationRepository clientIdentificationRepository)
+            IClientIdentificationRepository clientIdentificationRepository,
+            IClientRepository clientRepository)
         {
             _logger = logger;
             _clientReceiptRepository = clientReceiptRepository;
             _clientIdentificationRepository = clientIdentificationRepository;
+            _clientRepository = clientRepository;
         }
 
         public async Task<(bool Success, string Error, CreateClientReceiptViewModel Model)> GetCreateClientReceiptViewModelAsync(int clientId, int? receiptId)
@@ -45,6 +48,13 @@ namespace jpfc.Services
                 {
                     model.ClientId = clientId;
                     model.Date = DateTime.Now;
+
+                    // fetch client information
+                    var client = await _clientRepository.FetchBaseByIdAsync(clientId);
+                    model.ClientName = client.Name;
+                    model.ClientNumber = client.ReferenceNumber;
+                    model.Address = client.Address;
+                    model.ContactNumber = client.ContactNumber;
 
                     if (receiptId > 0)
                     {

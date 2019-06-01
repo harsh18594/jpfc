@@ -35,5 +35,12 @@ namespace jpfc.Models.ClientViewModels
         public string IdentificationDocumentNumber { get; set; }
 
         public ClientBelongingViewModel ClientBelongingViewModel { get; set; }
+
+
+        // readonly information
+        public string ClientName { get; set; }
+        public string ClientNumber { get; set; }
+        public string ContactNumber { get; set; }
+        public string Address { get; set; }
     }
 }
