@@ -20,18 +20,21 @@ namespace jpfc.Services
         private readonly IClientBelongingRepository _clientBelongingRepository;
         private readonly IHostingEnvironment _env;
         private readonly IClientIdentificationRepository _clientIdentificationRepository;
+        private readonly IClientReceiptRepository _clientReceiptRepository;
 
         public ClientService(ILogger<ClientService> logger,
             IClientRepository clientRepository,
             IClientBelongingRepository clientBelongingRepository,
             IHostingEnvironment env,
-            IClientIdentificationRepository clientIdentificationRepository)
+            IClientIdentificationRepository clientIdentificationRepository,
+            IClientReceiptRepository clientReceiptRepository)
         {
             _logger = logger;
             _clientRepository = clientRepository;
             _clientBelongingRepository = clientBelongingRepository;
             _env = env;
             _clientIdentificationRepository = clientIdentificationRepository;
+            _clientReceiptRepository = clientReceiptRepository;
         }
 
         #region Client
@@ -119,7 +122,7 @@ namespace jpfc.Services
 
                 // save reference number for new records
                 var maxClientId = await _clientRepository.GetMaxClientIdAsync();
-                var refNumber = $"{DateTime.Now.ToString("yyyyMMdd")}{maxClientId + 1}";
+                var refNumber = $"CL{DateTime.Now.ToString("yyyyMMdd")}{maxClientId + 1}";
                 client.ReferenceNumber = refNumber;
 
                 // save other values
@@ -380,6 +383,7 @@ namespace jpfc.Services
                         model.ItemPrice = belonging.ItemPrice;
                         model.FinalPrice = belonging.FinalPrice;
                         model.ReplacementValue = belonging.ReplacementValue;
+                        model.ClientReceiptId = belonging.ClientReceiptId;
 
                         success = true;
                     }
@@ -402,7 +406,7 @@ namespace jpfc.Services
             return (Success: success, Error: error, Model: model);
         }
 
-        public async Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchAmountSummaryViewModelAsync(int clientId)
+        public async Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchAmountSummaryViewModelAsync(int clientReceiptId)
         {
             var success = false;
             var error = "";
@@ -410,9 +414,9 @@ namespace jpfc.Services
 
             try
             {
-                if (clientId > 0)
+                if (clientReceiptId > 0)
                 {
-                    var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientId);
+                    var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
                     if (belongings != null && belongings.Any())
                     {
                         foreach (var item in belongings)
@@ -445,8 +449,8 @@ namespace jpfc.Services
         }
         #endregion
 
-        #region Client Receipt
-        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> GenerateReceiptByClientAsync(int clientId)
+        #region Client Receipt Reports
+        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> GenerateReceiptByClientAsync(int clientReceiptId)
         {
             var success = false;
             var error = "";
@@ -456,11 +460,11 @@ namespace jpfc.Services
             try
             {
                 // fetch client info
-                var client = await _clientRepository.FetchBaseByIdAsync(clientId);
-                if (client != null)
+                var receipt = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
+                if (receipt != null && receipt.Client != null)
                 {
                     // prepare belonging list
-                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientId);
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
                     decimal clientPays = 0;
                     decimal clientGets = 0;
                     decimal billAmount = 0;
@@ -486,8 +490,8 @@ namespace jpfc.Services
                         }
                     }
 
-                    var invoice = new ClientReceiptReport(client.Date, client.ReferenceNumber, client.Name, client.Address, Classes.Helper.FormatPhoneNumber(client.ContactNumber),
-                        client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
+                    var invoice = new ClientReceiptReport(receipt.Date, receipt.Client.ReferenceNumber, receipt.ReceiptNumber, receipt.Client.Name, receipt.Client.Address, Classes.Helper.FormatPhoneNumber(receipt.Client.ContactNumber),
+                        receipt.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
 
                     // Create the document using MigraDoc.
                     var document = invoice.CreateDocument();
@@ -513,7 +517,7 @@ namespace jpfc.Services
                     //fileBytes = stream.ToArray();
                     //stream.Close();
 
-                    fileName = $"{client.Name}_{client.ReferenceNumber}_Bill.pdf";
+                    fileName = $"{receipt.Client.Name}_{receipt.ReceiptNumber}_Receipt.pdf";
                     success = true;
                 }
                 else

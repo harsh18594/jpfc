@@ -38,7 +38,8 @@ namespace jpfc.Services
         private readonly List<ClientBelongingListViewModel> _belonging;
 
         private readonly DateTime _billDate;
-        private readonly string _referenceNumber;
+        private readonly string _clientNumber;
+        private readonly string _receiptNumber;
         private readonly string _clientName;
         private readonly string _clientAddress;
         private readonly string _phoneNumber;
@@ -47,11 +48,12 @@ namespace jpfc.Services
         private readonly bool _clientPaysFinal;
         private readonly string _rootPath;
 
-        public ClientReceiptReport(DateTime billDate, string referenceNumber, string clientName, string clientAddress,
+        public ClientReceiptReport(DateTime billDate, string clientNumber, string receiptNumber, string clientName, string clientAddress,
             string phoneNumber, string emailAddress, decimal billAmount, bool clientPaysFinal, string rootPath, List<ClientBelongingListViewModel> belonging)
         {
             _billDate = billDate;
-            _referenceNumber = referenceNumber;
+            _clientNumber = clientNumber;
+            _receiptNumber = receiptNumber;
             _clientName = clientName;
             _clientAddress = clientAddress;
             _phoneNumber = phoneNumber;
@@ -72,7 +74,7 @@ namespace jpfc.Services
             {
                 Info =
                 {
-                    Title = $"{_clientName} - {_referenceNumber} - Bill",
+                    Title = $"{_clientName} - {_receiptNumber} - Receipt",
                     Author = "J P Finance Chase Ltd"
                 }
             };
@@ -229,10 +231,10 @@ namespace jpfc.Services
             var billDateStr = _billDate.ToString("MMM dd, yyyy", CultureInfo.InvariantCulture);
             headerRow.Cells[1].AddParagraph(billDateStr);
             headerRow.Cells[1].Format.Font.Bold = false;
-            // Add Reference Number to top
-            headerRow.Cells[2].AddParagraph("Reference Number:");
+            // Add Client Number to top
+            headerRow.Cells[2].AddParagraph("Client Number:");
             headerRow.Cells[2].Format.Font.Bold = true;
-            headerRow.Cells[3].AddParagraph(_referenceNumber);
+            headerRow.Cells[3].AddParagraph(_clientNumber);
             headerRow.Cells[3].Format.Font.Bold = false;
 
             // Add Client Name to top
@@ -242,10 +244,10 @@ namespace jpfc.Services
             headerRow.Cells[0].Format.Font.Bold = true;
             headerRow.Cells[1].AddParagraph(_clientName);
             headerRow.Cells[1].Format.Font.Bold = false;
-            // Add contact number
-            headerRow.Cells[2].AddParagraph("Contact Number:");
+            // Add receipt number
+            headerRow.Cells[2].AddParagraph("Receipt Number:");
             headerRow.Cells[2].Format.Font.Bold = true;
-            headerRow.Cells[3].AddParagraph(_phoneNumber ?? "");
+            headerRow.Cells[3].AddParagraph(_receiptNumber);
             headerRow.Cells[3].Format.Font.Bold = false;
 
             // Add Address By to top
@@ -254,6 +256,11 @@ namespace jpfc.Services
             headerRow.Cells[0].Format.Font.Bold = true;
             headerRow.Cells[1].AddParagraph(_clientAddress ?? "");
             headerRow.Cells[1].Format.Font.Bold = false;
+            // Add contact number
+            headerRow.Cells[2].AddParagraph("Contact Number:");
+            headerRow.Cells[2].Format.Font.Bold = true;
+            headerRow.Cells[3].AddParagraph(_phoneNumber ?? "");
+            headerRow.Cells[3].Format.Font.Bold = false;
 
             // Add horizontal line
             paragraph = section.Headers.Primary.AddParagraph();

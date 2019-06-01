@@ -1,4 +1,5 @@
-﻿using jpfc.Data.Interfaces;
+﻿using jpfc.Classes;
+using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,14 @@ namespace jpfc.Data
                     ClientId = e.ClientId,
                     ClientReceiptId = e.ClientReceiptId,
                     ReceiptNumber = e.ReceiptNumber,
-                    Amount = e.ClientBelongings.Sum(b => b.FinalPrice),
+                    BusinessPaysAmount = e.ClientBelongings
+                                .Where(b => b.TransactionAction == Constants.TransactionAction.Purchase || b.TransactionAction == Constants.TransactionAction.Loan)
+                                .Sum(b => b.FinalPrice)
+                                .GetValueOrDefault(0),
+                    BusinessGetsAmount = e.ClientBelongings
+                                .Where(b => b.TransactionAction == Constants.TransactionAction.Sell)
+                                .Sum(b => b.FinalPrice)
+                                .GetValueOrDefault(0),
                     Date = e.Date
                 })
                 .ToListAsync();
@@ -44,6 +52,7 @@ namespace jpfc.Data
             return await _context.ClientReceipt
                 .Where(e => e.ClientReceiptId == receiptId)
                 .Include(e => e.ClientBelongings)
+                .Include(e => e.Client)
                 .FirstOrDefaultAsync();
         }
 

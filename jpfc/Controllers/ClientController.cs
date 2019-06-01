@@ -136,11 +136,11 @@ namespace jpfc.Controllers
 
         #region Client Belonging
         [HttpGet]
-        public async Task<IActionResult> GetClientBelongingList(int clientId)
+        public async Task<IActionResult> GetClientBelongingList(int clientReceiptId)
         {
-            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
+            _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", args: new object[] { clientReceiptId });
 
-            var result = await _clientService.FetchClientBelongingListByReceiptIdAsync(clientId);
+            var result = await _clientService.FetchClientBelongingListByReceiptIdAsync(clientReceiptId);
             return Json(result.Model);
         }
 
@@ -308,11 +308,11 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> FetchAmountSummary(int clientId)
+        public async Task<IActionResult> FetchAmountSummary(int clientReceiptId)
         {
-            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
+            _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", args: new object[] { clientReceiptId });
 
-            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientId);
+            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientReceiptId);
             return Json(new
             {
                 success = result.Success,
@@ -322,11 +322,11 @@ namespace jpfc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ExportReceipt(int clientId)
+        public async Task<IActionResult> ExportReceipt(int clientReceiptId)
         {
-            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });
+            _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", new object[] { clientReceiptId });
 
-            var result = await _clientService.GenerateReceiptByClientAsync(clientId);
+            var result = await _clientService.GenerateReceiptByClientAsync(clientReceiptId);
             return Json(new
             {
                 success = result.Success,

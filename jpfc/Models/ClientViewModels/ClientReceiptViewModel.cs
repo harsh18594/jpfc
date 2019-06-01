@@ -15,7 +15,25 @@ namespace jpfc.Models.ClientViewModels
         public DateTime Date { get; set; }
         public string DateStr => Date.ToString("MM/dd/yyyy");
 
-        public decimal? Amount { get; set; }
-        public string AmountStr => Amount?.ToString("C");
+        public decimal BusinessGetsAmount { get; set; }
+        public decimal BusinessPaysAmount { get; set; }
+
+        public string FinalAmountStr
+        {
+            get
+            {
+                var retVal = "";
+                var diff = Math.Abs(BusinessGetsAmount - BusinessPaysAmount);
+                if (BusinessGetsAmount > BusinessPaysAmount)
+                {
+                    retVal = $"{diff.ToString("C")} [CR]";
+                }
+                else
+                {
+                    retVal = $"{diff.ToString("C")} [DR]";
+                }
+                return retVal;
+            }
+        }
     }
 }

@@ -38,7 +38,7 @@ Jpfc.ClientEditClient = function () {
                     data: "receiptNumber"
                 },
                 {
-                    data: "amountStr"
+                    data: "finalAmountStr"
                 },
                 {
                     render: function (data, type, row) {

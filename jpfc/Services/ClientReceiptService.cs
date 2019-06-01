@@ -35,7 +35,7 @@ namespace jpfc.Services
             {
                 ClientBelongingViewModel = new ClientBelongingViewModel
                 {
-                    BelDate = DateTime.Now
+                    ClientReceiptId = receiptId ?? 0
                 }
             };
 
@@ -98,7 +98,7 @@ namespace jpfc.Services
                 {
                     // save reference number for new records
                     var maxReceiptId = await _clientReceiptRepository.GetMaxReceiptIdAsync();
-                    var receiptNumber = $"{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
+                    var receiptNumber = $"RE{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
 
                     receipt = new ClientReceipt
                     {
@@ -181,11 +181,18 @@ namespace jpfc.Services
             {
                 if (receiptId > 0)
                 {
-                    var receipt = await _clientReceiptRepository.FetchBaseByIdAsync(receiptId);
+                    var receipt = await _clientReceiptRepository.FetchFullByIdAsync(receiptId);
                     if (receipt != null)
                     {
-                        await _clientReceiptRepository.DeleteClientReceiptAsync(receipt);
-                        success = true;
+                        if (receipt.ClientBelongings?.Any() == false)
+                        {
+                            await _clientReceiptRepository.DeleteClientReceiptAsync(receipt);
+                            success = true;
+                        }
+                        else
+                        {
+                            error = $"Receipt has {receipt.ClientBelongings.Count} belongings";
+                        }
                     }
                     else
                     {

@@ -17,10 +17,6 @@ namespace jpfc.Models.ClientViewModels
         public int ClientReceiptId { get; set; }
 
         [Required]
-        [Display(Name = "Date")]
-        public DateTime BelDate { get; set; }
-
-        [Required]
         [Display(Name = "Transaction Action")]
         public string TransactionAction { get; set; }
 
@@ -55,7 +51,5 @@ namespace jpfc.Models.ClientViewModels
         [Required]
         [Display(Name = "Replacement Value")]
         public decimal? ReplacementValue { get; set; }
-
-        public string BelDateStr => BelDate.ToString("MM-dd-yyyy");
     }
 }
