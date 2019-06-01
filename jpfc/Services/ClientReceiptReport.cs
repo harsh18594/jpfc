@@ -10,7 +10,7 @@ using MigraDoc.DocumentObjectModel.Tables;
 
 namespace jpfc.Services
 {
-    public class ClientReceipt
+    public class ClientReceiptReport
     {
         /// <summary>
         /// The MigraDoc document that represents the report.
@@ -47,7 +47,7 @@ namespace jpfc.Services
         private readonly bool _clientPaysFinal;
         private readonly string _rootPath;
 
-        public ClientReceipt(DateTime billDate, string referenceNumber, string clientName, string clientAddress,
+        public ClientReceiptReport(DateTime billDate, string referenceNumber, string clientName, string clientAddress,
             string phoneNumber, string emailAddress, decimal billAmount, bool clientPaysFinal, string rootPath, List<ClientBelongingListViewModel> belonging)
         {
             _billDate = billDate;

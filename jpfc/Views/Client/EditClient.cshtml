@@ -145,13 +145,11 @@
         </form>
         <!-- Sec Title -->
         <div class="sec-title centered">
-            <div class="title"><hr /></div>
+            <div class="title"><hr />Receipts <hr /></div>
         </div>
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#client-id-modal">
-                    <i class="fa fa-plus"></i> Add Identification Document
-                </button>
+                <a asp-controller="Client" asp-action="Receipt" asp-route-clientId="@Model.ClientId" class="btn btn-success"><i class="fa fa-plus"></i> Add Receipt</a>
             </div>
         </div>
         <div class="row clearfix mt-3">
@@ -173,7 +171,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 

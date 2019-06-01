@@ -486,7 +486,7 @@ namespace jpfc.Services
                         }
                     }
 
-                    var invoice = new ClientReceipt(client.Date, client.ReferenceNumber, client.Name, client.Address, Classes.Helper.FormatPhoneNumber(client.ContactNumber),
+                    var invoice = new ClientReceiptReport(client.Date, client.ReferenceNumber, client.Name, client.Address, Classes.Helper.FormatPhoneNumber(client.ContactNumber),
                         client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
 
                     // Create the document using MigraDoc.

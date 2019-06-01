@@ -19,18 +19,22 @@ namespace jpfc.Controllers
         private readonly IClientService _clientService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IClientIdentificationService _clientIdentificationService;
+        private readonly IClientReceiptService _clientReceiptService;
 
         public ClientController(ILogger<AdminController> logger,
             IClientService clientService,
             UserManager<ApplicationUser> userManager,
-            IClientIdentificationService clientIdentificationService)
+            IClientIdentificationService clientIdentificationService,
+            IClientReceiptService clientReceiptService)
         {
             _logger = logger;
             _clientService = clientService;
             _userManager = userManager;
             _clientIdentificationService = clientIdentificationService;
+            _clientReceiptService = clientReceiptService;
         }
 
+        #region Client
         [HttpGet]
         public IActionResult Index()
         {
@@ -128,7 +132,9 @@ namespace jpfc.Controllers
                 error = result.Error
             });
         }
+        #endregion
 
+        #region Client Belonging
         [HttpGet]
         public async Task<IActionResult> GetClientBelongingList(int clientId)
         {
@@ -181,35 +187,7 @@ namespace jpfc.Controllers
                 model = result.Model
             });
         }
-
-        [HttpGet]
-        public async Task<IActionResult> FetchAmountSummary(int clientId)
-        {
-            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
-
-            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientId);
-            return Json(new
-            {
-                success = result.Success,
-                error = result.Error,
-                model = result.Model
-            });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ExportReceipt(int clientId)
-        {
-            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });
-
-            var result = await _clientService.GenerateReceiptByClientAsync(clientId);
-            return Json(new
-            {
-                success = result.Success,
-                error = result.Error,
-                fileBytes = result.FileBytes,
-                fileName = result.FileName
-            });
-        }
+        #endregion
 
         #region Client Identification
         [HttpPost]
@@ -271,6 +249,78 @@ namespace jpfc.Controllers
             {
                 success = result.Success,
                 error = result.Error
+            });
+        }
+        #endregion
+
+        #region Client Receipt
+        public async Task<IActionResult> Receipt(int clientId, int? receiptId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}, receiptId:{@ReceiptId}", new object[] { clientId, receiptId });
+            var result = await _clientReceiptService.GetCreateClientReceiptViewModelAsync(clientId, receiptId);
+            if (result.Success)
+            {
+                return View(result.Model);
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return RedirectToAction(nameof(EditClient), routeValues: new { id = clientId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Receipt(CreateClientReceiptViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", new object[] { model });
+
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var result = await _clientReceiptService.SaveClientReceiptAsync(model, userId);
+                if (result.Success)
+                {
+                    return RedirectToAction(nameof(Receipt), routeValues: new { clientId = model.ClientId, receiptId = result.ReceiptId });
+                }
+
+                SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+                return RedirectToAction(nameof(EditClient), routeValues: new { id = model.ClientId });
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetClientReceiptList(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });
+            var result = await _clientReceiptService.ListClientReceiptAsync(clientId);
+            return Json(result.Model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FetchAmountSummary(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", args: new object[] { clientId });
+
+            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                model = result.Model
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExportReceipt(int clientId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });
+
+            var result = await _clientService.GenerateReceiptByClientAsync(clientId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                fileBytes = result.FileBytes,
+                fileName = result.FileName
             });
         }
         #endregion

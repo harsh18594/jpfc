@@ -101,6 +101,7 @@ namespace jpfc
             services.AddScoped<IScheduledTaskService, ScheduledTaskService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IClientIdentificationService, ClientIdentificationService>();
+            services.AddScoped<IClientReceiptService, ClientReceiptService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
@@ -111,6 +112,7 @@ namespace jpfc
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientBelongingRepository, ClientBelongingRepository>();
             services.AddScoped<IClientIdentificationRepository, ClientIdentificationRepository>();
+            services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();
         }
     }
 }
