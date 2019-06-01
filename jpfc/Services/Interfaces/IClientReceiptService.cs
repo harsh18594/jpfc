@@ -12,5 +12,6 @@ namespace jpfc.Services.Interfaces
         Task<(bool Success, string Error, CreateClientReceiptViewModel Model)> GetCreateClientReceiptViewModelAsync(int clientId, int? receiptId);
         Task<(bool Success, string Error, int ReceiptId)> SaveClientReceiptAsync(CreateClientReceiptViewModel model, string userId);
         Task<(bool Success, string Error, ICollection<ClientReceiptViewModel> Model)> ListClientReceiptAsync(int clientId);
+        Task<(bool Success, string Error)> DeleteClientReceiptByIdAsync(int receiptId);
     }
 }

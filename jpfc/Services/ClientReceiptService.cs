@@ -171,5 +171,39 @@ namespace jpfc.Services
 
             return (success, error, model);
         }
+
+        public async Task<(bool Success, string Error)> DeleteClientReceiptByIdAsync(int receiptId)
+        {
+            var success = false;
+            var error = "";
+
+            try
+            {
+                if (receiptId > 0)
+                {
+                    var receipt = await _clientReceiptRepository.FetchBaseByIdAsync(receiptId);
+                    if (receipt != null)
+                    {
+                        await _clientReceiptRepository.DeleteClientReceiptAsync(receipt);
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to locate receipt information";
+                    }
+                }
+                else
+                {
+                    error = "Invalid Request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Unexpected error occurred while processing your request.";
+                _logger.LogError("ClientReceiptService.DeleteClientReceiptByIdAsync - ex:{@Ex}", new object[] { ex });
+            }
+
+            return (success, error);
+        }
     }
 }

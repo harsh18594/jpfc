@@ -295,6 +295,18 @@ namespace jpfc.Controllers
             return Json(result.Model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteClientReceipt(int receiptId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - receiptId:{@ReceiptId}", new object[] { receiptId });
+            var result = await _clientReceiptService.DeleteClientReceiptByIdAsync(receiptId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error
+            });
+        }
+
         [HttpGet]
         public async Task<IActionResult> FetchAmountSummary(int clientId)
         {

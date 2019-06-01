@@ -2,11 +2,12 @@
 
 Jpfc.ClientEditClient = function () {
     var loadingReceiptSpinner = null;
+    var receiptDataTable;
 
     var initReceiptDataTable = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
-        itemDatatable = $('#receipt-table').on('preXhr.dt', function () {
+        receiptDataTable = $('#receipt-table').on('preXhr.dt', function () {
             loadingReceiptSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('receipt-table'));
         }).DataTable({
             "order": [0, "asc"],
@@ -50,7 +51,7 @@ Jpfc.ClientEditClient = function () {
         });
     };
 
-    var deleteReceipt = function () {
+    var deleteReceipt = function (id) {
         swal({
             title: 'Are you sure?',
             text: "Once deleted, you will not be able to recover this data.",
@@ -65,11 +66,11 @@ Jpfc.ClientEditClient = function () {
                     "url": "/Client/DeleteClientReceipt",
                     "method": "post",
                     "data": {
-                        id: id
+                        receiptId: id
                     }
                 }).done(function (result) {
                     if (result.success) {
-                        itemDatatable.ajax.reload(null, false);
+                        receiptDataTable.ajax.reload(null, false);
                         toastr.success('Receipt deleted successfully', '', Jpfc.Toastr.config);
                     } else {
                         toastr.error(result.error, '', Jpfc.Toastr.config);
@@ -89,7 +90,7 @@ Jpfc.ClientEditClient = function () {
         });
 
         $('#receipt-table').on('click', '.delete-receipt', function () {
-            deleteReceipt();
+            deleteReceipt($(this).data('receipt-id'));
         });
     };
 
