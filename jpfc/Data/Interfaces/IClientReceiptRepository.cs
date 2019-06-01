@@ -12,5 +12,6 @@ namespace jpfc.Data.Interfaces
         Task<ClientReceipt> FetchFullByIdAsync(int receiptId);
         Task<bool> SaveClientReceiptAsync(ClientReceipt receipt);
         Task<bool> DeleteClientReceiptAsync(ClientReceipt receipt);
+        Task<decimal> GetMaxReceiptIdAsync();
     }
 }

@@ -54,6 +54,8 @@ namespace jpfc.Services
                             model.ClientReceiptId = receipt.ClientReceiptId;
                             model.ReceiptNumber = receipt.ReceiptNumber;
                             model.ClientIdentificationId = receipt.ClientIdentificationId;
+
+                            success = true;
                         }
                         else
                         {
@@ -94,15 +96,19 @@ namespace jpfc.Services
                 }
                 if (receipt == null)
                 {
+                    // save reference number for new records
+                    var maxReceiptId = await _clientReceiptRepository.GetMaxReceiptIdAsync();
+                    var receiptNumber = $"{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
+
                     receipt = new ClientReceipt
                     {
                         CreatedUserId = userId,
                         CreatedUtc = DateTime.UtcNow,
                         // assign date and client once only when the receipt is created, do not allow modifying them
                         ClientId = model.ClientId,
-                        Date = model.Date
+                        Date = model.Date,
+                        ReceiptNumber = receiptNumber
 
-                        // todo: generate receipt number
                     };
                 }
                 else
@@ -110,7 +116,7 @@ namespace jpfc.Services
                     receipt.AuditUserId = userId;
                     receipt.AuditUtc = DateTime.UtcNow;
                 }
-                
+
                 // if saved id is selected, use that, else create a new one
                 if (model.ClientIdentificationId.HasValue)
                 {
@@ -129,11 +135,12 @@ namespace jpfc.Services
                     };
                     await _clientIdentificationRepository.SaveClientIdentificationAsync(clientIdentification);
 
-                    model.ClientIdentificationId = clientIdentification.ClientIdentificationId;
+                    receipt.ClientIdentificationId = clientIdentification.ClientIdentificationId;
                 }
 
                 // save to database
                 await _clientReceiptRepository.SaveClientReceiptAsync(receipt);
+                receiptId = receipt.ClientReceiptId;
                 success = true;
             }
             catch (Exception ex)

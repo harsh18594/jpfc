@@ -71,5 +71,13 @@ namespace jpfc.Data
             _context.Remove(receipt);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<decimal> GetMaxReceiptIdAsync()
+        {
+            return await _context.ClientReceipt
+                .Select(c => c.ClientReceiptId)
+                .DefaultIfEmpty(0)
+                .MaxAsync();
+        }
     }
 }
