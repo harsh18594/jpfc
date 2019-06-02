@@ -22,6 +22,12 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
+        [Display(Name = "Payment Date")]
+        public DateTime? PaymentDate { get; set; }
+
+        [Display(Name = "Payment Amount")]
+        public decimal? PaymentAmount { get; set; }
+
         [RequiredIf(Property = "IdentificationDocumentId", HasValue = "")]
         [Display(Name = "Saved Identification")]
         public int? ClientIdentificationId { get; set; }

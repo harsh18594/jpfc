@@ -11,6 +11,12 @@ namespace jpfc.Models.ClientViewModels
         public int ClientReceiptId { get; set; }
 
         public string ReceiptNumber { get; set; }
+        
+        public DateTime? PaymentDate { get; set; }
+        public string PaymentDateStr => PaymentDate?.ToString("MM/dd/yyyy");
+
+        public decimal? PaymentAmount { get; set; }
+        public string PaymentAmountStr => PaymentAmount?.ToString("C");
 
         public DateTime Date { get; set; }
         public string DateStr => Date.ToString("MM/dd/yyyy");

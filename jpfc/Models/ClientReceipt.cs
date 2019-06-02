@@ -12,6 +12,9 @@ namespace jpfc.Models
         public DateTime Date { get; set; }
         public string ReceiptNumber { get; set; }
 
+        public DateTime? PaymentDate { get; set; }
+        public decimal? PaymentAmount { get; set; }
+
         public int ClientIdentificationId { get; set; }
         public virtual ClientIdentification ClientIdentification { get; set; }
 

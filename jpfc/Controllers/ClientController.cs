@@ -284,6 +284,8 @@ namespace jpfc.Controllers
                 SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
                 return RedirectToAction(nameof(EditClient), routeValues: new { id = model.ClientId });
             }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, "Invalid/ missing values.");
             return View(model);
         }
 

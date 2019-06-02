@@ -73,6 +73,8 @@ namespace jpfc.Services
                         {
                             model.ClientReceiptId = receipt.ClientReceiptId;
                             model.ReceiptNumber = receipt.ReceiptNumber;
+                            model.PaymentAmount = receipt.PaymentAmount;
+                            model.PaymentDate = receipt.PaymentDate;
                             model.ClientIdentificationId = receipt.ClientIdentificationId;
 
                             success = true;
@@ -128,7 +130,6 @@ namespace jpfc.Services
                         ClientId = model.ClientId,
                         Date = model.Date,
                         ReceiptNumber = receiptNumber
-
                     };
                 }
                 else
@@ -157,6 +158,9 @@ namespace jpfc.Services
 
                     receipt.ClientIdentificationId = clientIdentification.ClientIdentificationId;
                 }
+
+                receipt.PaymentDate = model.PaymentDate;
+                receipt.PaymentAmount = model.PaymentAmount;
 
                 // save to database
                 await _clientReceiptRepository.SaveClientReceiptAsync(receipt);
@@ -237,7 +241,7 @@ namespace jpfc.Services
         {
             var success = false;
             var error = "";
-            byte[] fileBytes = null;
+            byte[] resultBytes = null;
             var fileName = "";
             byte[] receiptBytes = null;
             byte[] loanScheduleBytes = null;
@@ -309,6 +313,9 @@ namespace jpfc.Services
                         receiptBytes = stream.ToArray();
                     }
 
+                    // assign receipt bytes to result in case there is no loan schedule to add
+                    resultBytes = receiptBytes;
+
                     // generate loan schedule and zip multiple documents, if required
                     if (loanAmount > 0)
                     {
@@ -375,7 +382,8 @@ namespace jpfc.Services
                                     }
                                 }
                             }
-                            fileBytes = compressedFileStream.ToArray();
+                            // override file bytes with zip file
+                            resultBytes = compressedFileStream.ToArray();
                             extension = "zip";
                         }
                     }
@@ -395,7 +403,7 @@ namespace jpfc.Services
                 _logger.LogError("ClientService.ExportReceiptByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
             }
 
-            return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);
+            return (Success: success, Error: error, FileBytes: resultBytes, FileName: fileName);
         }
 
         public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportLoanScheduleByReceiptIdAsync(int clientReceiptId)

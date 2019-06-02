@@ -16,9 +16,11 @@ Jpfc.ClientReceipt = function () {
     };
 
     var initDatePickers = function () {
-        $('.datepicker').datepicker({
+        $('#PaymentDate').datepicker({
             autoclose: true,
-            format: "mm-dd-yyyy"
+            format: "mm-dd-yyyy",
+            clearBtn: true,
+            todayBtn: 'linked'
         });
     };
 

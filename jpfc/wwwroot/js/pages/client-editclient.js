@@ -10,7 +10,7 @@ Jpfc.ClientEditClient = function () {
         receiptDataTable = $('#receipt-table').on('preXhr.dt', function () {
             loadingReceiptSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('receipt-table'));
         }).DataTable({
-            "order": [0, "asc"],
+            "order": [0, "desc"],
             "columnDefs": [{
                 "targets": "_all",
                 "orderable": false
@@ -39,6 +39,12 @@ Jpfc.ClientEditClient = function () {
                 },
                 {
                     data: "finalAmountStr"
+                },
+                {
+                    data: "paymentDateStr"
+                },
+                {
+                    data: "paymentAmountStr"
                 },
                 {
                     render: function (data, type, row) {

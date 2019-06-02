@@ -50,7 +50,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="row clearfix">
                         <div class="col-12">
-                            <h5>System Fields</h5>
+                            <h5>Administration Use</h5>
                         </div>
                     </div>
                     <div class="row clearfix">
@@ -78,6 +78,30 @@
                                         <input asp-for="ReceiptNumber" class="form-control" readonly />
                                     </div>
                                     <span asp-validation-for="ReceiptNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label asp-for="PaymentDate" class="font-weight-bold"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <input asp-for="PaymentDate" class="form-control" type="text" asp-format="{0:MM/dd/yyyy}" />
+                                    </div>
+                                    <span asp-validation-for="PaymentDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label asp-for="PaymentAmount" class="font-weight-bold"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                        </div>
+                                        <input asp-for="PaymentAmount" class="form-control" type="text" />
+                                    </div>
+                                    <span asp-validation-for="PaymentAmount" class="text-danger"></span>
                                 </div>
                             </div>
                         }
@@ -156,6 +180,15 @@
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="btn-save-client-receipt">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
                     <a class="btn btn-warning" asp-controller="Client" asp-action="EditClient" asp-route-id="@Model.ClientId">Back</a>
+                    @if (Model.ClientReceiptId > 0)
+                    {
+                        <button type="button" id="btn-print-receipt" class="ml-3 btn btn-success">
+                            <i class="fa fa-file-pdf-o"></i> Download Receipt <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i>
+                        </button>
+                        <button type="button" id="btn-download-loan-schedule" class="btn btn-success">
+                            <i class="fa fa-file-pdf-o"></i> Download Loan Schedule <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i>
+                        </button>
+                    }
                 </div>
             </div>
         </form>
@@ -170,13 +203,7 @@
                 <div class="col">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#belonging-modal">
                         <i class="fa fa-plus"></i> Add belonging
-                    </button>
-                    <button type="button" id="btn-print-receipt" class="btn btn-success">
-                        <i class="fa fa-file-pdf-o"></i> Download Receipt <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i>
-                    </button>
-                    <button type="button" id="btn-download-loan-schedule" class="btn btn-success">
-                        <i class="fa fa-file-pdf-o"></i> Download Loan Schedule <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i>
-                    </button>
+                    </button>                    
                 </div>
             </div>
 
