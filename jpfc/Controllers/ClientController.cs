@@ -308,11 +308,11 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> FetchAmountSummary(int clientReceiptId)
+        public async Task<IActionResult> FetchReceiptSummary(int clientReceiptId)
         {
             _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", args: new object[] { clientReceiptId });
 
-            var result = await _clientService.FetchAmountSummaryViewModelAsync(clientReceiptId);
+            var result = await _clientReceiptService.FetchReceiptSummaryAsync(clientReceiptId);
             return Json(new
             {
                 success = result.Success,
@@ -326,7 +326,22 @@ namespace jpfc.Controllers
         {
             _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", new object[] { clientReceiptId });
 
-            var result = await _clientService.GenerateReceiptByClientAsync(clientReceiptId);
+            var result = await _clientReceiptService.ExportReceiptByReceiptIdAsync(clientReceiptId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                fileBytes = result.FileBytes,
+                fileName = result.FileName
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExportLoanSchedule(int clientReceiptId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", new object[] { clientReceiptId });
+
+            var result = await _clientReceiptService.ExportLoanScheduleByReceiptIdAsync(clientReceiptId);
             return Json(new
             {
                 success = result.Success,

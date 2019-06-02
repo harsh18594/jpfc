@@ -1,12 +1,16 @@
-﻿using jpfc.Data;
+﻿using jpfc.Classes;
 using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
 using jpfc.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using jpfc.Services.Reports;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using MigraDoc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,16 +22,22 @@ namespace jpfc.Services
         public readonly IClientReceiptRepository _clientReceiptRepository;
         public readonly IClientIdentificationRepository _clientIdentificationRepository;
         public readonly IClientRepository _clientRepository;
+        public readonly IClientBelongingRepository _clientBelongingRepository;
+        public readonly IHostingEnvironment _env;
 
         public ClientReceiptService(ILogger<ClientReceiptService> logger,
             IClientReceiptRepository clientReceiptRepository,
             IClientIdentificationRepository clientIdentificationRepository,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IClientBelongingRepository clientBelongingRepository,
+            IHostingEnvironment env)
         {
             _logger = logger;
             _clientReceiptRepository = clientReceiptRepository;
             _clientIdentificationRepository = clientIdentificationRepository;
             _clientRepository = clientRepository;
+            _clientBelongingRepository = clientBelongingRepository;
+            _env = env;
         }
 
         public async Task<(bool Success, string Error, CreateClientReceiptViewModel Model)> GetCreateClientReceiptViewModelAsync(int clientId, int? receiptId)
@@ -221,6 +231,285 @@ namespace jpfc.Services
             }
 
             return (success, error);
+        }
+
+        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportReceiptByReceiptIdAsync(int clientReceiptId)
+        {
+            var success = false;
+            var error = "";
+            byte[] fileBytes = null;
+            var fileName = "";
+            byte[] receiptBytes = null;
+            byte[] loanScheduleBytes = null;
+
+            try
+            {
+                var extension = "pdf";
+
+                // fetch client info
+                var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
+                if (receiptInfo != null && receiptInfo.Client != null)
+                {
+                    // prepare belonging list
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
+                    decimal clientPays = 0;
+                    decimal clientGets = 0;
+                    decimal billAmount = 0;
+                    decimal loanAmount = 0;
+                    bool clientPaysFinal = false;
+
+                    if (belongingsList?.Any() == true)
+                    {
+                        // order by name to print in receipt
+                        belongingsList = belongingsList.OrderBy(b => b.Metal).ToList();
+                        foreach (var item in belongingsList)
+                        {
+                            // calculate bill amount
+                            if (item.BusinessGetsMoney)
+                            {
+                                clientPays += item.FinalPrice ?? 0;
+                            }
+                            if (item.BusinessPaysMoney)
+                            {
+                                clientGets += item.FinalPrice ?? 0;
+                            }
+                            billAmount = Math.Abs(clientPays - clientGets);
+                            clientPaysFinal = clientPays > clientGets;
+
+                            // determine total loan amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Loan)
+                            {
+                                loanAmount += item.FinalPrice ?? 0;
+                            }
+                        }
+                    }
+
+                    // generate receipt
+                    var pdfReceipt = new ClientReceiptReport(receiptInfo.Date, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, receiptInfo.Client.Name, receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        receiptInfo.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
+
+                    // Create the document using MigraDoc.
+                    var pdfReceiptDocument = pdfReceipt.CreateDocument();
+                    pdfReceiptDocument.UseCmykColor = true;
+
+                    // Create a renderer for PDF that uses Unicode font encoding.
+                    var pdfRenderer = new PdfDocumentRenderer(true)
+                    {
+                        // Set the MigraDoc document.
+                        Document = pdfReceiptDocument
+                    };
+
+                    // Create the PDF document.
+                    pdfRenderer.RenderDocument();
+
+                    // Save the receipt document...
+                    using (var stream = new MemoryStream())
+                    {
+                        pdfRenderer.Save(stream, false);
+                        receiptBytes = stream.ToArray();
+                    }
+
+                    // generate loan schedule and zip multiple documents, if required
+                    if (loanAmount > 0)
+                    {
+                        var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                        clientName: receiptInfo.Client.Name, clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
+
+                        // Create the document using MigraDoc.
+                        var pdfLoanScheduleDocument = pdfLoanSchedule.CreateDocument();
+                        pdfLoanScheduleDocument.UseCmykColor = true;
+
+                        // Create a renderer for PDF that uses Unicode font encoding.
+                        pdfRenderer = new PdfDocumentRenderer(true)
+                        {
+                            // Set the MigraDoc document.
+                            Document = pdfLoanScheduleDocument
+                        };
+
+                        // Create the PDF document.
+                        pdfRenderer.RenderDocument();
+
+                        // Save the loan schedule document...
+                        using (var stream = new MemoryStream())
+                        {
+                            pdfRenderer.Save(stream, false);
+                            loanScheduleBytes = stream.ToArray();
+                        }
+
+                        // zip both documents
+                        using (var compressedFileStream = new MemoryStream())
+                        {
+                            //Create an archive and store the stream in memory.
+                            using (var zipArchive = new ZipArchive(compressedFileStream, ZipArchiveMode.Update, false))
+                            {
+                                // add receipt
+                                if (receiptBytes != null)
+                                {
+                                    var receiptEntry = zipArchive.CreateEntry($"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_Receipt.pdf");
+
+                                    //Get the stream of the attachment
+                                    using (var receiptStream = new MemoryStream(receiptBytes))
+                                    {
+                                        using (var zipEntryStream = receiptEntry.Open())
+                                        {
+                                            //Copy the attachment stream to the zip entry stream
+                                            receiptStream.CopyTo(zipEntryStream);
+                                        }
+                                    }
+                                }
+
+                                // add loan schedule
+                                if (loanScheduleBytes != null)
+                                {
+                                    var loanScheduleEntry = zipArchive.CreateEntry($"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf");
+
+                                    //Get the stream of the attachment
+                                    using (var loanScheduleStream = new MemoryStream(loanScheduleBytes))
+                                    {
+                                        using (var zipEntryStream = loanScheduleEntry.Open())
+                                        {
+                                            //Copy the attachment stream to the zip entry stream
+                                            loanScheduleStream.CopyTo(zipEntryStream);
+                                        }
+                                    }
+                                }
+                            }
+                            fileBytes = compressedFileStream.ToArray();
+                            extension = "zip";
+                        }
+                    }
+
+                    fileName = $"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_Receipt.{extension}";
+                    success = true;
+                }
+                else
+                {
+                    error = "Unable to locate receipt information";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.ExportReceiptByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);
+        }
+
+        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportLoanScheduleByReceiptIdAsync(int clientReceiptId)
+        {
+            var success = false;
+            var error = "";
+            byte[] fileBytes = null;
+            var fileName = "";
+
+            try
+            {
+                // fetch client info
+                var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
+                if (receiptInfo != null && receiptInfo.Client != null)
+                {
+                    // prepare belonging list
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
+                    decimal loanAmount = 0;
+
+                    if (belongingsList?.Any() == true)
+                    {
+                        // order by name
+                        belongingsList = belongingsList.OrderBy(b => b.Metal).ToList();
+                        foreach (var item in belongingsList)
+                        {
+                            if (item.TransactionAction == Constants.TransactionAction.Loan)
+                            {
+                                loanAmount += item.FinalPrice ?? 0;
+                            }
+                        }
+                    }
+
+                    var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                        clientName: receiptInfo.Client.Name, clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
+
+                    // Create the document using MigraDoc.
+                    var pdfLoanScheduleDocument = pdfLoanSchedule.CreateDocument();
+                    pdfLoanScheduleDocument.UseCmykColor = true;
+
+                    // Create a renderer for PDF that uses Unicode font encoding.
+                    var pdfRenderer = new PdfDocumentRenderer(true);
+
+                    // Set the MigraDoc document.
+                    pdfRenderer.Document = pdfLoanScheduleDocument;
+
+                    // Create the PDF document.
+                    pdfRenderer.RenderDocument();
+
+                    // Save the loan schedule document...
+                    using (var stream = new MemoryStream())
+                    {
+                        pdfRenderer.Save(stream, false);
+                        fileBytes = stream.ToArray();
+                    }
+
+                    fileName = $"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf";
+                    success = true;
+                }
+                else
+                {
+                    error = "Unable to locate receipt information";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.ExportLoanScheduleByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);
+        }
+
+        public async Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchReceiptSummaryAsync(int clientReceiptId)
+        {
+            var success = false;
+            var error = "";
+            var model = new AmountSummaryViewModel();
+
+            try
+            {
+                if (clientReceiptId > 0)
+                {
+                    var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
+                    if (belongings != null && belongings.Any())
+                    {
+                        foreach (var item in belongings)
+                        {
+                            if (item.BusinessGetsMoney)
+                            {
+                                model.ClientPays += item.FinalPrice ?? 0;
+                            }
+                            if (item.BusinessPaysMoney)
+                            {
+                                model.ClientGets += item.FinalPrice ?? 0;
+                            }
+                        }
+                    }
+
+                    success = true;
+                }
+                else
+                {
+                    error = "Invalid request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.FetchRecipetSummaryAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, Model: model);
         }
     }
 }
