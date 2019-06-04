@@ -129,7 +129,7 @@ namespace jpfc.Services.Reports
             // Create a new style called SectionTitle based on style Normal.
             style = _document.Styles.AddStyle("Conditions", "Normal");
             style.Font.Bold = false;
-            style.Font.Size = 7;
+            style.Font.Size = 6;
             style.ParagraphFormat.LeftIndent = Unit.FromCentimeter(0.3);
 
             // Create a new style called TitleUnderlined based on style Normal.
@@ -205,7 +205,7 @@ namespace jpfc.Services.Reports
             titleRow = _headerTable.AddRow();
             titleRow.Cells[1].Style = "SectionTitle";
             titleRow.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            titleRow.Cells[1].AddParagraph("123 Main Street, Barrie, ON L4ML4M | test@email.com | (647) 123-1234 \n www.website.com");
+            titleRow.Cells[1].AddParagraph("123 Main Street, Barrie, ON L4ML4M | test@email.com | (647) 123-1234 \n www.website.com \n BN Number #70648-6511");
 
             // Add horizontal line
             var paragraph = section.Headers.Primary.AddParagraph();
@@ -481,14 +481,17 @@ namespace jpfc.Services.Reports
             paragraph.Format.SpaceBefore = "0.2cm";
             paragraph.Style = "Conditions";            
             paragraph.AddText("1) The client hereby acknowledges receipt of Loan/Sell amount, copy of this contract and payment schedule. " +
-                "2) We agree to return the described property(ies) to the client only upon presentation of this contract and payment of Principal Loan amount plus Applicable Interest and Service charges. " +
+                "2) We agree to return the described property(ies) to the client only upon presentation of this contract and payment of principal loan amount plus applicable interest and service charges. " +
                 "3) Client hereby certifies that he or she is legal owner of the property(ies) as described above, empowered to sell or dispose of the above property(ies) and is/are free and clear of all liens and encumbrances. " +
                 "4) Client will be responsible for any legal fees incurred by J.P. Finance Chase Ltd. resulting from this transaction. " +
-                "5) All Interest charges, Service fee, Storage Fee are calculated per month and due 30 days from the date of this Loan Contract. " +
+                "5) All interest charges, service fee, storage fee are calculated per month and due 30 days from the date of this loan contract. " +
                 "6) No credit shall be allowed for redemption in less than 30 days. " +
-                "7) This loan is due in 12 months from the date of this contract and if we do not receive Principal Loan amount plus Interest, Service Fee, Storage Fee as mentioned in this contract, you will forfeit your ownership of the above property(ies). If the above contract is not redeemed within 12 months, the above property(ies) may be sold at public or private sale by J.P. Finance Chase Ltd. " +
-                "8) Once Property(ies) is/are sold to J.P. Finance Chase Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. " +
-                "9) As per Pawn Broker Law, you allow us to share your information with Legal Authorities if requested by Court order, Police Department, or any other official Government authorities.");
+                "7) This loan is due in 30 days from the date of this contract and if we do not receive principal loan amount plus interest, service fee, storage fee as mentioned in this contract, you will forfeit your ownership of the above property(ies). If the above contract is not redeemed within 30 days, the above property(ies) may be sold at public or private sale by J.P. Finance Chase Ltd. " +
+                "8) Once property(ies) is/are sold to J.P. Finance Chase Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. " +
+                "9) As per Pawn Broker Law, you allow us to share your information with legal authorities if requested by Court order, police department or any other official government authorities. " +
+                "10) Loan contract is non-transferable. " +
+                "11) Only person named on the receipt can redeem the loan contract. " +
+                "12) Lost loan contract may result in additional cost of duplicate loan contract and affidavit.");
 
             // add date and sign area
             paragraph = _document.LastSection.AddParagraph();
