@@ -14,6 +14,8 @@ namespace jpfc.Models
 
         public DateTime? PaymentDate { get; set; }
         public decimal? PaymentAmount { get; set; }
+        public bool? IsPaidInterestOnly { get; set; }
+        public string PaymentMethod { get; set; }
 
         public int ClientIdentificationId { get; set; }
         public virtual ClientIdentification ClientIdentification { get; set; }

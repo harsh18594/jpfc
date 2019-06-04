@@ -78,6 +78,8 @@ namespace jpfc.Services
                             model.ReceiptNumber = receipt.ReceiptNumber;
                             model.PaymentAmount = receipt.PaymentAmount;
                             model.PaymentDate = receipt.PaymentDate;
+                            model.IsPaidInterestOnly = receipt.IsPaidInterestOnly ?? false;
+                            model.PaymentMethod = receipt.PaymentMethod;
                             model.ClientIdentificationId = receipt.ClientIdentificationId;
 
                             // convert utc to local time
@@ -168,6 +170,8 @@ namespace jpfc.Services
 
                 receipt.PaymentDate = model.PaymentDate;
                 receipt.PaymentAmount = model.PaymentAmount;
+                receipt.IsPaidInterestOnly = model.IsPaidInterestOnly;
+                receipt.PaymentMethod = model.PaymentMethod;
 
                 // save to database
                 await _clientReceiptRepository.SaveClientReceiptAsync(receipt);

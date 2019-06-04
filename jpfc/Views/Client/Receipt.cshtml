@@ -122,6 +122,30 @@
                                     <span asp-validation-for="PaymentAmount" class="text-danger"></span>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label asp-for="PaymentMethod" class="font-weight-bold"></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-money"></i></span>
+                                        </div>
+                                        <select asp-for="PaymentMethod" class="form-control">
+                                            <option value=""></option>
+                                            <option value="@Constants.PaymentMethod.Cash">@Constants.PaymentMethod.Cash</option>
+                                            <option value="@Constants.PaymentMethod.eTransfer">@Constants.PaymentMethod.eTransfer</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label asp-for="IsPaidInterestOnly" class="font-weight-bold"></label><br />
+                                    <label><input asp-for="IsPaidInterestOnly" type="radio" value="false" checked /> Full Payment</label>&nbsp;&nbsp;&nbsp;
+                                    <label><input asp-for="IsPaidInterestOnly" type="radio" value="true" /> Interest Only</label>
+                                    <span asp-validation-for="IsPaidInterestOnly" class="text-danger"></span>
+                                </div>
+                            </div>
                         }
                     </div>
                 </div>
@@ -221,7 +245,7 @@
                 <div class="col">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#belonging-modal">
                         <i class="fa fa-plus"></i> Add belonging
-                    </button>                    
+                    </button>
                 </div>
             </div>
 

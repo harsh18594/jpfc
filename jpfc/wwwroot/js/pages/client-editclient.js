@@ -44,7 +44,26 @@ Jpfc.ClientEditClient = function () {
                     data: "paymentDateStr"
                 },
                 {
-                    data: "paymentAmountStr"
+                    data: "paymentAmountStr",
+                    render: function (data, type, row) {
+                        var html = '';
+                        if (row.paymentDateStr) {
+                            html = '<span>' + data + '</span> <span class="badge badge-info">' + row.paymentMethod + '</span>';
+                        }
+                        return html;
+                    }
+                },
+                {
+                    render: function (data, type, row) {
+                        var html = '';
+                        if (row.paymentDateStr) {
+                            html = '<i class="fa fa-close text-danger"></i>';
+                            if (row.isPaidInterestOnly) {
+                                html = '<i class="fa fa-check text-success"></i>';
+                            }
+                        }
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row) {

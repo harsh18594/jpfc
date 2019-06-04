@@ -52,5 +52,11 @@
         {
             public const string TimeZone = "Eastern Standard Time";
         }
+
+        public static class PaymentMethod
+        {
+            public const string Cash = "Cash";
+            public const string eTransfer = "E-Transfer";
+        }
     }
 }

@@ -31,6 +31,12 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Payment Amount")]
         public decimal? PaymentAmount { get; set; }
 
+        [Display(Name = "Payment Type")]
+        public bool IsPaidInterestOnly { get; set; }
+
+        [Display(Name = "Payment Method")]
+        public string PaymentMethod { get; set; }
+
         [RequiredIf(Property = "IdentificationDocumentId", HasValue = "")]
         [Display(Name = "Saved Identification")]
         public int? ClientIdentificationId { get; set; }

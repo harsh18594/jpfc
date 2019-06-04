@@ -37,7 +37,9 @@ namespace jpfc.Data
                                 .GetValueOrDefault(0),
                     CreatedUtc = e.CreatedUtc,
                     PaymentAmount = e.PaymentAmount,
-                    PaymentDate = e.PaymentDate
+                    PaymentDate = e.PaymentDate,
+                    IsPaidInterestOnly = e.IsPaidInterestOnly ?? false,
+                    PaymentMethod = e.PaymentMethod
                 })
                 .ToListAsync();
         }
