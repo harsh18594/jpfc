@@ -47,7 +47,10 @@ Jpfc.ClientIndex = function () {
                     data: "dateStr"
                 },
                 {
-                    data: "name"
+                    data: "firstName"
+                },
+                {
+                    data: "lastName"
                 },
                 {
                     data: "referenceNumber"

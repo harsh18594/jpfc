@@ -40,7 +40,8 @@ namespace jpfc.Data
                 .Select(e => new ClientListViewModel
                 {
                     ClientId = e.ClientId,
-                    Name = e.Name,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
                     ReferenceNumber = e.ReferenceNumber,
                     Date = e.Date
                 })

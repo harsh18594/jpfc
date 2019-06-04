@@ -73,7 +73,8 @@ namespace jpfc.Services
                         model.ClientId = client.ClientId;
                         model.Date = client.Date;
                         model.ReferenceNumber = client.ReferenceNumber;
-                        model.Name = client.Name;
+                        model.FirstName = client.FirstName;
+                        model.LastName = client.LastName;
                         model.EmailAddress = client.EmailAddress;
                         model.ContactNumber = client.ContactNumber;
                         model.Address = client.Address;
@@ -121,7 +122,8 @@ namespace jpfc.Services
                 // save other values
                 client.Address = model.Address;
                 client.Date = model.Date;
-                client.Name = model.Name;
+                client.FirstName = model.FirstName;
+                client.LastName = model.LastName;
                 client.ContactNumber = model.ContactNumber;
                 client.EmailAddress = model.EmailAddress;
 
@@ -165,7 +167,8 @@ namespace jpfc.Services
                     client.AuditUtc = DateTime.UtcNow;
                     client.Address = model.Address;
                     client.Date = model.Date;
-                    client.Name = model.Name;
+                    client.FirstName = model.FirstName;
+                    client.LastName = model.LastName;
                     client.ContactNumber = model.ContactNumber;
                     client.EmailAddress = model.EmailAddress;
 

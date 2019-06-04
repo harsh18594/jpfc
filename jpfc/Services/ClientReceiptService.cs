@@ -61,7 +61,7 @@ namespace jpfc.Services
 
                     // fetch client information
                     var client = await _clientRepository.FetchBaseByIdAsync(clientId);
-                    model.ClientName = client.Name;
+                    model.ClientName = $"{client.FirstName} {client.LastName}";
                     model.ClientNumber = client.ReferenceNumber;
                     model.Address = client.Address;
                     model.ContactNumber = client.ContactNumber;
@@ -289,7 +289,7 @@ namespace jpfc.Services
                     }
 
                     // generate receipt
-                    var pdfReceipt = new ClientReceiptReport(receiptInfo.Date, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, receiptInfo.Client.Name, receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                    var pdfReceipt = new ClientReceiptReport(receiptInfo.Date, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         receiptInfo.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
 
                     // Create the document using MigraDoc.
@@ -320,7 +320,7 @@ namespace jpfc.Services
                     if (loanAmount > 0)
                     {
                         var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
-                        clientName: receiptInfo.Client.Name, clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 
                         // Create the document using MigraDoc.
@@ -353,7 +353,7 @@ namespace jpfc.Services
                                 // add receipt
                                 if (receiptBytes != null)
                                 {
-                                    var receiptEntry = zipArchive.CreateEntry($"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_Receipt.pdf");
+                                    var receiptEntry = zipArchive.CreateEntry($"{receiptInfo.Client.FirstName}_{receiptInfo.Client.LastName}_{receiptInfo.ReceiptNumber}_Receipt.pdf");
 
                                     //Get the stream of the attachment
                                     using (var receiptStream = new MemoryStream(receiptBytes))
@@ -369,7 +369,7 @@ namespace jpfc.Services
                                 // add loan schedule
                                 if (loanScheduleBytes != null)
                                 {
-                                    var loanScheduleEntry = zipArchive.CreateEntry($"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf");
+                                    var loanScheduleEntry = zipArchive.CreateEntry($"{receiptInfo.Client.FirstName}_{receiptInfo.Client.LastName}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf");
 
                                     //Get the stream of the attachment
                                     using (var loanScheduleStream = new MemoryStream(loanScheduleBytes))
@@ -388,7 +388,7 @@ namespace jpfc.Services
                         }
                     }
 
-                    fileName = $"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_Receipt.{extension}";
+                    fileName = $"{receiptInfo.Client.FirstName}_{receiptInfo.Client.LastName}_{receiptInfo.ReceiptNumber}_Receipt.{extension}";
                     success = true;
                 }
                 else
@@ -437,7 +437,7 @@ namespace jpfc.Services
                     }
 
                     var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
-                        clientName: receiptInfo.Client.Name, clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 
                     // Create the document using MigraDoc.
@@ -460,7 +460,7 @@ namespace jpfc.Services
                         fileBytes = stream.ToArray();
                     }
 
-                    fileName = $"{receiptInfo.Client.Name}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf";
+                    fileName = $"{receiptInfo.Client.FirstName}_{receiptInfo.Client.LastName}_{receiptInfo.ReceiptNumber}_LoanSchedule.pdf";
                     success = true;
                 }
                 else

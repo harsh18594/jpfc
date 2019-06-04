@@ -20,8 +20,12 @@ namespace jpfc.Models.ClientViewModels
         public string ReferenceNumber { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
-        public string Name { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required]
         [Display(Name = "Identification Document")]
