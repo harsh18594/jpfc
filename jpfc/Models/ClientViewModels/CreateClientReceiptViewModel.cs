@@ -22,6 +22,9 @@ namespace jpfc.Models.ClientViewModels
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
+        public DateTime CreatedDateTime { get; set; }
+        public string CreatedDateTimeStr => CreatedDateTime.ToString("MM/dd/yyyy HH:mm:ss");
+
         [Display(Name = "Payment Date")]
         public DateTime? PaymentDate { get; set; }
 

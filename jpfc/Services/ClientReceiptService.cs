@@ -80,6 +80,10 @@ namespace jpfc.Services
                             model.PaymentDate = receipt.PaymentDate;
                             model.ClientIdentificationId = receipt.ClientIdentificationId;
 
+                            // convert utc to local time
+                            var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                            model.CreatedDateTime = _dateTimeService.ConvertUtcToDateTime(receipt.CreatedUtc, timeZone);
+
                             success = true;
                         }
                         else
