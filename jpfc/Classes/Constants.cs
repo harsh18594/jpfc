@@ -47,5 +47,10 @@
             public const string _925 = "EF76A7FE-0D8D-4814-83DF-47A4A035D703";
             public const string _950 = "06FF5E11-00CB-4CAB-AE61-8237A13AE60F";
         }
+
+        public static class System
+        {
+            public const string TimeZone = "Eastern Standard Time";
+        }
     }
 }

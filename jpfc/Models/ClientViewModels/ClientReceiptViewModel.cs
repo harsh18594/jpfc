@@ -18,8 +18,9 @@ namespace jpfc.Models.ClientViewModels
         public decimal? PaymentAmount { get; set; }
         public string PaymentAmountStr => PaymentAmount?.ToString("C");
 
+        public DateTime CreatedUtc { get; set; }
         public DateTime Date { get; set; }
-        public string DateStr => Date.ToString("MM/dd/yyyy");
+        public string DateStr => Date.ToString("MM/dd/yyyy HH:mm:ss");
 
         public decimal BusinessGetsAmount { get; set; }
         public decimal BusinessPaysAmount { get; set; }

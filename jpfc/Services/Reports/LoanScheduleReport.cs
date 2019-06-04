@@ -227,7 +227,7 @@ namespace jpfc.Services.Reports
             headerRow.TopPadding = Unit.FromCentimeter(0.10);       // add some space between logo and course details
             headerRow.Cells[0].AddParagraph("Date:");
             headerRow.Cells[0].Format.Font.Bold = true;
-            var billDateStr = _billDate.ToString("MMM dd, yyyy", CultureInfo.InvariantCulture);
+            var billDateStr = _billDate.ToString("MMM dd, yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             headerRow.Cells[1].AddParagraph(billDateStr);
             headerRow.Cells[1].Format.Font.Bold = false;
             // Add Client Name to top            

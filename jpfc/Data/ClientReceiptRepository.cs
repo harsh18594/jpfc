@@ -35,7 +35,7 @@ namespace jpfc.Data
                                 .Where(b => b.TransactionAction == Constants.TransactionAction.Sell)
                                 .Sum(b => b.FinalPrice)
                                 .GetValueOrDefault(0),
-                    Date = e.Date,
+                    CreatedUtc = e.CreatedUtc,
                     PaymentAmount = e.PaymentAmount,
                     PaymentDate = e.PaymentDate
                 })

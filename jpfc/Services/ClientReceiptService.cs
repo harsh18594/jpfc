@@ -24,13 +24,15 @@ namespace jpfc.Services
         public readonly IClientRepository _clientRepository;
         public readonly IClientBelongingRepository _clientBelongingRepository;
         public readonly IHostingEnvironment _env;
+        public readonly IDateTimeService _dateTimeService;
 
         public ClientReceiptService(ILogger<ClientReceiptService> logger,
             IClientReceiptRepository clientReceiptRepository,
             IClientIdentificationRepository clientIdentificationRepository,
             IClientRepository clientRepository,
             IClientBelongingRepository clientBelongingRepository,
-            IHostingEnvironment env)
+            IHostingEnvironment env,
+            IDateTimeService dateTimeService)
         {
             _logger = logger;
             _clientReceiptRepository = clientReceiptRepository;
@@ -38,6 +40,7 @@ namespace jpfc.Services
             _clientRepository = clientRepository;
             _clientBelongingRepository = clientBelongingRepository;
             _env = env;
+            _dateTimeService = dateTimeService;
         }
 
         public async Task<(bool Success, string Error, CreateClientReceiptViewModel Model)> GetCreateClientReceiptViewModelAsync(int clientId, int? receiptId)
@@ -185,6 +188,12 @@ namespace jpfc.Services
             try
             {
                 model = await _clientReceiptRepository.ListByClientIdAsync(clientId);
+                // convert utc to local time
+                var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                foreach (var item in model)
+                {
+                    item.Date = _dateTimeService.ConvertUtcToDateTime(item.CreatedUtc, timeZone);
+                }
                 success = true;
             }
             catch (Exception ex)
@@ -254,6 +263,10 @@ namespace jpfc.Services
                 var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
                 if (receiptInfo != null && receiptInfo.Client != null)
                 {
+                    // fetch timezone for conversion
+                    var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                    var receiptDate = _dateTimeService.ConvertUtcToDateTime(receiptInfo.CreatedUtc, timeZone);
+
                     // prepare belonging list
                     var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
                     decimal clientPays = 0;
@@ -289,7 +302,7 @@ namespace jpfc.Services
                     }
 
                     // generate receipt
-                    var pdfReceipt = new ClientReceiptReport(receiptInfo.Date, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                    var pdfReceipt = new ClientReceiptReport(receiptDate, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         receiptInfo.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
 
                     // Create the document using MigraDoc.
@@ -319,7 +332,7 @@ namespace jpfc.Services
                     // generate loan schedule and zip multiple documents, if required
                     if (loanAmount > 0)
                     {
-                        var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                        var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
                         clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 
@@ -419,6 +432,10 @@ namespace jpfc.Services
                 var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
                 if (receiptInfo != null && receiptInfo.Client != null)
                 {
+                    // fetch timezone for conversion
+                    var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                    var receiptDate = _dateTimeService.ConvertUtcToDateTime(receiptInfo.CreatedUtc, timeZone);
+
                     // prepare belonging list
                     var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
                     decimal loanAmount = 0;
@@ -436,7 +453,7 @@ namespace jpfc.Services
                         }
                     }
 
-                    var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptInfo.Date, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                    var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
                         clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 

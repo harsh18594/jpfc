@@ -5,8 +5,8 @@ Jpfc.ClientEditClient = function () {
     var receiptDataTable;
 
     var initReceiptDataTable = function () {
-        $.fn.dataTable.moment('DD-MMM-YYYY');
-        $.fn.dataTable.moment('DD/MMM/YYYY');
+        $.fn.dataTable.moment('DD-MMM-YYYY HH:mm:ss');
+        $.fn.dataTable.moment('DD/MMM/YYYY HH:mm:ss');
         receiptDataTable = $('#receipt-table').on('preXhr.dt', function () {
             loadingReceiptSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('receipt-table'));
         }).DataTable({
