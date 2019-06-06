@@ -66,7 +66,8 @@ namespace jpfc.Data
                 {
                     ClientIdentificationId = e.ClientIdentificationId,
                     IdentificationType = e.IdentificationDocument.Name,
-                    IdentificationNumber = e.IdentificationDocumentNumber
+                    IdentificationNumberEncryptedString = e.IdentificationDocumentNumberEncrypted,
+                    IdentificationNumberUniqueKey = e.IdentificaitonDocumentNumberUniqueKey
                 })
                 .OrderBy(vm => vm.IdentificationType)
                 .ToListAsync();

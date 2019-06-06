@@ -66,8 +66,8 @@ namespace jpfc.Services
                     var client = await _clientRepository.FetchBaseByIdAsync(clientId);
                     model.ClientName = $"{client.FirstName} {client.LastName}";
                     model.ClientNumber = client.ReferenceNumber;
-                    model.Address = client.Address;
-                    model.ContactNumber = client.ContactNumber;
+                    model.Address = Encryption.Decrypt(client.AddressEncrypted, client.AddressUniqueKey);
+                    model.ContactNumber = Encryption.Decrypt(client.ContactNumberEncrypted, client.ContactNumberUniqueKey);
 
                     if (receiptId > 0)
                     {
@@ -155,11 +155,14 @@ namespace jpfc.Services
                 else
                 {
                     // save client id first and assign it to receipt
+                    // encrypt id info
+                    var idNumberEncryptionResult = Encryption.Encrypt(model.IdentificationDocumentNumber);
                     var clientIdentification = new ClientIdentification
                     {
                         ClientId = model.ClientId,
                         IdentificationDocumentId = model.IdentificationDocumentId,
-                        IdentificationDocumentNumber = model.IdentificationDocumentNumber,
+                        IdentificationDocumentNumberEncrypted = idNumberEncryptionResult.EncryptedString,
+                        IdentificaitonDocumentNumberUniqueKey = idNumberEncryptionResult.UniqueKey,
                         CreatedUserId = userId,
                         CreatedUtc = DateTime.UtcNow
                     };
@@ -310,7 +313,9 @@ namespace jpfc.Services
                     }
 
                     // generate receipt
-                    var pdfReceipt = new ClientReceiptReport(receiptDate, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber, $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", receiptInfo.Client.Address, Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                    var pdfReceipt = new ClientReceiptReport(receiptDate, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber,
+                        $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
+                        Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
                         receiptInfo.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
 
                     // Create the document using MigraDoc.
@@ -341,7 +346,9 @@ namespace jpfc.Services
                     if (loanAmount > 0)
                     {
                         var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
-                        clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}",
+                        clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
+                        phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 
                         // Create the document using MigraDoc.
@@ -462,7 +469,9 @@ namespace jpfc.Services
                     }
 
                     var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
-                        clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}", clientAddress: receiptInfo.Client.Address, phoneNumber: Classes.Helper.FormatPhoneNumber(receiptInfo.Client.ContactNumber),
+                        clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}",
+                        clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
+                        phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
                         emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
 
                     // Create the document using MigraDoc.

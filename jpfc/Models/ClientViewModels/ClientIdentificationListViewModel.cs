@@ -10,7 +10,8 @@ namespace jpfc.Models.ClientViewModels
         public int ClientIdentificationId { get; set; }
         public string IdentificationType { get; set; }
         public string IdentificationNumber { get; set; }
-
+        public string IdentificationNumberEncryptedString { get; set; }
+        public string IdentificationNumberUniqueKey { get; set; }
         public string DisplayValue
         {
             get

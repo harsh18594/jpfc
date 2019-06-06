@@ -76,10 +76,8 @@ namespace jpfc.Data
             builder.Entity<Client>(entity =>
             {
                 entity.HasKey(e => e.ClientId);
-                entity.Property(e => e.Address).HasMaxLength(500);
                 entity.Property(e => e.ReferenceNumber).HasMaxLength(50);
                 entity.Property(e => e.EmailAddress).HasMaxLength(100);
-                entity.Property(e => e.ContactNumber).HasMaxLength(20);
             });
 
             builder.Entity<ClientBelonging>(entity =>
@@ -121,7 +119,6 @@ namespace jpfc.Data
             builder.Entity<ClientIdentification>(entity =>
             {
                 entity.HasKey(e => e.ClientIdentificationId);
-                entity.Property(e => e.IdentificationDocumentNumber).HasMaxLength(255);
 
                 entity.HasOne(e => e.Client)
                 .WithMany(c => c.Identifications)

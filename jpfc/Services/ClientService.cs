@@ -1,4 +1,5 @@
-﻿using jpfc.Data.Interfaces;
+﻿using jpfc.Classes;
+using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
 using jpfc.Services.Interfaces;
@@ -76,8 +77,8 @@ namespace jpfc.Services
                         model.FirstName = client.FirstName;
                         model.LastName = client.LastName;
                         model.EmailAddress = client.EmailAddress;
-                        model.ContactNumber = client.ContactNumber;
-                        model.Address = client.Address;
+                        model.ContactNumber = Encryption.Decrypt(client.ContactNumberEncrypted, client.ContactNumberUniqueKey);
+                        model.Address = Encryption.Decrypt(client.AddressEncrypted, client.AddressUniqueKey);
 
                         success = true;
                     }
@@ -120,21 +121,33 @@ namespace jpfc.Services
                 client.ReferenceNumber = refNumber;
 
                 // save other values
-                client.Address = model.Address;
+                // encrypt address
+                var addressEncryptionResult = Encryption.Encrypt(model.Address);
+                client.AddressEncrypted = addressEncryptionResult.EncryptedString;
+                client.AddressUniqueKey = addressEncryptionResult.UniqueKey;
+
                 client.Date = model.Date;
                 client.FirstName = model.FirstName;
                 client.LastName = model.LastName;
-                client.ContactNumber = model.ContactNumber;
+                
+                // encrypt contact number
+                var contactNumberEncryptionResult = Encryption.Encrypt(model.ContactNumber);
+                client.ContactNumberEncrypted = contactNumberEncryptionResult.EncryptedString;
+                client.ContactNumberUniqueKey = contactNumberEncryptionResult.UniqueKey;
+
                 client.EmailAddress = model.EmailAddress;
 
                 await _clientRepository.SaveClientAsync(client);
 
                 // save client identification information once client is saved
+                // encrypt id info
+                var idNumberEncryptionResult = Encryption.Encrypt(model.IdentificationDocumentNumber);
                 var clientIdentification = new ClientIdentification
                 {
                     ClientId = client.ClientId,
                     IdentificationDocumentId = model.IdentificationDocumentId,
-                    IdentificationDocumentNumber = model.IdentificationDocumentNumber,
+                    IdentificationDocumentNumberEncrypted = idNumberEncryptionResult.EncryptedString,
+                    IdentificaitonDocumentNumberUniqueKey = idNumberEncryptionResult.UniqueKey,
                     CreatedUserId = userId,
                     CreatedUtc = DateTime.UtcNow
                 };
@@ -165,11 +178,17 @@ namespace jpfc.Services
                     var client = await _clientRepository.FetchBaseByIdAsync(model.ClientId.Value);
                     client.AuditUserId = userId;
                     client.AuditUtc = DateTime.UtcNow;
-                    client.Address = model.Address;
+                    // encrypt address
+                    var addressEncryptionResult = Encryption.Encrypt(model.Address);
+                    client.AddressEncrypted = addressEncryptionResult.EncryptedString;
+                    client.AddressUniqueKey = addressEncryptionResult.UniqueKey;
                     client.Date = model.Date;
                     client.FirstName = model.FirstName;
                     client.LastName = model.LastName;
-                    client.ContactNumber = model.ContactNumber;
+                    // encrypt contact number
+                    var contactNumberEncryptionResult = Encryption.Encrypt(model.ContactNumber);
+                    client.ContactNumberEncrypted = contactNumberEncryptionResult.EncryptedString;
+                    client.ContactNumberUniqueKey = contactNumberEncryptionResult.UniqueKey;
                     client.EmailAddress = model.EmailAddress;
 
                     await _clientRepository.SaveClientAsync(client);

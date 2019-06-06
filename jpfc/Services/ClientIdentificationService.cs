@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using jpfc.Data.Interfaces;
 using jpfc.Models.ClientViewModels;
 using jpfc.Models;
+using jpfc.Classes;
 
 namespace jpfc.Services
 {
@@ -51,7 +52,10 @@ namespace jpfc.Services
                 // save other values
                 id.ClientId = model.ClientId;
                 id.IdentificationDocumentId = model.IdentificationDocumentId;
-                id.IdentificationDocumentNumber = model.IdentificationDocumentNumber;
+                // encrypt id info
+                var idNumberEncryptionResult = Encryption.Encrypt(model.IdentificationDocumentNumber);
+                id.IdentificationDocumentNumberEncrypted = idNumberEncryptionResult.EncryptedString;
+                id.IdentificaitonDocumentNumberUniqueKey = idNumberEncryptionResult.UniqueKey;
 
                 await _clientIdentificationRepository.SaveClientIdentificationAsync(id);
                 success = true;
@@ -74,6 +78,13 @@ namespace jpfc.Services
             try
             {
                 model = await _clientIdentificationRepository.ListClientIdentificationByClientIdAsync(clientId);
+                if (model?.Any() == true)
+                {
+                    foreach (var item in model)
+                    {
+                        item.IdentificationNumber = Encryption.Decrypt(item.IdentificationNumberEncryptedString, item.IdentificationNumberUniqueKey);
+                    }
+                }
                 success = true;
             }
             catch (Exception ex)
@@ -101,7 +112,7 @@ namespace jpfc.Services
                         model.ClientId = identification.ClientId;
                         model.ClientIdentificationId = identification.ClientIdentificationId;
                         model.IdentificationDocumentId = identification.IdentificationDocumentId;
-                        model.IdentificationDocumentNumber = identification.IdentificationDocumentNumber;
+                        model.IdentificationDocumentNumber = Encryption.Decrypt(identification.IdentificationDocumentNumberEncrypted, identification.IdentificaitonDocumentNumberUniqueKey);
                         success = true;
                     }
                     else

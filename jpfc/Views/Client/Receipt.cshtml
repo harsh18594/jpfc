@@ -1,5 +1,6 @@
 ﻿@inject IIdentificationDocumentRepository IdentificationDocumentRepository
 @inject IClientIdentificationRepository ClientIdentificationRepository
+@inject IClientIdentificationService ClientIdentificationService
 @model jpfc.Models.ClientViewModels.CreateClientReceiptViewModel
 
 @{
@@ -11,6 +12,8 @@
     {
         ViewData["Title"] = "Add Receipt";
     }
+
+    var idList = (await ClientIdentificationService.FetchClientIdentificationListAsync(Model.ClientId)).Model;
 }
 
 @section Styles{
@@ -189,7 +192,7 @@
                             <div class="form-group">
                                 <label asp-for="ClientIdentificationId" class="font-weight-bold"></label> <span class="text-danger">*</span>
                                 <select asp-for="ClientIdentificationId" class="form-control"
-                                        asp-items="@(new SelectList(await ClientIdentificationRepository.ListClientIdentificationByClientIdAsync(Model.ClientId), "ClientIdentificationId", "DisplayValue"))">
+                                        asp-items="@(new SelectList(idList, "ClientIdentificationId", "DisplayValue"))">
                                     <option value="">-- Select Id --</option>
                                 </select>
                                 <span asp-validation-for="ClientIdentificationId" class="text-danger"></span>

@@ -13,9 +13,11 @@ namespace jpfc.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
        
-        public string Address { get; set; }
+        public string AddressEncrypted { get; set; }
+        public string AddressUniqueKey { get; set; }
         public string EmailAddress { get; set; }
-        public string ContactNumber { get; set; }
+        public string ContactNumberEncrypted { get; set; }
+        public string ContactNumberUniqueKey { get; set; }
 
         public string CreatedUserId { get; set; }
         public DateTime CreatedUtc { get; set; }

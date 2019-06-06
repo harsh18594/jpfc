@@ -14,7 +14,8 @@ namespace jpfc.Models
 
         public Guid? IdentificationDocumentId { get; set; }
         public virtual IdentificationDocument IdentificationDocument { get; set; }
-        public string IdentificationDocumentNumber { get; set; }
+        public string IdentificationDocumentNumberEncrypted { get; set; }
+        public string IdentificaitonDocumentNumberUniqueKey { get; set; }
 
         public string CreatedUserId { get; set; }
         public DateTime CreatedUtc { get; set; }
