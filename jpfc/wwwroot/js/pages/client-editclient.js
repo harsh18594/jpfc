@@ -70,6 +70,7 @@ Jpfc.ClientEditClient = function () {
                         var html = '<a href="javascript:void(0)" class="btn btn-primary download-receipt" title="Download Receipt" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-file-pdf-o text-white"></i> <i class="fa fa-spinner fa-spin receipt-loading-spinner" style="display: none;"></i></a>' +
                             ' <a href="javascript:void(0)" class="btn btn-primary download-loan-schedule" title="Download Loan Schedule" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-clock-o text-white"></i> <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></a>' +
                             ' <a href="/Client/Receipt?clientId=' + row.clientId + '&receiptId=' + row.clientReceiptId + '" class="btn btn-primary" title="Edit Item"><i class="fa fa-pencil text-white"></i></a>' +
+                            ' <a class="btn btn-warning copy-receipt" href="javascript:void(0);" title="Copy Item" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-copy text-white"></i></a>' +
                             ' <a class="btn btn-danger delete-receipt" title="Delete Item" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-trash text-white"></i></a>';
                         return html;
                     }
@@ -99,6 +100,38 @@ Jpfc.ClientEditClient = function () {
                     if (result.success) {
                         receiptDataTable.ajax.reload(null, false);
                         toastr.success('Receipt deleted successfully', '', Jpfc.Toastr.config);
+                    } else {
+                        toastr.error(result.error, '', Jpfc.Toastr.config);
+                    }
+                }).fail(function (jqXhr, textStatus) {
+                    toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
+                });
+            }
+        });
+    };
+
+    var copyReceipt = function (id) {
+        swal({
+            title: 'Are you sure?',
+            text: "Selected receipt will be duplicated.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#337ab7',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, copy it!'
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    "url": "/Client/DuplicateClientReceipt",
+                    "method": "post",
+                    "data": {
+                        receiptId: id
+                    }
+                }).done(function (result) {
+                    if (result.success) {
+                        // redirect to receipt edit page
+                        window.location = '/Client/Receipt?clientId=' + $('#edit-client-form #ClientId').val() + '&receiptId=' + result.receiptId + '';
+                        toastr.success('Receipt duplicated successfully', '', Jpfc.Toastr.config);
                     } else {
                         toastr.error(result.error, '', Jpfc.Toastr.config);
                     }
@@ -162,6 +195,10 @@ Jpfc.ClientEditClient = function () {
 
         $('#receipt-table').on('click', '.delete-receipt', function () {
             deleteReceipt($(this).data('receipt-id'));
+        });
+
+        $('#receipt-table').on('click', '.copy-receipt', function () {
+            copyReceipt($(this).data('receipt-id'));
         });
 
         $('#receipt-table').on('click', '.download-receipt', function () {

@@ -13,6 +13,7 @@ namespace jpfc.Services.Interfaces
         Task<(bool Success, string Error, int ReceiptId)> SaveClientReceiptAsync(CreateClientReceiptViewModel model, string userId);
         Task<(bool Success, string Error, ICollection<ClientReceiptViewModel> Model)> ListClientReceiptAsync(int clientId);
         Task<(bool Success, string Error)> DeleteClientReceiptByIdAsync(int receiptId);
+        Task<(bool Success, string Error, int ReceiptId)> DuplicateClientReceiptByIdAsync(int receiptId, string userId);
         Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchReceiptSummaryAsync(int clientReceiptId);
         Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportReceiptByReceiptIdAsync(int clientReceiptId);
         Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportLoanScheduleByReceiptIdAsync(int clientReceiptId);

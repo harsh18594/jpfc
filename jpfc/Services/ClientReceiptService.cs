@@ -74,6 +74,7 @@ namespace jpfc.Services
                         var receipt = await _clientReceiptRepository.FetchBaseByIdAsync(receiptId ?? 0);
                         if (receipt != null && receipt.ClientId == clientId)
                         {
+                            model.Date = receipt.Date;
                             model.ClientReceiptId = receipt.ClientReceiptId;
                             model.ReceiptNumber = receipt.ReceiptNumber;
                             model.PaymentAmount = receipt.PaymentAmount;
@@ -235,7 +236,7 @@ namespace jpfc.Services
                         }
                         else
                         {
-                            error = $"Receipt has {receipt.ClientBelongings.Count} belongings";
+                            error = $"Unable to delete. Receipt has {receipt.ClientBelongings.Count} belonging(s).";
                         }
                     }
                     else
@@ -255,6 +256,87 @@ namespace jpfc.Services
             }
 
             return (success, error);
+        }
+
+        public async Task<(bool Success, string Error, int ReceiptId)> DuplicateClientReceiptByIdAsync(int receiptId, string userId)
+        {
+            var success = false;
+            var error = "";
+            int duplicateReceiptId = 0;
+
+            try
+            {
+                if (receiptId > 0)
+                {
+                    var originalReceipt = await _clientReceiptRepository.FetchFullByIdAsync(receiptId);
+                    if (originalReceipt != null)
+                    {
+                        // duplicate receipt info
+                        var maxReceiptId = await _clientReceiptRepository.GetMaxReceiptIdAsync();
+                        var receiptNumber = $"RE{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
+
+                        var duplicateReceipt = new ClientReceipt
+                        {
+                            CreatedUserId = userId,
+                            CreatedUtc = DateTime.UtcNow,
+                            ClientId = originalReceipt.ClientId,
+                            Date = DateTime.Now.Date,
+                            ReceiptNumber = receiptNumber,
+                            ClientIdentificationId = originalReceipt.ClientIdentificationId,
+                            PaymentDate = null,
+                            PaymentAmount = null,
+                            IsPaidInterestOnly = null,
+                            PaymentMethod = null
+                        };
+
+                        // copy belongings
+                        var originalBelongings = originalReceipt.ClientBelongings;
+                        if (originalBelongings?.Any() == true)
+                        {
+                            foreach (var item in originalBelongings)
+                            {
+                                var duplicateBelonging = new ClientBelonging
+                                {
+                                    CreatedUserId = userId,
+                                    CreatedUtc = DateTime.UtcNow,
+                                    FinalPrice = item.FinalPrice,
+                                    ItemPrice = item.ItemPrice,
+                                    ItemWeight = item.ItemWeight,
+                                    KaratId = item.KaratId,
+                                    KaratOther = item.KaratOther,
+                                    MetalId = item.MetalId,
+                                    MetalOther = item.MetalOther,
+                                    ReplacementValue = item.ReplacementValue,
+                                    TransactionAction =item.TransactionAction                                 
+                                };
+                                duplicateReceipt.ClientBelongings.Add(duplicateBelonging);
+                            }
+                        }
+
+                        // save receipt to database
+                        await _clientReceiptRepository.SaveClientReceiptAsync(duplicateReceipt);
+
+                        // return values
+                        duplicateReceiptId = duplicateReceipt.ClientReceiptId;
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to locate receipt information";
+                    }
+                }
+                else
+                {
+                    error = "Invalid Request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Unexpected error occurred while processing your request.";
+                _logger.LogError("ClientReceiptService.DuplicateClientReceiptByIdAsync - ex:{@Ex}", new object[] { ex });
+            }
+
+            return (success, error, duplicateReceiptId);
         }
 
         public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportReceiptByReceiptIdAsync(int clientReceiptId)

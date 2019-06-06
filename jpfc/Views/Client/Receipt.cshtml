@@ -61,12 +61,13 @@
                         {
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">Date/Time</label>
+                                    <label for="Date" class="font-weight-bold">Date/Time</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
                                         <input class="form-control" type="text" value="@Model.CreatedDateTimeStr" readonly />
+                                        <input asp-for="Date" class="form-control" type="text" readonly asp-format="{0:MM/dd/yyyy}" style="display: none;" />
                                     </div>
                                 </div>
                             </div>

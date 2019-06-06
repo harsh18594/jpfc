@@ -153,7 +153,7 @@ namespace jpfc.Services
                         }
                         else
                         {
-                            error = $"Record is used for {identification.ClientReceipts.Count} receipts";
+                            error = $"Unable to delete. Record is used for {identification.ClientReceipts.Count} receipt(s).";
                         }
                     }
                     else

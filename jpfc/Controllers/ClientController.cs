@@ -309,6 +309,20 @@ namespace jpfc.Controllers
             });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DuplicateClientReceipt(int receiptId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - receiptId:{@ReceiptId}", new object[] { receiptId });
+            var userId = _userManager.GetUserId(User);
+            var result = await _clientReceiptService.DuplicateClientReceiptByIdAsync(receiptId, userId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                receiptId = result.ReceiptId
+            });
+        }
+
         [HttpGet]
         public async Task<IActionResult> FetchReceiptSummary(int clientReceiptId)
         {
