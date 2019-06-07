@@ -2,6 +2,7 @@
 using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
+using jpfc.Models.ReportViewModels;
 using jpfc.Services.Interfaces;
 using jpfc.Services.Reports;
 using Microsoft.AspNetCore.Hosting;
@@ -121,7 +122,7 @@ namespace jpfc.Services
 
             try
             {
-                ClientReceipt receipt = null;
+                Models.ClientReceipt receipt = null;
                 if (model.ClientReceiptId > 0)
                 {
                     receipt = await _clientReceiptRepository.FetchBaseByIdAsync(model.ClientReceiptId.Value);
@@ -132,7 +133,7 @@ namespace jpfc.Services
                     var maxReceiptId = await _clientReceiptRepository.GetMaxReceiptIdAsync();
                     var receiptNumber = $"RE{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
 
-                    receipt = new ClientReceipt
+                    receipt = new Models.ClientReceipt
                     {
                         CreatedUserId = userId,
                         CreatedUtc = DateTime.UtcNow,
@@ -275,7 +276,7 @@ namespace jpfc.Services
                         var maxReceiptId = await _clientReceiptRepository.GetMaxReceiptIdAsync();
                         var receiptNumber = $"RE{DateTime.Now.ToString("yyyyMMdd")}{maxReceiptId + 1}";
 
-                        var duplicateReceipt = new ClientReceipt
+                        var duplicateReceipt = new Models.ClientReceipt
                         {
                             CreatedUserId = userId,
                             CreatedUtc = DateTime.UtcNow,
@@ -307,7 +308,7 @@ namespace jpfc.Services
                                     MetalId = item.MetalId,
                                     MetalOther = item.MetalOther,
                                     ReplacementValue = item.ReplacementValue,
-                                    TransactionAction =item.TransactionAction                                 
+                                    TransactionAction = item.TransactionAction
                                 };
                                 duplicateReceipt.ClientBelongings.Add(duplicateBelonging);
                             }
@@ -394,11 +395,23 @@ namespace jpfc.Services
                         }
                     }
 
+                    // prepare viewmodel
+                    ReceiptViewModel model = new ReceiptViewModel
+                    {
+                        BillDate = receiptDate,
+                        ClientNumber = receiptInfo.Client.ReferenceNumber,
+                        ReceiptNumber = receiptInfo.ReceiptNumber,
+                        ClientName = $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}",
+                        Address = Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
+                        ContactNumber = Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
+                        EmailAddress = receiptInfo.Client.EmailAddress,
+                        BillAmount = billAmount,
+                        ClientPaysFinal = clientPaysFinal,
+                        Belongings = belongingsList
+                    };
+
                     // generate receipt
-                    var pdfReceipt = new ClientReceiptReport(receiptDate, receiptInfo.Client.ReferenceNumber, receiptInfo.ReceiptNumber,
-                        $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}", Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
-                        Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
-                        receiptInfo.Client.EmailAddress, billAmount, clientPaysFinal, _env.WebRootPath, belongingsList.ToList());
+                    var pdfReceipt = new Reports.ClientReceipt(model, _env.WebRootPath);
 
                     // Create the document using MigraDoc.
                     var pdfReceiptDocument = pdfReceipt.CreateDocument();
@@ -427,7 +440,7 @@ namespace jpfc.Services
                     // generate loan schedule and zip multiple documents, if required
                     if (loanAmount > 0)
                     {
-                        var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                        var pdfLoanSchedule = new LoanSchedule(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
                         clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}",
                         clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
                         phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
@@ -550,7 +563,7 @@ namespace jpfc.Services
                         }
                     }
 
-                    var pdfLoanSchedule = new LoanScheduleReport(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
+                    var pdfLoanSchedule = new LoanSchedule(billDate: receiptDate, clientNumber: receiptInfo.Client.ReferenceNumber, receiptNumber: receiptInfo.ReceiptNumber,
                         clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}",
                         clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
                         phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
@@ -589,6 +602,132 @@ namespace jpfc.Services
             {
                 error = "Somethong went wrong while processing your request.";
                 _logger.LogError("ClientService.ExportLoanScheduleByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
+            }
+
+            return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);
+        }
+
+        public async Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportPaymentReceiptByReceiptIdAsync(int clientReceiptId)
+        {
+            var success = false;
+            var error = "";
+            byte[] fileBytes = null;
+            var fileName = "";
+
+            try
+            {
+                // fetch client info
+                var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
+                if (receiptInfo != null && receiptInfo.Client != null)
+                {
+                    // fetch timezone for conversion
+                    var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                    var receiptDate = _dateTimeService.ConvertUtcToDateTime(receiptInfo.CreatedUtc, timeZone);
+                    var now = _dateTimeService.ConvertUtcToDateTime(DateTime.UtcNow, timeZone);
+
+                    // prepare belonging list
+                    var belongingsList = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
+                    decimal principalLoanAmount = 0;
+                    decimal loanDueAmount = 0;
+                    decimal totalPurchase = 0;
+                    decimal totalSell = 0;
+
+                    if (belongingsList?.Any() == true)
+                    {
+                        // order by name to print in receipt
+                        belongingsList = belongingsList.OrderBy(b => b.Metal).ToList();
+                        foreach (var item in belongingsList)
+                        {
+                            // determine total loan amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Loan)
+                            {
+                                principalLoanAmount += item.FinalPrice ?? 0;
+                            }
+
+                            // determine total purchase amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Sell)
+                            {
+                                // if business sells an item, it is purchase for client
+                                totalPurchase += item.FinalPrice ?? 0;
+                            }
+
+                            // determine total sell amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Purchase)
+                            {
+                                // if business purchases an item, it is sell for client
+                                totalSell += item.FinalPrice ?? 0;
+                            }
+                        }
+                    }
+
+                    // calculate interest rate on loan amount
+                    loanDueAmount = principalLoanAmount;
+                    for (var i = receiptDate; i < now; i = i.AddMonths(1))
+                    {
+                        // prepare due amount
+                        loanDueAmount = loanDueAmount * (decimal)1.04;
+                    }
+
+                    // prepare viewmodel
+                    PaymentReceiptViewModel model = new PaymentReceiptViewModel
+                    {
+                        BillDate = receiptDate,
+                        ClientNumber = receiptInfo.Client.ReferenceNumber,
+                        ReceiptNumber = receiptInfo.ReceiptNumber,
+                        ClientName = $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}",
+                        Address = Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
+                        ContactNumber = Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
+                        EmailAddress = receiptInfo.Client.EmailAddress,
+                        //BillAmount = Math.Abs(totalPurchase - (principalLoanAmount + totalSell)),
+                        //ClientPaysFinal = totalPurchase > (principalLoanAmount + totalSell),
+                        InterestAmount = Math.Abs(loanDueAmount - principalLoanAmount),
+                        PaymentMethod = receiptInfo.PaymentMethod ?? "N/A",
+                        PrincipalLoanAmount = principalLoanAmount,
+                        PurchaseTotal = totalPurchase,
+                        SellTotal = totalSell,
+                        ServiceFee = 0,
+                        StorageFee = 0,
+                        Belongings = belongingsList,
+                        PaymentReceived = receiptInfo.PaymentAmount ?? 0
+                    };
+                    // calculate final total
+                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.SellTotal;
+
+                    var paymentReceipt = new PaymentReceipt(model, _env.WebRootPath);
+
+                    // Create the document using MigraDoc.
+                    var pdfPaymentReceiptDocument = paymentReceipt.CreateDocument();
+                    pdfPaymentReceiptDocument.UseCmykColor = true;
+
+                    // Create a renderer for PDF that uses Unicode font encoding.
+                    var pdfRenderer = new PdfDocumentRenderer(true);
+
+                    // Set the MigraDoc document.
+                    pdfRenderer.Document = pdfPaymentReceiptDocument;
+
+                    // Create the PDF document.
+                    pdfRenderer.RenderDocument();
+
+                    // Save the loan schedule document...
+                    using (var stream = new MemoryStream())
+                    {
+                        pdfRenderer.Save(stream, false);
+                        fileBytes = stream.ToArray();
+                    }
+
+                    fileName = $"{receiptInfo.Client.FirstName}_{receiptInfo.Client.LastName}_{receiptInfo.ReceiptNumber}_PaymentReceipt.pdf";
+                    success = true;
+                }
+                else
+                {
+                    error = "Unable to locate receipt information";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                error = "Somethong went wrong while processing your request.";
+                _logger.LogError("ClientService.ExportPaymentReceiptByReceiptIdAsync - exception:{@Ex}", args: new object[] { ex });
             }
 
             return (Success: success, Error: error, FileBytes: fileBytes, FileName: fileName);

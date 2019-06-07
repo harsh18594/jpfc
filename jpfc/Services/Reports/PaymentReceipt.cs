@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using jpfc.Classes;
 using jpfc.Models.ClientViewModels;
+using jpfc.Models.ReportViewModels;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 
 namespace jpfc.Services.Reports
 {
-    public class ClientReceiptReport
+    public class PaymentReceipt
     {
         /// <summary>
         /// The MigraDoc document that represents the report.
@@ -32,36 +33,14 @@ namespace jpfc.Services.Reports
         private readonly Color _tableGray = new Color(242, 242, 242);
 
 
-        /// <summary>
-        /// The data source for report
-        /// </summary>
-        private readonly List<ClientBelongingListViewModel> _belonging;
-
-        private readonly DateTime _billDate;
-        private readonly string _clientNumber;
-        private readonly string _receiptNumber;
-        private readonly string _clientName;
-        private readonly string _clientAddress;
-        private readonly string _phoneNumber;
-        private readonly string _emailAddress;
-        private readonly decimal _billAmount;
-        private readonly bool _clientPaysFinal;
+        // report data
+        private PaymentReceiptViewModel _model;
         private readonly string _rootPath;
 
-        public ClientReceiptReport(DateTime billDate, string clientNumber, string receiptNumber, string clientName, string clientAddress,
-            string phoneNumber, string emailAddress, decimal billAmount, bool clientPaysFinal, string rootPath, List<ClientBelongingListViewModel> belonging)
+        public PaymentReceipt(PaymentReceiptViewModel model, string rootPath)
         {
-            _billDate = billDate;
-            _clientNumber = clientNumber;
-            _receiptNumber = receiptNumber;
-            _clientName = clientName;
-            _clientAddress = clientAddress;
-            _phoneNumber = phoneNumber;
-            _emailAddress = emailAddress;
-            _billAmount = billAmount;
-            _clientPaysFinal = clientPaysFinal;
+            _model = model;
             _rootPath = rootPath;
-            _belonging = belonging;
         }
 
         /// <summary>
@@ -74,7 +53,7 @@ namespace jpfc.Services.Reports
             {
                 Info =
                 {
-                    Title = $"{_clientName} - {_receiptNumber} - Receipt",
+                    Title = $"{_model.ClientName} - {_model.ReceiptNumber} - Receipt",
                     Author = "J P Finance Chase Ltd"
                 }
             };
@@ -234,13 +213,13 @@ namespace jpfc.Services.Reports
             headerRow.TopPadding = Unit.FromCentimeter(0.10);       // add some space between logo and course details
             headerRow.Cells[0].AddParagraph("Date:");
             headerRow.Cells[0].Format.Font.Bold = true;
-            var billDateStr = _billDate.ToString("MMM dd, yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            var billDateStr = _model.BillDate.ToString("MMM dd, yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             headerRow.Cells[1].AddParagraph(billDateStr);
             headerRow.Cells[1].Format.Font.Bold = false;
             // Add Client Name to top            
             headerRow.Cells[2].AddParagraph("Client Name:");
             headerRow.Cells[2].Format.Font.Bold = true;
-            headerRow.Cells[3].AddParagraph(_clientName);
+            headerRow.Cells[3].AddParagraph(_model.ClientName);
             headerRow.Cells[3].Format.Font.Bold = false;
 
             // Add Client Number to top
@@ -248,24 +227,24 @@ namespace jpfc.Services.Reports
             headerRow.Height = Unit.FromCentimeter(0.5);
             headerRow.Cells[0].AddParagraph("Client Number:");
             headerRow.Cells[0].Format.Font.Bold = true;
-            headerRow.Cells[1].AddParagraph(_clientNumber);
+            headerRow.Cells[1].AddParagraph(_model.ClientNumber);
             headerRow.Cells[1].Format.Font.Bold = false;
             // Add contact number
             headerRow.Cells[2].AddParagraph("Contact Number:");
             headerRow.Cells[2].Format.Font.Bold = true;
-            headerRow.Cells[3].AddParagraph(_phoneNumber ?? "");
+            headerRow.Cells[3].AddParagraph(_model.ContactNumber ?? "");
             headerRow.Cells[3].Format.Font.Bold = false;
 
             headerRow = _headerTable.AddRow();
             // Add receipt number
             headerRow.Cells[0].AddParagraph("Receipt Number:");
             headerRow.Cells[0].Format.Font.Bold = true;
-            headerRow.Cells[1].AddParagraph(_receiptNumber);
+            headerRow.Cells[1].AddParagraph(_model.ReceiptNumber);
             headerRow.Cells[1].Format.Font.Bold = false;
             // Add Address By to top
             headerRow.Cells[2].AddParagraph("Address:");
             headerRow.Cells[2].Format.Font.Bold = true;
-            headerRow.Cells[3].AddParagraph(_clientAddress ?? "");
+            headerRow.Cells[3].AddParagraph(_model.Address ?? "");
             headerRow.Cells[3].Format.Font.Bold = false;
 
 
@@ -356,7 +335,7 @@ namespace jpfc.Services.Reports
         void FillContent()
         {
             //var count = 0;
-            foreach (var item in _belonging)
+            foreach (var item in _model.Belongings)
             {
                 //count++;
                 Row row = _table.AddRow();
@@ -428,70 +407,148 @@ namespace jpfc.Services.Reports
 
             // Add an invisible row as a space line to the table
             Row _row = _table.AddRow();
-            _row.Borders.Visible = false;
+            _row.Borders.Top.Visible = true;
+            _row.Borders.Top.Width = 0.25;
 
-            // add final price row
+            //// add sub total row
+            //_row = _table.AddRow();
+            //_row.Height = Unit.FromCentimeter(0.75);
+            //_row.Shading.Color = Color.FromRgb(204, 204, 204);
+            //_row.Cells[0].Borders.Visible = false;
+            //_row.Cells[0].AddParagraph("Sub Total");
+            //_row.Cells[0].Format.Font.Bold = true;
+            //_row.Cells[0].Format.Alignment = ParagraphAlignment.Right;
+            //_row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+            //_row.Cells[0].MergeRight = 4;
+            //_row.Cells[5].Borders.Visible = false;
+            //_row.Cells[5].Format.Alignment = ParagraphAlignment.Right;
+            //_row.Cells[5].VerticalAlignment = VerticalAlignment.Center;
+            //_row.Cells[5].Format.Font.Bold = true;
+            //var cellText = _model.BillAmount.ToString("C");
+            //if (_model.ClientPaysFinal)
+            //{
+            //    cellText = $"{_model.BillAmount.ToString("C")} [CR]";
+            //}
+            //else
+            //{
+            //    cellText = $"{_model.BillAmount.ToString("C")} [DR]";
+            //}
+            //_row.Cells[5].AddParagraph(cellText);
+
+            // add total purchase row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Total Purchase");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.PurchaseTotal.ToString("C"));
+
+            // add total sell row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Total Sell");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.SellTotal.ToString("C"));
+
+            // add prinicipal loan amount row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Principal Loan Amount");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.PrincipalLoanAmount.ToString("C"));
+
+            // add interest amount row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Interest Amount");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.InterestAmount.ToString("C"));
+
+            // add service fee row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Service Fee");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.ServiceFee.ToString("C"));
+
+            // add storage fee row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Storage Fee");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.StorageFee.ToString("C"));
+
+            // add final total row
             _row = _table.AddRow();
             _row.Height = Unit.FromCentimeter(0.75);
             _row.Shading.Color = Color.FromRgb(204, 204, 204);
-            _row.Cells[0].Borders.Visible = false;
-            _row.Cells[0].AddParagraph("Total Price");
-            _row.Cells[0].Format.Font.Bold = true;
-            _row.Cells[0].Format.Alignment = ParagraphAlignment.Right;
-            _row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Final Total");
             _row.Cells[0].MergeRight = 4;
-            _row.Cells[5].Borders.Visible = false;
-            _row.Cells[5].Format.Alignment = ParagraphAlignment.Right;
-            _row.Cells[5].VerticalAlignment = VerticalAlignment.Center;
-            _row.Cells[5].Format.Font.Bold = true;
-            var cellText = _billAmount.ToString("C");
-            if (_clientPaysFinal)
-            {
-                cellText = $"{_billAmount.ToString("C")} [CR]";
-            }
-            else
-            {
-                cellText = $"{_billAmount.ToString("C")} [DR]";
-            }
-            _row.Cells[5].AddParagraph(cellText);
+            _row.Cells[5].AddParagraph(_model.FinalTotal.ToString("C"));
 
-            // add legend row
+            // add final total row
             _row = _table.AddRow();
-            _row.Cells[0].Borders.Visible = false;
-            _row.Cells[0].AddParagraph("[P] = Purchase \n [S] = Sell \n [L] = Loan");
-            _row.Cells[0].VerticalAlignment = VerticalAlignment.Top;
-            _row.Cells[0].Format.Alignment = ParagraphAlignment.Left;
-            _row.Cells[1].Borders.Visible = false;
-            _row.Cells[1].AddParagraph("[DR] = Business pays to the client \n [CR] = Client pays to the business");
-            _row.Cells[1].VerticalAlignment = VerticalAlignment.Top;
-            _row.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            _row.Cells[1].MergeRight = 3;
+            _row.Height = Unit.FromCentimeter(0.75);
+            _row.Shading.Color = Color.FromRgb(204, 204, 204);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Payment Received");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.PaymentReceived.ToString("C"));
 
-            // Add the replacement value agreement
+            //// add legend row
+            //_row = _table.AddRow();
+            //_row.Cells[0].Borders.Visible = false;
+            //_row.Cells[0].AddParagraph("[P] = Purchase \n [S] = Sell \n [L] = Loan");
+            //_row.Cells[0].VerticalAlignment = VerticalAlignment.Top;
+            //_row.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            //_row.Cells[1].Borders.Visible = false;
+            //_row.Cells[1].AddParagraph("[DR] = Business pays to the client \n [CR] = Client pays to the business");
+            //_row.Cells[1].VerticalAlignment = VerticalAlignment.Top;
+            //_row.Cells[1].Format.Alignment = ParagraphAlignment.Left;
+            //_row.Cells[1].MergeRight = 3;
+
+            //// Add the replacement value agreement
+            //var paragraph = _document.LastSection.AddParagraph();
+            //paragraph.Format.SpaceBefore = "1cm";
+            //paragraph.AddText($"I, {_model.ClientName}, here by acknowledge that the replacement values mentioned in this receipt are correct to my knowledge. \n\n _____________________________");
+
+            // add payment method and blurb
             var paragraph = _document.LastSection.AddParagraph();
-            paragraph.Format.SpaceBefore = "1cm";
-            paragraph.AddText($"I, {_clientName}, here by acknowledge that the replacement values mentioned in this receipt are correct to my knowledge. \n\n _____________________________");
+            paragraph.Format.SpaceBefore = "0.5cm";
+            paragraph.Format.LineSpacing = "0.5cm";
+            paragraph.AddText($"Paid By: {_model.PaymentMethod} \n No Refund or Exchange - All transactions are final sale");
 
-            // add terms and conditions
+            // add terms and conditions            
             paragraph = _document.LastSection.AddParagraph();
-            paragraph.Format.SpaceBefore = "1cm";
+            paragraph.Format.SpaceBefore = "0.5cm";
             paragraph.Format.Font.Size = 8;
             paragraph.AddText("Terms and Conditions");
             paragraph = _document.LastSection.AddParagraph();
             paragraph.Format.SpaceBefore = "0.2cm";
-            paragraph.Style = "Conditions";            
-            paragraph.AddText("1) The client hereby acknowledges receipt of Loan/Sell amount, copy of this contract and payment schedule. " +
-                "2) We agree to return the described property(ies) to the client only upon presentation of this contract and payment of principal loan amount plus applicable interest and service charges. " +
-                "3) Client hereby certifies that he or she is legal owner of the property(ies) as described above, empowered to sell or dispose of the above property(ies) and is/are free and clear of all liens and encumbrances. " +
-                "4) Client will be responsible for any legal fees incurred by J.P. Finance Chase Ltd. resulting from this transaction. " +
-                "5) All interest charges, service fee, storage fee are calculated per month and due 30 days from the date of this loan contract. " +
-                "6) No credit shall be allowed for redemption in less than 30 days. " +
-                "7) This loan is due in 30 days from the date of this contract and if we do not receive principal loan amount plus interest, service fee, storage fee as mentioned in this contract, you will forfeit your ownership of the above property(ies). If the above contract is not redeemed within 30 days, the above property(ies) may be sold at public or private sale by J.P. Finance Chase Ltd. " +
-                "8) Once property(ies) is/are sold to J.P. Finance Chase Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. " +
-                "9) As per Pawn Broker Law, you allow us to share your information with legal authorities if requested by Court order, police department or any other official government authorities. " +
-                "10) Loan contract is non-transferable. " +
-                "11) Only person named on the receipt can redeem the loan contract. " +
-                "12) Lost loan contract may result in additional cost of duplicate loan contract and affidavit.");
+            paragraph.Style = "Conditions";
+            paragraph.AddText(Constants.Business.TermsConditions);
 
             // add date and sign area
             paragraph = _document.LastSection.AddParagraph();

@@ -411,6 +411,43 @@ Jpfc.ClientReceipt = function () {
         });
     };
 
+    var isReceiptPaid = function () {
+        var isPaid = true;
+        if (Jpfc.Helper.isNullOrEmpty($('#PaymentDate').val()) || Jpfc.Helper.isNullOrEmpty($('#PaymentAmount').val())) {
+            isPaid = false;
+        }
+        return isPaid;
+    };
+    var downloadPaymentReceipt = function () {
+        if (isReceiptPaid()) {
+            $('#btn-download-payment-receipt').find('.loading-spinner').show();
+            $.ajax({
+                url: "/Client/ExportPaymentReceipt",
+                method: "post",
+                data: {
+                    clientReceiptId: $('#ClientReceiptId').val()
+                }
+            }).done(function (result) {
+                if (result.success) {
+                    var bytes = Jpfc.Helper.base64ToArrayBuffer(result.fileBytes);
+                    Jpfc.Helper.downloadFile(result.fileName, bytes);
+                } else {
+                    toastr.error(result.error, '', Jpfc.Toastr.config);
+                }
+                $('#btn-download-payment-receipt').find('.loading-spinner').hide();
+            }).fail(function () {
+                toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
+                $('#btn-download-payment-receipt').find('.loading-spinner').hide();
+            });
+        } else {
+            swal({
+                title: 'Error',
+                text: "Payment Date or Payment Amount is invalid.",
+                type: 'info'
+            });
+        }
+    };
+
     var bindEvents = function () {
         $('#add-receipt-form').on('submit', function () {
             if ($(this).valid()) {
@@ -461,6 +498,10 @@ Jpfc.ClientReceipt = function () {
 
         $('#btn-download-loan-schedule').on('click', function () {
             downloadLoanSchedule();
+        });
+
+        $('#btn-download-payment-receipt').on('click', function () {
+            downloadPaymentReceipt();
         });
     };
 

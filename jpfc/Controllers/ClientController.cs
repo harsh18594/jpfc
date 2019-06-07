@@ -366,6 +366,21 @@ namespace jpfc.Controllers
                 fileName = result.FileName
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ExportPaymentReceipt(int clientReceiptId)
+        {
+            _logger.LogInformation(GetLogDetails() + " - clientReceiptId:{@clientReceiptId}", new object[] { clientReceiptId });
+
+            var result = await _clientReceiptService.ExportPaymentReceiptByReceiptIdAsync(clientReceiptId);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error,
+                fileBytes = result.FileBytes,
+                fileName = result.FileName
+            });
+        }
         #endregion
     }
 }

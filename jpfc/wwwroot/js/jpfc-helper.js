@@ -21,8 +21,17 @@ Jpfc.Helper = function () {
         link.click();
     };
 
+    var isNullOrEmpty = function (val) {
+        var retVal = false;
+        if (val === undefined || val === null || val === '') {
+            retVal = true;
+        }
+        return retVal;
+    };
+
     return {
         base64ToArrayBuffer: base64ToArrayBuffer,
-        downloadFile: downloadFile
+        downloadFile: downloadFile,
+        isNullOrEmpty: isNullOrEmpty
     };
 }();

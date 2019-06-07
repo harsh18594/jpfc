@@ -17,5 +17,6 @@ namespace jpfc.Services.Interfaces
         Task<(bool Success, string Error, AmountSummaryViewModel Model)> FetchReceiptSummaryAsync(int clientReceiptId);
         Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportReceiptByReceiptIdAsync(int clientReceiptId);
         Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportLoanScheduleByReceiptIdAsync(int clientReceiptId);
+        Task<(bool Success, string Error, byte[] FileBytes, string FileName)> ExportPaymentReceiptByReceiptIdAsync(int clientReceiptId);
     }
 }
