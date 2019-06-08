@@ -453,7 +453,7 @@ namespace jpfc.Services.Reports
             _row.Format.Font.Bold = true;
             _row.Cells[0].AddParagraph("Total Sell");
             _row.Cells[0].MergeRight = 4;
-            _row.Cells[5].AddParagraph(_model.SellTotal.ToString("C"));
+            _row.Cells[5].AddParagraph("-" + _model.SellTotal.ToString("C"));
 
             // add prinicipal loan amount row
             _row = _table.AddRow();
