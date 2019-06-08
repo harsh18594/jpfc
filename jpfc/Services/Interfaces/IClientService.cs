@@ -10,7 +10,7 @@ namespace jpfc.Services.Interfaces
     {
         Task<(bool Success, string Error, int ClientId)> CreateClientAsync(CreateClientViewModel model, string userId);
         Task<(bool Success, string Error, CreateClientViewModel Model)> GetCreateClientViewModelAsync(int clientId);
-        Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(DateTime? startDate, DateTime? endDate);
+        Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(ClientSearchViewModel model);
         Task<(bool Success, string Error, int ClientId)> UpdateClientAsync(CreateClientViewModel model, string userId);
         Task<(bool Success, string Error)> DeleteClientByIdAsync(int id);
         Task<(bool Success, string Error, ICollection<ClientBelongingListViewModel> Model)> FetchClientBelongingListByReceiptIdAsync(int receiptId);

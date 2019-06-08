@@ -11,7 +11,7 @@ namespace jpfc.Data.Interfaces
     {
         Task<decimal> GetMaxClientIdAsync();
         Task<Client> FetchBaseByIdAsync(int clientId);
-        Task<ICollection<ClientListViewModel>> ListClientsAsync(DateTime? startDate, DateTime? endDate);
+        Task<ICollection<ClientListViewModel>> ListClientsAsync(ClientSearchViewModel model);
         Task<bool> SaveClientAsync(Client client);
         Task<bool> DeleteClientAsync(Client client);
     }

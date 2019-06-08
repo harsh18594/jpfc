@@ -32,15 +32,15 @@ namespace jpfc.Services
         }
 
         #region Client
-        public async Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(DateTime? startDate, DateTime? endDate)
+        public async Task<(bool Success, string Error, ICollection<ClientListViewModel> Model)> GetClientListViewModelAsync(ClientSearchViewModel model)
         {
             var success = false;
             string error = string.Empty;
-            ICollection<ClientListViewModel> model = new List<ClientListViewModel>();
+            ICollection<ClientListViewModel> retModel = new List<ClientListViewModel>();
 
             try
             {
-                model = await _clientRepository.ListClientsAsync(startDate, endDate);
+                retModel = await _clientRepository.ListClientsAsync(model);
                 success = true;
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace jpfc.Services
                 _logger.LogError("ClientService.GetClientListViewModelAsync - exception:{@Ex}", args: new object[] { ex });
             }
 
-            return (Success: success, Error: error, Model: model);
+            return (Success: success, Error: error, Model: retModel);
         }
 
         public async Task<(bool Success, string Error, CreateClientViewModel Model)> GetCreateClientViewModelAsync(int clientId)

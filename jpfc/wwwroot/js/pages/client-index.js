@@ -1,8 +1,20 @@
 ﻿var Jpfc = Jpfc || {};
 
 Jpfc.ClientIndex = function () {
-    var loadingPriceSpinner = null;
+    var loadingClientSpinner = null;
     var table;
+
+    var setSearchLoading = function () {
+        $('#btn-search').find('.loading-spinner').show();
+        loadingClientSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('client-table'));
+    };
+
+    var clearSearchLoading = function () {
+        $('#btn-search').find('.loading-spinner').hide();
+        if (loadingClientSpinner !== null) {
+            loadingClientSpinner.stop();
+        }
+    };
 
     var initDatePickers = function () {
         $('#FilterStartDate, #FilterEndDate').datepicker({
@@ -19,7 +31,8 @@ Jpfc.ClientIndex = function () {
         $.fn.dataTable.moment('DD-MMM-YYYY');
         $.fn.dataTable.moment('DD/MMM/YYYY');
         table = $('#client-table').on('preXhr.dt', function () {
-            loadingPriceSpinner = new Spinner(Jpfc.Spin.config).spin(document.getElementById('client-table'));
+            clearSearchLoading();
+            setSearchLoading();
         }).DataTable({
             "order": [0, "desc"],
             "columnDefs": [{
@@ -32,13 +45,13 @@ Jpfc.ClientIndex = function () {
                 "data": function (d) {
                     return {
                         startDate: $('#FilterStartDate').val(),
-                        endDate: $('#FilterEndDate').val()
+                        endDate: $('#FilterEndDate').val(),
+                        firstName: $('#FirstName').val(),
+                        lastName: $('#LastName').val()
                     };
                 },
                 "dataSrc": function (d) {
-                    if (loadingPriceSpinner !== null) {
-                        loadingPriceSpinner.stop();
-                    }
+                    clearSearchLoading();
                     return d;
                 }
             },
@@ -97,9 +110,22 @@ Jpfc.ClientIndex = function () {
         });
     };
 
+    var bindEvents = function () {
+        $('#btn-search').on('click', function () {
+            table.ajax.reload();
+        });
+
+        $('.search-input').on('keypress', function (e) {
+            if (e.keyCode === 13) {
+                table.ajax.reload();
+            }
+        });
+    };
+
     var init = function () {
         initDataTable();
         initDatePickers();
+        bindEvents();
     };
 
     return {

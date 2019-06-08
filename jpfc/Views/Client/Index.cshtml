@@ -29,19 +29,31 @@
 <!-- Services Section Three-->
 <section class="mt-5 mb-5" id="content-container">
     <div class="auto-container">
-        <div class="row">
+        @*<div class="row">
             <div class="col-12">
                 <a class="btn btn-success text-white" asp-controller="Client" asp-action="CreateClient"><i class="fa fa-plus"></i> Create Client</a>
                 <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Back</a>
             </div>
-        </div>
+        </div>*@
         <!-- Sec Title -->
         <div class="sec-title centered">
-            <h2>Saved Clients</h2>
+            <h2>Clients</h2>
         </div>
-        <div class="row clearfix mt-3">
+        <div class="row clearfix mt-2">
             <div class="col-12">
-                <h5>Filter</h5>
+                <h5>Search</h5>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label for="FirstName" class="font-weight-bold">First Name</label>
+                    <input id="FirstName" type="text" class="form-control search-input" />
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label for="LastName" class="font-weight-bold">Last Name</label>
+                    <input id="LastName" type="text" class="form-control search-input" />
+                </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
@@ -65,7 +77,13 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12">
+                <button type="button" id="btn-search" class="btn btn-primary">Search <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></button>
+                <a class="ml-2 btn btn-success text-white" asp-controller="Client" asp-action="CreateClient"><i class="fa fa-plus"></i> Create Client</a>
+                <a asp-controller="Admin" asp-action="Index" class="btn btn-warning">Back</a>
+            </div>
         </div>
+
         <div class="row clearfix mt-3">
             <div class="col-12">
                 <div class="table-responsive">
