@@ -342,7 +342,7 @@ namespace jpfc.Services.Reports
 
                 row.TopPadding = 1;
                 row.BottomPadding = 1;
-                row.Height = Unit.FromCentimeter(0.75);
+                row.Height = Unit.FromCentimeter(0.60);
                 // define debit/credit identifier
                 var crDr = "";
                 if (item.BusinessGetsMoney)
@@ -497,7 +497,9 @@ namespace jpfc.Services.Reports
 
             // add final total row
             _row = _table.AddRow();
-            _row.Height = Unit.FromCentimeter(0.75);
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Borders.Bottom.Color = Color.FromRgb(255, 255, 255);
+            _row.Borders.Bottom.Width = 0.25;
             _row.Shading.Color = Color.FromRgb(204, 204, 204);
             _row.Format.Alignment = ParagraphAlignment.Right;
             _row.VerticalAlignment = VerticalAlignment.Center;
@@ -506,14 +508,16 @@ namespace jpfc.Services.Reports
             _row.Cells[0].MergeRight = 4;
             _row.Cells[5].AddParagraph(_model.FinalTotal.ToString("C"));
 
-            // add final total row
+            // add payment received row
             _row = _table.AddRow();
-            _row.Height = Unit.FromCentimeter(0.75);
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Borders.Top.Color = Color.FromRgb(255, 255, 255);
+            _row.Borders.Top.Width = 0.25;
             _row.Shading.Color = Color.FromRgb(204, 204, 204);
             _row.Format.Alignment = ParagraphAlignment.Right;
             _row.VerticalAlignment = VerticalAlignment.Center;
             _row.Format.Font.Bold = true;
-            _row.Cells[0].AddParagraph("Payment Received");
+            _row.Cells[0].AddParagraph($"Payment Received by {_model.PaymentMethod}");
             _row.Cells[0].MergeRight = 4;
             _row.Cells[5].AddParagraph(_model.PaymentReceived.ToString("C"));
 
@@ -536,9 +540,8 @@ namespace jpfc.Services.Reports
 
             // add payment method and blurb
             var paragraph = _document.LastSection.AddParagraph();
-            paragraph.Format.SpaceBefore = "0.5cm";
-            paragraph.Format.LineSpacing = "0.5cm";
-            paragraph.AddText($"Paid By: {_model.PaymentMethod} \n No Refund or Exchange - All transactions are final sale");
+            paragraph.Format.SpaceBefore = "0.1cm";
+            paragraph.AddText($"** No Refund or Exchange - All transactions are final sale");
 
             // add terms and conditions            
             paragraph = _document.LastSection.AddParagraph();
