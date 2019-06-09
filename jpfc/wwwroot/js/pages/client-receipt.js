@@ -353,9 +353,12 @@ Jpfc.ClientReceipt = function () {
             }
         }).done(function (result) {
             if (result.success) {
-                $('#client-gets-amount').html(result.model.clientGetsStr);
-                $('#client-pays-amount').html(result.model.clientPaysStr);
-                $('#total-amount').html(result.model.totalAmountStr);
+                $('#total-purchase-amount').html(result.model.purchaseTotalStr);
+                $('#total-sell-amount').html(result.model.sellTotalStr);
+                $('#principal-loan-amount').html(result.model.principalLoanAmountStr);
+                $('#interest-amount').html(result.model.interestAmountStr);
+                $('#service-fee-amount').html(result.model.serviceFeeStr);
+                $('#storage-fee-amount').html(result.model.storageFeeStr);
                 $('#summary-blurb').html(result.model.summaryBlurb);
             } else {
                 toastr.error(result.error, '', Jpfc.Toastr.config);

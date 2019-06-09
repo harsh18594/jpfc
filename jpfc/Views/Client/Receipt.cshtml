@@ -270,18 +270,27 @@
                     <div class="alert alert-info">
                         <div class="row">
                             <div class="col-12">
-                                <h5>Summary <i class="fa fa-spinner fa-spin" id="summary-loading-spinner" style="display: none;"></i></h5>
+                                <h5>Summary <i class="fa fa-info-circle" data-toggle="tooltip" title="Summary/action to close this receipt"></i> <i class="fa fa-spinner fa-spin" id="summary-loading-spinner" style="display: none;"></i></h5>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-4">
-                                <label class="font-weight-bold">Client Pays:</label> <span class="text-success" id="client-pays-amount"></span>
+                                <label class="font-weight-bold">Principal Loan Amount:</label> <span id="principal-loan-amount"></span>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label class="font-weight-bold">Client Gets:</label> <span class="text-danger" id="client-gets-amount"></span>
+                                <label class="font-weight-bold">Interest Amount:</label> <span id="interest-amount"></span>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label class="font-weight-bold">Total:</label> <span id="total-amount"></span>
+                                <label class="font-weight-bold">Total Purchase:</label> <span class="text-danger" id="total-purchase-amount"></span>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="font-weight-bold">Total Sell:</label> <span class="text-success" id="total-sell-amount"></span>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="font-weight-bold">Service Fee:</label> <span id="service-fee-amount"></span>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="font-weight-bold">Storage Fee:</label> <span id="storage-fee-amount"></span>
                             </div>
                         </div>
                         <div class="row">

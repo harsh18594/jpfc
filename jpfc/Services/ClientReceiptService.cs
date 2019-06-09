@@ -743,20 +743,54 @@ namespace jpfc.Services
             {
                 if (clientReceiptId > 0)
                 {
-                    var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
-                    if (belongings != null && belongings.Any())
+                    // fetch client info
+                    var receiptInfo = await _clientReceiptRepository.FetchFullByIdAsync(clientReceiptId);
+
+                    decimal principalLoanAmount = 0;
+                    decimal loanDueAmount = 0;
+                    decimal totalPurchase = 0;
+                    decimal totalSell = 0;
+
+                    //var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
+                    if (receiptInfo.ClientBelongings != null && receiptInfo.ClientBelongings.Any())
                     {
-                        foreach (var item in belongings)
+                        foreach (var item in receiptInfo.ClientBelongings)
                         {
-                            if (item.BusinessGetsMoney)
+                            // determine total loan amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Loan)
                             {
-                                model.ClientPays += item.FinalPrice ?? 0;
+                                principalLoanAmount += item.FinalPrice ?? 0;
                             }
-                            if (item.BusinessPaysMoney)
+
+                            // determine total purchase amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Purchase)
                             {
-                                model.ClientGets += item.FinalPrice ?? 0;
+                                totalPurchase += item.FinalPrice ?? 0;
+                            }
+
+                            // determine total sell amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Sell)
+                            {
+                                totalSell += item.FinalPrice ?? 0;
                             }
                         }
+
+                        // calculate interest rate on loan amount
+                        var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
+                        var receiptDate = _dateTimeService.ConvertUtcToDateTime(receiptInfo.CreatedUtc, timeZone);
+                        var now = _dateTimeService.ConvertUtcToDateTime(DateTime.UtcNow, timeZone);
+                        loanDueAmount = principalLoanAmount;
+                        for (var i = receiptDate; i < now; i = i.AddMonths(1))
+                        {
+                            // prepare due amount
+                            loanDueAmount = loanDueAmount * (decimal)1.04;
+                        }
+
+                        model.InterestAmount = Math.Abs(loanDueAmount - principalLoanAmount);
+                        model.PrincipalLoanAmount = principalLoanAmount;
+                        model.PurchaseTotal = totalPurchase;
+                        model.SellTotal = totalSell;
+                        model.FinalTotal = (model.PrincipalLoanAmount + model.SellTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.PurchaseTotal;
                     }
 
                     success = true;
