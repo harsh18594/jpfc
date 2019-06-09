@@ -1,8 +1,10 @@
 ﻿@inject IIdentificationDocumentRepository IdentificationDocumentRepository
+@inject IClientIdentificationService ClientIdentificationService
 @model jpfc.Models.ClientViewModels.CreateClientViewModel
 
 @{
     ViewData["Title"] = "Client Profile";
+    var idList = (await ClientIdentificationService.FetchClientIdentificationListAsync(Model.ClientId ?? 0)).Model;
 }
 
 @section Styles{
@@ -155,8 +157,20 @@
             <div class="title"><hr />Receipts <hr /></div>
         </div>
         <div class="row">
-            <div class="col">
-                <a asp-controller="Client" asp-action="Receipt" asp-route-clientId="@Model.ClientId" class="btn btn-success"><i class="fa fa-plus"></i> Add Receipt</a>
+            <div class="col-lg-4 col-md-12">
+                <div class="form-group">
+                    <label for="identification-id" class="font-weight-bold">Identification Document</label> <span class="text-danger">*</span>
+                    <select id="identification-id" class="form-control"
+                            asp-items="@(new SelectList(idList, "ClientIdentificationId", "DisplayValue"))">
+                        <option value="">-- Select Id --</option>
+                    </select>
+                    <span id="id-required-error" class="text-danger" style="display: none;">Identification document is required.</span>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-12">
+                <label>&nbsp;</label>
+                @*<a asp-controller="Client" asp-action="Receipt" asp-route-clientId="@Model.ClientId" class="btn btn-success"><i class="fa fa-plus"></i> Add Receipt</a>*@
+                <button type="button" id="btn-add-receipt" class="btn btn-success"><i class="fa fa-plus"></i> Add Receipt <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></button>
             </div>
         </div>
         <div class="row clearfix mt-3">

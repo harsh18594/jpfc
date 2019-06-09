@@ -290,6 +290,30 @@ namespace jpfc.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> AddReceipt(CreateClientReceiptViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", new object[] { model });
+
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var result = await _clientReceiptService.SaveClientReceiptAsync(model, userId);
+                return Json(new
+                {
+                    success = result.Success,
+                    error = result.Error,
+                    receiptId = result.ReceiptId
+                });
+            }
+
+            return Json(new
+            {
+                success = false,
+                error = "Invalid Request"
+            });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> GetClientReceiptList(int clientId)
         {
             _logger.LogInformation(GetLogDetails() + " - clientId:{@ClientId}", new object[] { clientId });

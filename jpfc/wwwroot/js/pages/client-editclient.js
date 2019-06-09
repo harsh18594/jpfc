@@ -186,6 +186,42 @@ Jpfc.ClientEditClient = function () {
         });
     };
 
+    var refreshIdentificationDropdown = function (idList) {
+        var $dropdown = $('#identification-id');
+        $dropdown.find('option').not(':first').remove();
+        $.each(idList, function () {
+            $dropdown.append($("<option />").val(this.clientIdentificationId).text(this.displayValue));
+        });
+    };
+    var addReceipt = function () {
+        $('#id-required-error').hide();
+        var clientId = $('#edit-client-form #ClientId').val();
+        identificationId = $('#identification-id').val();
+        if (identificationId) {
+            $('#btn-add-receipt').find('.loading-spinner').show();
+            $.ajax({
+                url: '/Client/AddReceipt',
+                method: 'post',
+                data: {
+                    clientId: clientId,
+                    clientIdentificationId: identificationId
+                }
+            }).done(function (result) {
+                if (result.success) {
+                    window.location = '/Client/Receipt?clientId=' + clientId + '&receiptId=' + result.receiptId;
+                } else {
+                    toastr.error(result.error, '', Jpfc.Toastr.config);
+                }
+                $('#btn-add-receipt').find('.loading-spinner').hide();
+            }).fail(function () {
+                toastr.error('Unexpected error occurred while processing your request', '', Jpfc.Toastr.config);
+                $('#btn-add-receipt').find('.loading-spinner').hide();
+            });
+        } else {
+            $('#id-required-error').show();
+        }
+    };
+
     var bindEvents = function () {
         $('#edit-client-form').on('submit', function () {
             if ($(this).valid()) {
@@ -208,6 +244,10 @@ Jpfc.ClientEditClient = function () {
         $('#receipt-table').on('click', '.download-loan-schedule', function () {
             downloadLoanSchedule($(this).data('receipt-id'), $(this));
         });
+
+        $('#btn-add-receipt').on('click', function () {
+            addReceipt();
+        });
     };
 
     var init = function () {
@@ -216,6 +256,7 @@ Jpfc.ClientEditClient = function () {
     };
 
     return {
-        init: init
+        init: init,
+        refreshIdentificationDropdown: refreshIdentificationDropdown
     };
 }();

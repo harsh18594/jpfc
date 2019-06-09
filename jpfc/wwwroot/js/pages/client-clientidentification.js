@@ -29,6 +29,7 @@ Jpfc.ClientIdentification = function () {
                     if (loadingIdSpinner !== null) {
                         loadingIdSpinner.stop();
                     }
+                    Jpfc.ClientEditClient.refreshIdentificationDropdown(d);
                     return d;
                 }
             },
