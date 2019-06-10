@@ -47,7 +47,7 @@
         <div class="sec-title-three">
             <div class="clearfix">
                 <div class="pull-left">
-                    <div class="title">Intro</div>
+                    @*<div class="title">Intro</div>*@
                     <h2>About us</h2>
                 </div>
                 <div class="pull-right">
@@ -63,8 +63,8 @@
             <!-- Content Column -->
             <div class="image-column col-lg-5 col-md-12 col-sm-12">
                 <div class="inner-column">
-                    <div class="image-1"><img src="~/images/gold/gold1_rsz.png" alt=""></div>
-                    <div class="image-2"><img src="~/images/gold/accounting_rsz.png" alt=""></div>
+                    <div class="image-1"><img src="~/images/jewel_loanpower.png" alt=""></div>
+                    @*<div class="image-2"><img src="~/images/gold/accounting_rsz.png" alt=""></div>*@
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
                                 <div class="icon-box alternate">
                                     <span class="icon flaticon-loading"></span>
                                 </div>
-                                <h5>12 years <br> <span class="text-muted f-1rem">Experience</span></h5>
+                                <h5>Since 1989 <br> <span class="text-muted f-1rem">Experience</span></h5>
                             </div>
                         </div>
 
@@ -168,8 +168,8 @@
                     <div class="icon-box">
                         <span class="icon flaticon-money"></span>
                     </div>
-                    <h6><a asp-controller="Services" asp-action="BuySellGold">Buy &amp; Sell <br>Gold</a></h6>
-                    <div class="text">We buy &amp; sell gold at lower price than market</div>
+                    <h6><a asp-controller="Services" asp-action="BuySellGold">Trade <br /> Precious Metal</a></h6>
+                    <div class="text">Trade precious metals at competitive price</div>
                 </div>
             </div>
 
@@ -181,8 +181,8 @@
                     <div class="icon-box">
                         <span class="icon flaticon-banknote"></span>
                     </div>
-                    <h6><a asp-controller="Services" asp-action="Loan">Loan Against <br>Gold</a></h6>
-                    <div class="text">We offer a loan against gold</div>
+                    <h6><a asp-controller="Services" asp-action="Loan">Pawn <br>Precious Things</a></h6>
+                    <div class="text">We offer loan at only $4 rate per $100</div>
                 </div>
             </div>
 
@@ -194,21 +194,35 @@
                     <div class="icon-box">
                         <span class="icon flaticon-budget"></span>
                     </div>
-                    <h6><a asp-controller="Services" asp-action="Mortgage">Mortgage <br /> &nbsp;</a></h6>
-                    <div class="text">We help with mortgage <br /> &nbsp; </div>
+                    <h6><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></h6>
+                    <div class="text">Helping Ordinary People Achieving Extra-Ordinary Dreams</div>
                 </div>
             </div>
 
             <!-- Services Block Fourteen -->
             <div class="services-block-fourteen col-lg-3 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                <div class="inner-box wow fadeInUp" data-wow-delay="900ms" data-wow-duration="1500ms">
                     <div class="box-one"></div>
                     <div class="box-two"></div>
                     <div class="icon-box">
-                        <span class="icon flaticon-earnings"></span>
+                        <span class="icon flaticon-house"></span>
+                        <span class="icon flaticon-car"></span>
                     </div>
-                    <h6><a asp-controller="Services" asp-action="FinancePlanning">Financial <br>Planning</a></h6>
-                    <div class="text">We give expert advice to plan your finance effectively</div>
+                    <h6><a asp-controller="Services" asp-action="Insurance">Home &amp; Auto <br> Insurance</a></h6>
+                    <div class="text">We help finding the best insurance policy</div>
+                </div>
+            </div>
+
+            <!-- Services Block Fourteen -->
+            <div class="services-block-fourteen col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeInUp" data-wow-delay="300ms" data-wow-duration="1500ms">
+                    <div class="box-one"></div>
+                    <div class="box-two"></div>
+                    <div class="icon-box">
+                        <span class="icon flaticon-heartbeat"></span>
+                    </div>
+                    <h6><a asp-controller="Services" asp-action="Insurance">Life <br> Insurance</a></h6>
+                    <div class="text">We help finding the best insurance policy</div>
                 </div>
             </div>
 
@@ -221,33 +235,7 @@
                         <span class="icon fa fa-credit-card"></span>
                     </div>
                     <h6><a asp-controller="Services" asp-action="CreditCards">Credit <br>Cards</a></h6>
-                    <div class="text">We issue different kinds of credit cards</div>
-                </div>
-            </div>
-
-            <!-- Services Block Fourteen -->
-            <div class="services-block-fourteen col-lg-3 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInUp" data-wow-delay="900ms" data-wow-duration="1500ms">
-                    <div class="box-one"></div>
-                    <div class="box-two"></div>
-                    <div class="icon-box">
-                        <span class="icon flaticon-car"></span>
-                    </div>
-                    <h6><a asp-controller="Services" asp-action="Insurance">Auto <br> Insurance</a></h6>
-                    <div class="text">We help finding the best insurance policy</div>
-                </div>
-            </div>
-
-            <!-- Services Block Fourteen -->
-            <div class="services-block-fourteen col-lg-3 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInUp" data-wow-delay="300ms" data-wow-duration="1500ms">
-                    <div class="box-one"></div>
-                    <div class="box-two"></div>
-                    <div class="icon-box">
-                        <span class="icon flaticon-house"></span>
-                    </div>
-                    <h6><a asp-controller="Services" asp-action="Insurance">Home <br> Insurance</a></h6>
-                    <div class="text">We help finding the best insurance policy</div>
+                    <div class="text">Coming soon!</div>
                 </div>
             </div>
 
@@ -257,10 +245,23 @@
                     <div class="box-one"></div>
                     <div class="box-two"></div>
                     <div class="icon-box">
-                        <span class="icon flaticon-employee"></span>
+                        <span class="icon flaticon-money-bag"></span>
                     </div>
-                    <h6><a asp-controller="Services" asp-action="Insurance">Life <br> Insurance</a></h6>
-                    <div class="text">We help finding the best insurance policy</div>
+                    <h6><a asp-controller="Services" asp-action="Insurance">Unsecured <br> Loan</a></h6>
+                    <div class="text">We provide personal loan upto $35000</div>
+                </div>
+            </div>
+
+            <!-- Services Block Fourteen -->
+            <div class="services-block-fourteen col-lg-3 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    <div class="box-one"></div>
+                    <div class="box-two"></div>
+                    <div class="icon-box">
+                        <span class="icon flaticon-earnings"></span>
+                    </div>
+                    <h6><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></h6>
+                    <div class="text">Creative ideas of how to add few zeros to bank account</div>
                 </div>
             </div>
         </div>

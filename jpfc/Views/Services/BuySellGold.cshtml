@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Buy & Sell Precious Metal";
+    ViewData["Title"] = "Trade Precious Metal Bullion";
 }
 
 @section Styles{
@@ -13,10 +13,10 @@
 <section class="page-title" style="background-image:url(../../images/banner-images/gold-bar.jpg)">
     <div class="auto-container">
         <div class="content">
-            <h1>Buy &amp; Sell Precious Metal</h1>
+            <h1>@ViewData["Title"]</h1>
             <ul class="page-breadcrumb">
                 <li><a asp-controller="Services" asp-action="Index">Services</a></li>
-                <li>Buy &amp; Sell Precious Metal</li>
+                <li>@ViewData["Title"]</li>
             </ul>
         </div>
     </div>
@@ -34,11 +34,13 @@
                     <!--Blog Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
-                            <li class="active"><a asp-controller="Services" asp-action="BuySellGold">Buy &amp; Sell Precious Metal</a></li>
-                            <li><a asp-controller="Services" asp-action="Loan">Loan</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
+                            <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
                             <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
-                            <li><a asp-controller="Services" asp-action="Insurance">Insurance</a></li>
+                            <li><a asp-controller="Services" asp-action="Insurance">Home &amp; Auto Insurance</a></li>
+                            <li><a asp-controller="Services" asp-action="Insurance">Life Insurance</a></li>
                             <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
+                            <li><a asp-controller="Services" asp-action="Loan">Unsecured Loan</a></li>
                             <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
@@ -54,46 +56,22 @@
                             <li><span class="icon flaticon-comment"></span> test@mail.com</li>
                         </ul>
                     </div>
-
-                    <!-- Brochures Widget-->
-                    @*<div class="sidebar-widget brochures-widget">
-                            <div class="sidebar-title">
-                                <h4>Brochures</h4>
-                            </div>
-                            <div class="text">View our 2019 financial prospectus brochure for an easy to read guide on all of the services offer.</div>
-                            <ul class="files">
-                                <li><a href="#"><span class="fa fa-file-pdf-o"></span> Download Brochure</a></li>
-                                <li><a href="#"><span class="fa fa-file-word-o"></span> Characteristics</a></li>
-                            </ul>
-                        </div>*@
-
-                    <!-- Banner Widget-->
-                    @*<div class="sidebar-widget banner-widget">
-                            <div class="widget-content" style="background-image:url(images/resource/service-15.jpg)">
-                                <div class="logo">
-                                    <img src="images/icons/widget-logo.png" alt="" />
-                                </div>
-                                <div class="title">Securied Business with</div>
-                                <h2>Financ</h2>
-                                <a href="contact.html" class="theme-btn btn-style-seventen">Let’s start now <span class="icon flaticon-link"></span></a>
-                            </div>
-                        </div>*@
-
                 </aside>
             </div>
 
             <!--Content Side-->
             <div class="content-side col-lg-8 col-md-8 col-sm-12">
                 <div class="services-single">
-                    <h4>Buy &amp; Sell Precious Metal</h4>
+                    <h4>@ViewData["Title"]</h4>
                     <div class="text">
-                        <p>We offer the best price for you which is lower than the market price. State of the Art technology for gold evaluation.</p>
+                        <p>Trade precious metals at competitive price. State-of-the-Art technology for metal evaluation.</p>
                     </div>
                     <ul class="list-style-four">
-                        <li>State of Art technology</li>
-                        <li>100% clean gold</li>
-                        <li>Measurements are taken in front of you</li>
-                        <li>Flexible payment options - Cash or E-transfer</li>
+                        <li>State-of-the-Art technology</li>
+                        <li>Buy 100% clean gold, silver, platinum and other metals</li>
+                        <li>Measurements taken in front of you</li>
+                        <li>Flexible payment methods - Cash or E-Transfer</li>
+                        <li>Government issued photo ID required</li>
                     </ul>
                     <!-- Price table -->
                     <div class="row mt-5">
@@ -133,161 +111,81 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Services Gallery -->
                     <div class="services-gallery">
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/resource/service-16.jpg" alt="">
+                                    <img src="~/images/1_oz_platinum_maple_leaf_coin.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/resource/service-17.jpg" alt="">
+                                    <img src="~/images/precious-metal.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/resource/service-16.jpg" alt="">
+                                    <img src="~/images/Buying-Platinum.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/resource/service-17.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/resource/service-16.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/resource/service-17.jpg" alt="">
+                                    <img src="~/images/diamond.png" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!--Services Info Tabs-->
-                    <div class="Services-info-tabs">
-                        <!--Service Tabs-->
-                        <div class="service-tabs tabs-box">
+                    @*<div class="Services-info-tabs">
+                            <!--Service Tabs-->
+                            <div class="service-tabs tabs-box">
 
-                            <!--Tab Btns-->
-                            <ul class="tab-btns tab-buttons clearfix">
-                                <li data-tab="#prod-audit" class="tab-btn active-btn">Audit</li>
-                                <li data-tab="#prod-strategy" class="tab-btn">Strategy</li>
-                                <li data-tab="#prod-sustainability" class="tab-btn">Sustainability</li>
-                            </ul>
+                                <!--Tab Btns-->
+                                <ul class="tab-btns tab-buttons clearfix">
+                                    <li data-tab="#prod-audit" class="tab-btn active-btn">Audit</li>
+                                    <li data-tab="#prod-strategy" class="tab-btn">Strategy</li>
+                                    <li data-tab="#prod-sustainability" class="tab-btn">Sustainability</li>
+                                </ul>
 
-                            <!--Tabs Container-->
-                            <div class="tabs-content">
+                                <!--Tabs Container-->
+                                <div class="tabs-content">
 
-                                <!--Tab / Active Tab-->
-                                <div class="tab active-tab" id="prod-audit">
-                                    <div class="content">
-                                        <div class="text">
-                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Tab-->
-                                <div class="tab" id="prod-strategy">
-                                    <div class="content">
-                                        <div class="text">
-                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Tab-->
-                                <div class="tab" id="prod-sustainability">
-                                    <div class="content">
-                                        <div class="text">
-                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row clearfix">
-
-                        <!-- Services Block Two -->
-                        <div class="services-block-two col-lg-6 col-md-6 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <img src="~/images/resource/service-1.jpg" alt="" />
-                                    <div class="overlay-box">
-                                        <div class="overlay-inner">
-                                            <div class="icon-box">
-                                                <span class="icon flaticon-analytics"></span>
-                                            </div>
-                                            <h5><a href="#">Financial Management <br> and Consulting</a></h5>
-                                        </div>
-                                    </div>
-                                    <div class="overlay-box-two">
-                                        <div class="overlay-inner-two">
-                                            <div class="content">
-                                                <div class="icon-box">
-                                                    <span class="icon flaticon-target"></span>
-                                                </div>
-                                                <div class="text">The argument in favor of using filler text goes something like this</div>
+                                    <!--Tab / Active Tab-->
+                                    <div class="tab active-tab" id="prod-audit">
+                                        <div class="content">
+                                            <div class="text">
+                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Services Block Two -->
-                        <div class="services-block-two col-lg-6 col-md-6 col-sm-12">
-                            <div class="inner-box">
-                                <div class="image">
-                                    <img src="~/images/resource/service-2.jpg" alt="" />
-                                    <div class="overlay-box">
-                                        <div class="overlay-inner">
-                                            <div class="icon-box">
-                                                <span class="icon flaticon-statistics"></span>
-                                            </div>
-                                            <h5><a href="#">Market Research <br> and Analysis</a></h5>
-                                        </div>
-                                    </div>
-                                    <div class="overlay-box-two">
-                                        <div class="overlay-inner-two">
-                                            <div class="content">
-                                                <div class="icon-box">
-                                                    <span class="icon flaticon-statistics"></span>
-                                                </div>
-                                                <div class="text">The argument in favor of using filler text goes something like this</div>
+                                    <!--Tab-->
+                                    <div class="tab" id="prod-strategy">
+                                        <div class="content">
+                                            <div class="text">
+                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
+                                    <!--Tab-->
+                                    <div class="tab" id="prod-sustainability">
+                                        <div class="content">
+                                            <div class="text">
+                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <!-- More Services -->
-                    @*<div class="more-services">
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <a href="#"><span class="fa fa-angle-double-left"></span> Previous Service</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#">Newer Service <span class="fa fa-angle-double-right"></span></a>
                                 </div>
                             </div>
                         </div>*@
-
                 </div>
             </div>
 
