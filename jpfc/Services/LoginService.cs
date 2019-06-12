@@ -170,5 +170,47 @@ namespace jpfc.Services
 
             return (Success: success, Error: error);
         }
+
+        public async Task<(bool Success, string Error)> ChangePasswordAsync(ChangePasswordViewModel model, string userId)
+        {
+            var success = false;
+            var error = "";
+
+            try
+            {
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                        if (changePasswordResult.Succeeded)
+                        {
+                            await _signInManager.RefreshSignInAsync(user);
+                            success = true;
+                        }
+                        else
+                        {
+                            error = string.Join("; ", changePasswordResult.Errors.Select(e => e.Description).ToList());
+                        }
+                    }
+                    else
+                    {
+                        error = "Unable to load user";
+                    }
+                }
+                else
+                {
+                    error = "User Id is invalid";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "Unexpected error occurred while processing your request.";
+                _logger.LogError("LoginService.ChangePasswordAsync - exception:{@Ex}", new object[] { ex });
+            }
+
+            return (Success: success, Error: error);
+        }
     }
 }

@@ -113,7 +113,34 @@ namespace jpfc.Controllers
 
         public async Task<IActionResult> ManageProfile()
         {
-            return RedirectToAction(controllerName: "Error", actionName: "Index");
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = _userManager.GetUserId(User);
+            var result = await _loginService.ChangePasswordAsync(model, userId);
+            if (result.Success)
+            {
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Your password has been changed.");
+                return RedirectToAction(nameof(AdminController.Index), controllerName: "Admin");
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return View(model);
         }
 
         #region Helpers

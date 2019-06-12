@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Admin Home";
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/document.png)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>Admin Home</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li>Admin Home</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- Services Section Three-->
+<section class="services-section-three">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            <!-- Services Block -->
+            <div class="services-block-three style-two col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    <div class="icon-box">
+                        <span class="fa fa-key"></span>
+                    </div>
+                    <h6><a asp-controller="Account" asp-action="ChangePassword">Change Password</a></h6>
+                    <div class="text">Update your account password</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

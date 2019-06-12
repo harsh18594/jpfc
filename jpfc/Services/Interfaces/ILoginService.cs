@@ -12,5 +12,6 @@ namespace jpfc.Services.Interfaces
         Task<bool> VerifyAccessCodeAsync(string accessCode);
         Task<bool> SetAccessCodeAsync(AccessCodeViewModel model);
         Task<(bool Success, string Error)> ResetAccessCodeAsync(Models.ManageViewModels.AccessCodeViewModel model);
+        Task<(bool Success, string Error)> ChangePasswordAsync(ChangePasswordViewModel model, string userId);
     }
 }
