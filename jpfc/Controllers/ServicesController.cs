@@ -47,13 +47,25 @@ namespace jpfc.Controllers
             return View();
         }
 
-        public IActionResult Insurance()
+        public IActionResult HAInsurance()
+        {
+            _logger.LogInformation(GetLogDetails());
+            return View();
+        }
+
+        public IActionResult LifeInsurance()
         {
             _logger.LogInformation(GetLogDetails());
             return View();
         }
 
         public IActionResult Loan()
+        {
+            _logger.LogInformation(GetLogDetails());
+            return View();
+        }
+
+        public IActionResult PersonalLoan()
         {
             _logger.LogInformation(GetLogDetails());
             return View();

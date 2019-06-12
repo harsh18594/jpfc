@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Pawn Precious Things";
+    ViewData["Title"] = "Life Insurance";
 }
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/watch.png)">
+<section class="page-title" style="background-image:url(images/background/8.jpg)">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -28,10 +28,10 @@
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
                             <li><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
-                            <li class="active"><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
+                            <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
                             <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
                             <li><a asp-controller="Services" asp-action="HAInsurance">Home &amp; Auto Insurance</a></li>
-                            <li><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
                             <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
                             <li><a asp-controller="Services" asp-action="PersonalLoan">Personal Loan</a></li>
                             <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
@@ -57,45 +57,43 @@
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
                     <div class="text">
-                        <p>We offer loan against gold, silver, platinum, other precious metals and luxurious items such as branded watch.</p>
+                        <div class="alert alert-info">
+                            <span class="quote">You don’t buy life insurance because you are going to die, but because those you love are going to live.</span> <br />
+                            <span>- Unknown</span>
+                        </div>
+                        <p>
+                            Life is unpredictable. Secure your loved ones' future with your life insurance.<br />
+                            We will find the best insurance policy that will help in future.
+                        </p>
                     </div>
+                    <h5>Benefits:</h5>
                     <ul class="list-style-four">
-                        <li>Only $4 interest rate per every $100 principal amount</li>
-                        <li>Interest calculated per month <span class="text-muted font-italic">(some conditions may apply)</span></li>
-                        <li>Flexible payment options - Pay only interest every month or pay full loan amount</li>
-                        <li>Flexible payment methods - Cash or E-Transfer</li>
-                        <li>Applicable service fee and storage fee will be charged</li>
-                        <li>Government issued photo ID required</li>
+                        <li>Lower premium rates</li>
+                        <li>Easy to claim</li>
+                        <li>Withdraw policy at anytime before it's maturity date</li>
                     </ul>
-
+                    <h5>Apply now</h5>
+                    <ul class="list-style-four">
+                        <li>Fill out an application form <a href="https://www.mortgageweb.ca/en-US/HansalPandya" target="_blank">here</a>, and we will get back to you as soon as possible</li>
+                    </ul>
                     <!-- Services Gallery -->
                     <div class="services-gallery">
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/rolex.jpg" alt="">
+                                    <img src="~/images/life-insur.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/precious-metal.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/jewel_loanpower.png" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/jewels.png" alt="">
+                                    <img src="~/images/life-insur-myth.jpg" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    @*<!--Services Info Tabs-->
-                        <div class="Services-info-tabs">
+                    <!--Services Info Tabs-->
+                    @*<div class="Services-info-tabs">
                             <!--Service Tabs-->
                             <div class="service-tabs tabs-box">
 
@@ -144,7 +142,6 @@
                         </div>*@
                 </div>
             </div>
-
         </div>
     </div>
 </div>

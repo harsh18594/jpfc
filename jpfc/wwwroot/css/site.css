@@ -41,3 +41,8 @@ td.disabled.day {
 #toast-container > div {
     opacity: 1;
 }
+
+span.quote{
+    font-weight: bold;
+    font-size: large;
+}

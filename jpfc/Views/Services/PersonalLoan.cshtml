@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Home & Auto Insurance";
+    ViewData["Title"] = "Personal Loan";
 }
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(images/background/8.jpg)">
+<section class="page-title" style="background-image:url(../../images/watch.png)">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -30,10 +30,10 @@
                             <li><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
                             <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
                             <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
-                            <li class="active"><a asp-controller="Services" asp-action="Insurance">Home &amp; Auto Insurance</a></li>
-                            <li><a asp-controller="Services" asp-action="Insurance">Life Insurance</a></li>
+                            <li><a asp-controller="Services" asp-action="HAInsurance">Home &amp; Auto Insurance</a></li>
+                            <li><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
                             <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
-                            <li><a asp-controller="Services" asp-action="Loan">Unsecured Loan</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="PersonalLoan">Personal Loan</a></li>
                             <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
@@ -57,32 +57,44 @@
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
                     <div class="text">
-                        <p>
-                            We do not provide the insurance directly to you, instead we find the best insurance policy to cover your vehicle and/or house.
-                        </p>
+                        <p>We offer unsecured personal loan upto $35000 CAD</p>
                     </div>
                     <ul class="list-style-four">
-                        <li><a href="https://www.mortgageweb.ca/en-US/HansalPandya" target="_blank">Click here</a> to know more about it</li>
-                        <li>Fill out an application form <a href="https://www.mortgageweb.ca/en-US/HansalPandya" target="_blank">here</a>, and we will get back to you as soon as possible</li>
+                        <li>Only $4 interest rate per every $100 principal amount</li>
+                        <li>Interest calculated per month <span class="text-muted font-italic">(some conditions may apply)</span></li>
+                        <li>Flexible payment options - Pay only interest every month or pay full loan amount</li>
+                        <li>Flexible payment methods - Cash or E-Transfer</li>
+                        <li>Government issued photo ID required</li>
                     </ul>
+
                     <!-- Services Gallery -->
-                    <div class="services-gallery">
+                    @*<div class="services-gallery">
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/home-insur.jpg" alt="">
+                                    <img src="~/images/rolex.jpg" alt="">
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/auto-insur.jpg" alt="">
+                                    <img src="~/images/precious-metal.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/jewel_loanpower.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/jewels.png" alt="">
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
-                    <!--Services Info Tabs-->
-                    @*<div class="Services-info-tabs">
+                    @*<!--Services Info Tabs-->
+                        <div class="Services-info-tabs">
                             <!--Service Tabs-->
                             <div class="service-tabs tabs-box">
 
@@ -131,6 +143,7 @@
                         </div>*@
                 </div>
             </div>
+
         </div>
     </div>
 </div>
