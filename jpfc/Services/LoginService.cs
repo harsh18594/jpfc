@@ -36,7 +36,7 @@ namespace jpfc.Services
 
             // verify access code first
             var accessCodeVerified = await VerifyAccessCodeAsync(model.AccessCode);
-            if (true /*accessCodeVerified*/)
+            if (accessCodeVerified)
             {
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
@@ -122,7 +122,7 @@ namespace jpfc.Services
             return success;
         }
 
-        public async Task<(bool Success, string Error)> ResetAccessCodeAsync(Models.ManageViewModels.AccessCodeViewModel model)
+        public async Task<(bool Success, string Error)> ResetAccessCodeAsync(Models.ManageViewModels.AccessCodeViewModel model, string userId)
         {
             bool success = false;
             string error = string.Empty;
@@ -151,21 +151,19 @@ namespace jpfc.Services
                     }
                     else
                     {
-                        error = "Error: Current access code is not valid";
+                        error = "Current access code is not valid";
                     }
                 }
                 else
                 {
-                    error = "Error: No access code found. If this error happens frequently, please contact IT support.";
+                    error = "No access code found. If this error happens frequently, please contact IT support.";
                 }
             }
             catch (Exception ex)
             {
-                error = "Error: Unexpected error occurred while processing your request.";
+                error = "Unexpected error occurred while processing your request.";
 
-                _logger.LogError("LoginService/ResetAccessCodeAsync - exception:{@Ex}", new object[]{
-                    ex
-                });
+                _logger.LogError("LoginService.ResetAccessCodeAsync - exception:{@Ex}", new object[] { ex });
             }
 
             return (Success: success, Error: error);

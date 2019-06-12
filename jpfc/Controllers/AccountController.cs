@@ -117,7 +117,7 @@ namespace jpfc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ChangePassword()
+        public IActionResult ChangePassword()
         {
             return View();
         }
@@ -135,8 +135,35 @@ namespace jpfc.Controllers
             var result = await _loginService.ChangePasswordAsync(model, userId);
             if (result.Success)
             {
-                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Your password has been changed.");
-                return RedirectToAction(nameof(AdminController.Index), controllerName: "Admin");
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Your password has been updated.");
+                return RedirectToAction(nameof(ManageProfile));
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetAccessCode()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetAccessCode(Models.ManageViewModels.AccessCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = _userManager.GetUserId(User);
+            var result = await _loginService.ResetAccessCodeAsync(model, userId);
+            if (result.Success)
+            {
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Access code has been updated.");
+                return RedirectToAction(nameof(ManageProfile));
             }
 
             SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
