@@ -687,11 +687,14 @@ namespace jpfc.Services
                         SellTotal = totalSell,
                         ServiceFee = 0,
                         StorageFee = 0,
+                        BrokerageFee = 0,
+                        RetainerFee = 0,
                         Belongings = belongingsList,
                         PaymentReceived = receiptInfo.PaymentAmount ?? 0
                     };
                     // calculate final total
-                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.SellTotal;
+                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee 
+                                        + model.StorageFee + model.BrokerageFee + model.RetainerFee) - model.SellTotal;
 
                     var paymentReceipt = new PaymentReceipt(model, _env.WebRootPath);
 
