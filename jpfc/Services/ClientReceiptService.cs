@@ -139,7 +139,7 @@ namespace jpfc.Services
                         CreatedUtc = DateTime.UtcNow,
                         // assign date and client once only when the receipt is created, do not allow modifying them
                         ClientId = model.ClientId,
-                        Date = model.Date,
+                        Date = DateTime.Now.Date,
                         ReceiptNumber = receiptNumber
                     };
                 }
