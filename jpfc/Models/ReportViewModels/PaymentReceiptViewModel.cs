@@ -23,8 +23,8 @@ namespace jpfc.Models.ReportViewModels
         public decimal StorageFee { get; set; }
         public decimal PurchaseTotal { get; set; }
         public decimal SellTotal { get; set; }
-        public decimal BrokerageFee { get; set; }
-        public decimal RetainerFee { get; set; }
+        //public decimal BrokerageFee { get; set; }
+        //public decimal RetainerFee { get; set; }
         //public bool ClientPaysFinal { get; set; }
         public string PaymentMethod { get; set; }
         public decimal FinalTotal { get; set; }

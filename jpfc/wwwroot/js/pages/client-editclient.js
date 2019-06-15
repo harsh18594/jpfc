@@ -67,9 +67,9 @@ Jpfc.ClientEditClient = function () {
                 },
                 {
                     render: function (data, type, row) {
-                        var html = '<a href="javascript:void(0)" class="btn btn-primary download-receipt" title="Download Receipt" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-file-pdf-o text-white"></i> <i class="fa fa-spinner fa-spin receipt-loading-spinner" style="display: none;"></i></a>' +
-                            ' <a href="javascript:void(0)" class="btn btn-primary download-loan-schedule" title="Download Loan Schedule" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-clock-o text-white"></i> <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></a>' +
-                            ' <a href="/Client/Receipt?clientId=' + row.clientId + '&receiptId=' + row.clientReceiptId + '" class="btn btn-primary" title="Edit Item"><i class="fa fa-pencil text-white"></i></a>' +
+                        //var html = '<a href="javascript:void(0)" class="btn btn-primary download-receipt" title="Download Receipt" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-file-pdf-o text-white"></i> <i class="fa fa-spinner fa-spin receipt-loading-spinner" style="display: none;"></i></a>' +
+                        //    ' <a href="javascript:void(0)" class="btn btn-primary download-loan-schedule" title="Download Loan Schedule" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-clock-o text-white"></i> <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></a>' +
+                        var html = ' <a href="/Client/Receipt?clientId=' + row.clientId + '&receiptId=' + row.clientReceiptId + '" class="btn btn-primary" title="Edit Item"><i class="fa fa-pencil text-white"></i></a>' +
                             ' <a class="btn btn-warning copy-receipt" href="javascript:void(0);" title="Copy Item" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-copy text-white"></i></a>' +
                             ' <a class="btn btn-danger delete-receipt" title="Delete Item" data-receipt-id="' + row.clientReceiptId + '"><i class="fa fa-trash text-white"></i></a>';
                         return html;

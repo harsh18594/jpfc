@@ -495,25 +495,25 @@ namespace jpfc.Services.Reports
             _row.Cells[0].MergeRight = 4;
             _row.Cells[5].AddParagraph(_model.StorageFee.ToString("C"));
 
-            // add storage fee row
-            _row = _table.AddRow();
-            _row.Height = Unit.FromCentimeter(0.50);
-            _row.Format.Alignment = ParagraphAlignment.Right;
-            _row.VerticalAlignment = VerticalAlignment.Center;
-            _row.Format.Font.Bold = true;
-            _row.Cells[0].AddParagraph("Brokerage Fee");
-            _row.Cells[0].MergeRight = 4;
-            _row.Cells[5].AddParagraph(_model.BrokerageFee.ToString("C"));
+            //// add storage fee row
+            //_row = _table.AddRow();
+            //_row.Height = Unit.FromCentimeter(0.50);
+            //_row.Format.Alignment = ParagraphAlignment.Right;
+            //_row.VerticalAlignment = VerticalAlignment.Center;
+            //_row.Format.Font.Bold = true;
+            //_row.Cells[0].AddParagraph("Brokerage Fee");
+            //_row.Cells[0].MergeRight = 4;
+            //_row.Cells[5].AddParagraph(_model.BrokerageFee.ToString("C"));
 
-            // add storage fee row
-            _row = _table.AddRow();
-            _row.Height = Unit.FromCentimeter(0.50);
-            _row.Format.Alignment = ParagraphAlignment.Right;
-            _row.VerticalAlignment = VerticalAlignment.Center;
-            _row.Format.Font.Bold = true;
-            _row.Cells[0].AddParagraph("Retainer Fee");
-            _row.Cells[0].MergeRight = 4;
-            _row.Cells[5].AddParagraph(_model.RetainerFee.ToString("C"));
+            //// add storage fee row
+            //_row = _table.AddRow();
+            //_row.Height = Unit.FromCentimeter(0.50);
+            //_row.Format.Alignment = ParagraphAlignment.Right;
+            //_row.VerticalAlignment = VerticalAlignment.Center;
+            //_row.Format.Font.Bold = true;
+            //_row.Cells[0].AddParagraph("Retainer Fee");
+            //_row.Cells[0].MergeRight = 4;
+            //_row.Cells[5].AddParagraph(_model.RetainerFee.ToString("C"));
 
             // add final total row
             _row = _table.AddRow();
