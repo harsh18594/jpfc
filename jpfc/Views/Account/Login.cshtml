@@ -6,17 +6,17 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Admin Log in";
+    ViewData["Title"] = "Management Log in";
 }
 
 <!--Page Title-->
 <section class="page-title" style="background-image:url(../../images/banner-images/login.jpg)">
     <div class="auto-container">
         <div class="content">
-            <h1>Admin Login</h1>
+            <h1>@ViewData["Title"]</h1>
             <ul class="page-breadcrumb">
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li>Admin Login</li>
+                <li>@ViewData["Title"]</li>
             </ul>
         </div>
     </div>

@@ -12,7 +12,7 @@
                 <a asp-controller="Admin" asp-action="Index">Home</a>
             </li>
             <li>
-                <a asp-controller="Account" asp-action="ManageProfile">Manage Profile</a>
+                <a asp-controller="Account" asp-action="ManageProfile">Manage Account</a>
             </li>
             <li>
                 <a asp-controller="Account" asp-action="Logout">Logout</a>
@@ -22,5 +22,5 @@
 }
 else
 {
-    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+    @*<li><a asp-controller="Account" asp-action="Login">Login</a></li>*@
 }

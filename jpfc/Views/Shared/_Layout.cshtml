@@ -1,4 +1,8 @@
 ﻿@using jpfc.Classes
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -292,15 +296,24 @@
 
                         <!-- Social Column -->
                         @*<div class="social-column col-lg-6 col-md-6 col-sm-12">
-                            <ul>
-                                <li class="follow">Follow us: </li>
-                                <li><a href="#"><span class="fa fa-facebook-square"></span></a></li>
-                                <li><a href="#"><span class="fa fa-twitter-square"></span></a></li>
-                                <li><a href="#"><span class="fa fa-linkedin-square"></span></a></li>
-                                <li><a href="#"><span class="fa fa-google-plus-square"></span></a></li>
-                                <li><a href="#"><span class="fa fa-rss-square"></span></a></li>
-                            </ul>
-                        </div>*@
+                                <ul>
+                                    <li class="follow">Follow us: </li>
+                                    <li><a href="#"><span class="fa fa-facebook-square"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-twitter-square"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-linkedin-square"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-google-plus-square"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-rss-square"></span></a></li>
+                                </ul>
+                            </div>*@
+
+                        @if (!SignInManager.IsSignedIn(User))
+                        {
+                            <div class="social-column col-lg-6 col-md-6 col-sm-12">
+                                <ul>
+                                    <li><a asp-controller="Account" asp-action="Login">Management Login</a></li>
+                                </ul>
+                            </div>
+                        }
 
                     </div>
                 </div>
