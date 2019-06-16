@@ -368,6 +368,8 @@ namespace jpfc.Services
                     decimal billAmount = 0;
                     decimal loanAmount = 0;
                     bool clientPaysFinal = false;
+                    decimal totalPurchase = 0;
+                    decimal totalSell = 0;
 
                     if (belongingsList?.Any() == true)
                     {
@@ -392,6 +394,20 @@ namespace jpfc.Services
                             {
                                 loanAmount += item.FinalPrice ?? 0;
                             }
+
+                            // determine total purchase amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Sell)
+                            {
+                                // if business sells an item, it is purchase for client
+                                totalPurchase += item.FinalPrice ?? 0;
+                            }
+
+                            // determine total sell amount from receipt
+                            if (item.TransactionAction == Constants.TransactionAction.Purchase)
+                            {
+                                // if business purchases an item, it is sell for client
+                                totalSell += item.FinalPrice ?? 0;
+                            }
                         }
                     }
 
@@ -407,6 +423,9 @@ namespace jpfc.Services
                         EmailAddress = receiptInfo.Client.EmailAddress,
                         BillAmount = billAmount,
                         ClientPaysFinal = clientPaysFinal,
+                        PrincipalLoanAmount = loanAmount,
+                        PurchaseTotal = totalPurchase,
+                        SellTotal = totalSell,
                         Belongings = belongingsList
                     };
 
@@ -693,7 +712,7 @@ namespace jpfc.Services
                         PaymentReceived = receiptInfo.PaymentAmount ?? 0
                     };
                     // calculate final total
-                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee 
+                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee
                                         + model.StorageFee /*+ model.BrokerageFee + model.RetainerFee*/) - model.SellTotal;
 
                     var paymentReceipt = new PaymentReceipt(model, _env.WebRootPath);

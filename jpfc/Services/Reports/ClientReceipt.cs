@@ -407,14 +407,45 @@ namespace jpfc.Services.Reports
 
             // Add an invisible row as a space line to the table
             Row _row = _table.AddRow();
-            _row.Borders.Visible = false;
+            _row.Borders.Top.Visible = true;
+            _row.Borders.Top.Width = 0.25;
+
+            // add total purchase row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Total Purchase");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.PurchaseTotal.ToString("C"));
+
+            // add total sell row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Total Sell");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph("-" + _model.SellTotal.ToString("C"));
+
+            // add prinicipal loan amount row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("Principal Loan Amount");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph("-" + _model.PrincipalLoanAmount.ToString("C"));
 
             // add final price row
             _row = _table.AddRow();
             _row.Height = Unit.FromCentimeter(0.75);
             _row.Shading.Color = Color.FromRgb(204, 204, 204);
             _row.Cells[0].Borders.Visible = false;
-            _row.Cells[0].AddParagraph("Total Price");
+            _row.Cells[0].AddParagraph("Final Amount");
             _row.Cells[0].Format.Font.Bold = true;
             _row.Cells[0].Format.Alignment = ParagraphAlignment.Right;
             _row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
@@ -458,7 +489,7 @@ namespace jpfc.Services.Reports
             paragraph.AddText("Terms and Conditions");
             paragraph = _document.LastSection.AddParagraph();
             paragraph.Format.SpaceBefore = "0.2cm";
-            paragraph.Style = "Conditions";            
+            paragraph.Style = "Conditions";
             paragraph.AddText(Constants.Business.TermsConditions);
 
             // add date and sign area

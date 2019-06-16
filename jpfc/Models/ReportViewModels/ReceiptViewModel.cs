@@ -17,6 +17,9 @@ namespace jpfc.Models.ReportViewModels
         public string Address { get; set; }
         public bool ClientPaysFinal { get; set; }
         public decimal BillAmount { get; set; }
+        public decimal PrincipalLoanAmount { get; set; }
+        public decimal PurchaseTotal { get; set; }
+        public decimal SellTotal { get; set; }
         public ICollection<ClientBelongingListViewModel> Belongings { get; set; }
     }
 }
