@@ -24,20 +24,21 @@ Jpfc.ServicesBuySellGold = function () {
             }
         }).DataTable({
             dom: 'Bfrtip',
-            "paging": true,
+            "paging": false,
             "info": false,
             "searching": false,
+            "ordering": false,
             buttons: [
                 //'copyHtml5',
                 'excelHtml5',
                 //'csvHtml5',
                 'pdfHtml5'
             ],
-            "order": [0, "desc"],
-            "columnDefs": [{
-                "targets": [-1, -2],
-                "orderable": false
-            }],
+            //"order": [0, "desc"],
+            //"columnDefs": [{
+            //    "targets": [-1, -2, -3, -4],
+            //    "orderable": false
+            //}],
             "deferLoading": 0,
             "ajax": {
                 "url": "/Services/ListPrices",
@@ -67,7 +68,14 @@ Jpfc.ServicesBuySellGold = function () {
                     data: "karat"
                 },
                 {
-                    data: "sellPriceStr"
+                    data: "sellPriceStr",
+                    render: function (data, type, row) {
+                        var desc = "per gram";
+                        if (row.perOunce) {
+                            desc = "per ounce";
+                        }
+                        return data + " " + desc;
+                    }
                 }
             ]
         });

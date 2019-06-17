@@ -62,7 +62,8 @@ namespace jpfc.Data
                     Metal = e.Metal.Name,
                     Karat = e.Karat.Name,
                     KaratId = e.KaratId,
-                    CreatedUtc = e.CreatedUtc
+                    CreatedUtc = e.CreatedUtc,
+                    PerOunce = e.PerOunce
                 })
                 .OrderBy(e => e.Metal)
                 .ThenBy(e => e.Karat)
