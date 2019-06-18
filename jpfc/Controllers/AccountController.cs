@@ -57,6 +57,10 @@ namespace jpfc.Controllers
                 if (result.Success)
                 {
                     _logger.LogInformation("User logged in.");
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                     return RedirectToAction(controllerName: "Admin", actionName: nameof(AdminController.Index));
                 }
                 else
