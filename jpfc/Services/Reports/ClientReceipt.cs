@@ -184,7 +184,7 @@ namespace jpfc.Services.Reports
             titleRow = _headerTable.AddRow();
             titleRow.Cells[1].Style = "SectionTitle";
             titleRow.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            titleRow.Cells[1].AddParagraph("320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 | hpandya247@gmail.com | (416) 705 3885 \n BN Number #70648-6511");
+            titleRow.Cells[1].AddParagraph("320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 | hpandya247@gmail.com \n (416) 705 3885 \n BN Number #70648-6511");
 
             // Add horizontal line
             var paragraph = section.Headers.Primary.AddParagraph();
