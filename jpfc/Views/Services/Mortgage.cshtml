@@ -27,13 +27,13 @@
                     <!--Blog Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
-                            <li><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
                             <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
+                            <li><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
                             <li class="active"><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
                             <li><a asp-controller="Services" asp-action="HAInsurance">Home &amp; Auto Insurance</a></li>
                             <li><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
-                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
                             <li><a asp-controller="Services" asp-action="PersonalLoan">Personal Loan</a></li>
+                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
                             <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
@@ -56,82 +56,30 @@
             <div class="content-side col-lg-8 col-md-8 col-sm-12">
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
-                    <div class="text">
-                        <p>Helping Ordinary People Achieving Extra-Ordinary Dreams</p>
-                    </div>
-                    <ul class="list-style-four">
-                        <li><a href="https://www.mortgageweb.ca/en-US/HansalPandya/Services" target="_blank">Click here</a> to know more about it</li>
-                        <li>Fill out an application form <a href="https://www.mortgageweb.ca/en-US/HansalPandya" target="_blank">here</a>, and we will get back to you as soon as possible</li>
-                    </ul>
 
                     <!-- Services Gallery -->
                     <div class="image">
                         <img src="~/images/mortgage.jpeg" alt="Mortgage">
                     </div>
-                    @*<div class="services-gallery">
-                            <div class="services-carousel owl-carousel owl-theme">
-                                <div class="slide">
-                                    <div class="image">
-                                        <img src="~/images/House-mortgage.jpg" alt="Mortgage">
-                                    </div>
-                                </div>
-                                <div class="slide">
-                                    <div class="image">
-                                        <img src="~/images/mortgage.jpeg" alt="Mortgage">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
+                    <div class="text">
+                        <p>Helping ordinary people to be home owners.</p>
+                    </div>
+                    <ul class="list-style-four">
+                        <li>Mortgage rate ___% per 5 years fixed <br /><span class="text-danger">(Some conditions may apply)</span></li>
+                        <li>Purchase, refinance, home equity line of credit, investment properties, etc.</li>
+                        <li>We offer 1<sup>st</sup>, 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages</li>
+                        <li>Fast approval for 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages</li>
+                        <li>Over 80 institutional lenders in our portfolio</li>
+                        <li><a href="https://www.mortgageweb.ca/en-US/HansalPandya/Services" target="_blank">Click here <i class="fa fa-external-link"></i></a> for more information</li>
+                        <li>Fill out an online application form <a href="https://www.mortgageweb.ca/en-US/HansalPandya" target="_blank">here <i class="fa fa-external-link"></i></a></li>
+                    </ul>
 
-
-                    @*<!--Services Info Tabs-->
-                        <div class="Services-info-tabs">
-                            <!--Service Tabs-->
-                            <div class="service-tabs tabs-box">
-
-                                <!--Tab Btns-->
-                                <ul class="tab-btns tab-buttons clearfix">
-                                    <li data-tab="#prod-audit" class="tab-btn active-btn">Audit</li>
-                                    <li data-tab="#prod-strategy" class="tab-btn">Strategy</li>
-                                    <li data-tab="#prod-sustainability" class="tab-btn">Sustainability</li>
-                                </ul>
-
-                                <!--Tabs Container-->
-                                <div class="tabs-content">
-
-                                    <!--Tab / Active Tab-->
-                                    <div class="tab active-tab" id="prod-audit">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Tab-->
-                                    <div class="tab" id="prod-strategy">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Tab-->
-                                    <div class="tab" id="prod-sustainability">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>*@
+                    <div class="text mt-4">
+                        <p>
+                            Investors can invest in 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages to achieve double digits ROI (Return On Investment) with secured investment in real estate<br />
+                            Call for more details or book an appointment online for free consultation
+                        </p>
+                    </div>
                 </div>
             </div>
 

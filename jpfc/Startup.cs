@@ -1,4 +1,5 @@
-﻿using jpfc.Data;
+﻿using jpfc.ConfigOptions;
+using jpfc.Data;
 using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Services;
@@ -79,6 +80,9 @@ namespace jpfc
 
             // Custom validation attributes
             services.AddSingleton<IValidationAttributeAdapterProvider, CustomValidatiomAttributeAdapterProvider>();
+
+            // add config options
+            AddConfigOptions(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,7 +135,13 @@ namespace jpfc
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientBelongingRepository, ClientBelongingRepository>();
             services.AddScoped<IClientIdentificationRepository, ClientIdentificationRepository>();
-            services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();
+            services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();           
+        }
+
+        public void AddConfigOptions(IServiceCollection services)
+        {
+            // config options
+            services.Configure<ContactInfoOptions>(Configuration.GetSection("ContactInfo"));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Trade Precious Metal Bullion";
 }
 
@@ -34,13 +37,13 @@
                     <!--Blog Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
-                            <li class="active"><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
                             <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
+                            <li class="active"><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
                             <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
                             <li><a asp-controller="Services" asp-action="HAInsurance">Home &amp; Auto Insurance</a></li>
                             <li><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
-                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
                             <li><a asp-controller="Services" asp-action="PersonalLoan">Personal Loan</a></li>
+                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
                             <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
                         </ul>
                     </div>
@@ -51,9 +54,10 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> (416) 705 3885</li>
-                            <li><span class="icon flaticon-comment"></span> hpandya247@gmail.com</li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-clock"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -62,21 +66,54 @@
             <!--Content Side-->
             <div class="content-side col-lg-8 col-md-8 col-sm-12">
                 <div class="services-single">
-                    <h4>@ViewData["Title"]</h4>
+                    <h4>Trade Precious Metal Bullion Bars</h4>
+
+                    <!-- Services Gallery -->
+                    <div class="services-gallery">
+                        <div class="services-carousel owl-carousel owl-theme">
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/1_oz_platinum_maple_leaf_coin.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/jpfc-goldbar.jpg" alt="" style="height: 450px;">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/precious-metal.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/Buying-Platinum.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="text">
-                        <p>Trade precious metals at competitive price. State-of-the-Art technology for metal evaluation.</p>
+                        <p>Investors can trade gold &amp; precious metal bullions at competitive market price. International investors are welcome!!</p>
                     </div>
                     <ul class="list-style-four">
-                        <li>State-of-the-Art technology</li>
-                        <li>Buy 100% clean gold, silver, platinum and other metals</li>
-                        <li>Measurements taken in front of you</li>
-                        <li>Flexible payment methods - Cash or E-Transfer</li>
-                        <li>Government issued photo ID required</li>
+                        <li><strong>Minimum CAD$2000 investment required to trade gold bullion</strong></li>
+                        <li>We offer loan against your bullions for instant cash liquidity</li>
+                        <li>We deliver bullion within 1 week once buy order is booked &amp; fund is received</li>
+                        <li>We deliver to your home/office address or pick-up from our office <span class="text-muted"> - Shipping charges will apply for delivery</span></li>
+                        <li>
+                            Once sell order is booked &amp; your bullion bars are received, we will issue payment within 24 hours to your choice of payment options
+                            - E-Transfer, bank account deposit, cheque, wire transfer, <a href="https://www.westernunion.com/ca/en/home.html" target="_blank">Western Union</a><br />
+                            <span class="text-muted">(Some fee may apply for fund transfer based on payment option)</span>
+                        </li>
+                        <li>For faster trade, you can visit our office in Barrie, ON</li>
                     </ul>
                     <!-- Price table -->
                     <div class="row mt-5">
                         <div class="col-12">
                             <h4>Our Price</h4>
+                            <p class="text-dark">We update our prices frequently. For most updated price, call <a href="tel:14167053885">+1 (416) 705-3885</a></p>
                         </div>
                     </div>
                     <div class="row clearfix mt-2">
@@ -108,32 +145,6 @@
                                         @* dataTable ajax *@
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Services Gallery -->
-                    <div class="services-gallery">
-                        <div class="services-carousel owl-carousel owl-theme">
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/1_oz_platinum_maple_leaf_coin.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/precious-metal.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/Buying-Platinum.jpg" alt="">
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="image">
-                                    <img src="~/images/diamond.png" alt="">
-                                </div>
                             </div>
                         </div>
                     </div>
