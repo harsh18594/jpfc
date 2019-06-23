@@ -1,5 +1,8 @@
 ﻿@using jpfc.Classes
 @using Microsoft.AspNetCore.Identity
+@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -185,11 +188,13 @@
                                         <div class="logo">
                                             <a asp-controller="Home" asp-action="Index"><img src="~/images/logo120X90.png" alt="" /></a>
                                         </div>
-                                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                                       @* <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>*@
                                         <ul class="list-style-two">
-                                            <li><span class="icon fa fa-phone"></span> (416) 705 3885</li>
-                                            <li><span class="icon fa fa-envelope"></span> hpandya247@gmail.com</li>
-                                            <li><span class="icon fa fa-home"></span>320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
+                                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -200,9 +205,9 @@
                                         <h4>Quick Links</h4>
                                         <ul class="list-link">
                                             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                                            <li><a asp-controller="Services" asp-action="Index">Services</a></li>
                                             <li><a asp-controller="Home" asp-action="About">About us</a></li>
-                                            <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                                            <li><a asp-controller="Services" asp-action="Index">Services</a></li>
+                                            <li><a asp-controller="Home" asp-action="Contact">Contact Us</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -73,3 +73,7 @@ td.disabled.day {
         font-weight: 400;
         line-height: 1.7em;
     }
+
+.footer-widget ul a {
+    color: white !important;
+}

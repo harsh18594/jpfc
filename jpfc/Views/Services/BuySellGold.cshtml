@@ -55,9 +55,10 @@
                         </div>
                         <ul>
                             <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
                             <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
                             <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
-                            <li><span class="icon flaticon-clock"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -101,11 +102,11 @@
                         <li><strong>Minimum CAD$2000 investment required to trade gold bullion</strong></li>
                         <li>We offer loan against your bullions for instant cash liquidity</li>
                         <li>We deliver bullion within 1 week once buy order is booked &amp; fund is received</li>
-                        <li>We deliver to your home/office address or pick-up from our office <span class="text-muted"> - Shipping charges will apply for delivery</span></li>
+                        <li>We deliver to your home/office address or pick-up from our office <br /><span class="text-muted small">(Shipping charges will apply for delivery)</span></li>
                         <li>
                             Once sell order is booked &amp; your bullion bars are received, we will issue payment within 24 hours to your choice of payment options
                             - E-Transfer, bank account deposit, cheque, wire transfer, <a href="https://www.westernunion.com/ca/en/home.html" target="_blank">Western Union</a><br />
-                            <span class="text-muted">(Some fee may apply for fund transfer based on payment option)</span>
+                            <span class="text-muted small">(Some fee may apply for fund transfer based on payment option)</span>
                         </li>
                         <li>For faster trade, you can visit our office in Barrie, ON</li>
                     </ul>
@@ -113,7 +114,7 @@
                     <div class="row mt-5">
                         <div class="col-12">
                             <h4>Our Price</h4>
-                            <p class="text-dark">We update our prices frequently. For most updated price, call <a href="tel:14167053885">+1 (416) 705-3885</a></p>
+                            <p class="text-dark">We update our prices frequently. For most updated price, call <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></p>
                         </div>
                     </div>
                     <div class="row clearfix mt-2">

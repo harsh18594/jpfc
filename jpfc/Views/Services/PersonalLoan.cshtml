@@ -1,4 +1,7 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Personal Loan";
 }
 
@@ -44,9 +47,11 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> (416) 705 3885</li>
-                            <li><span class="icon flaticon-comment"></span> hpandya247@gmail.com</li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -57,14 +62,12 @@
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
                     <div class="text">
-                        <p>We offer unsecured personal loan upto $35,000 CAD</p>
+                        <p>We offer unsecured loan upto $35,000 CAD</p>
                     </div>
                     <ul class="list-style-four">
-                        <li>Only $4 interest rate per every $100 principal amount</li>
-                        <li>Interest calculated monthly <span class="text-muted font-italic">(some conditions may apply)</span></li>
-                        <li>Flexible payment options - Pay only interest every month or pay full loan amount</li>
-                        <li>Flexible payment methods - Cash or E-Transfer</li>
-                        <li>Government issued photo ID required</li>
+                        <li>
+                            <a href="javascript:void(0)" target="_blank">Click here <i class="fa fa-external-link"></i></a> for fast approval
+                        </li>
                     </ul>
 
                     <!-- Services Gallery -->
@@ -89,55 +92,6 @@
                                     <div class="image">
                                         <img src="~/images/jewels.png" alt="">
                                     </div>
-                                </div>
-                            </div>
-                        </div>*@
-
-                    @*<!--Services Info Tabs-->
-                        <div class="Services-info-tabs">
-                            <!--Service Tabs-->
-                            <div class="service-tabs tabs-box">
-
-                                <!--Tab Btns-->
-                                <ul class="tab-btns tab-buttons clearfix">
-                                    <li data-tab="#prod-audit" class="tab-btn active-btn">Audit</li>
-                                    <li data-tab="#prod-strategy" class="tab-btn">Strategy</li>
-                                    <li data-tab="#prod-sustainability" class="tab-btn">Sustainability</li>
-                                </ul>
-
-                                <!--Tabs Container-->
-                                <div class="tabs-content">
-
-                                    <!--Tab / Active Tab-->
-                                    <div class="tab active-tab" id="prod-audit">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Tab-->
-                                    <div class="tab" id="prod-strategy">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Tab-->
-                                    <div class="tab" id="prod-sustainability">
-                                        <div class="content">
-                                            <div class="text">
-                                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudan tium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequun tur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>*@

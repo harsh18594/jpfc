@@ -1,4 +1,7 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Mortgage";
 }
 
@@ -44,9 +47,11 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> (416) 705 3885</li>
-                            <li><span class="icon flaticon-comment"></span> hpandya247@gmail.com</li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -77,12 +82,43 @@
                     <div class="text mt-4">
                         <p>
                             Investors can invest in 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages to achieve double digits ROI (Return On Investment) with secured investment in real estate<br />
-                            Call for more details or book an appointment online for free consultation
+                            Call for more details or book an appointment online for free consultation (1 hour free consultation)
                         </p>
                     </div>
                 </div>
-            </div>
+                <!--Sponsors Section-->
+                <section class="sponsors-section">
+                    <div class="auto-container">
+                        <!-- Sec Title -->
+                        <div class="sec-title-three centered">
+                            <div class="title">Our Lenders</div>
+                        </div>
+                        <div class="carousel-outer">
+                            <!--Sponsors Slider-->
+                            <ul class="sponsors-carousel owl-carousel owl-theme">
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/td.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/scotiabank.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/attain.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/firstnational.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/mcap.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/b2b.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/hometrust.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/merix.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/equitablebank.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/streetcapital.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/cmls.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/fisgard.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/icicibank.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/optimummortgage.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/rmg.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/bridgewater.png" alt=""></a></div></li>
+                                <li><div class="image-box"><a href="javascript:void(0)"><img src="~/images/partners/marathon.png" alt=""></a></div></li>
+                            </ul>
+                        </div>
 
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </div>

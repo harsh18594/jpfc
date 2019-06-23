@@ -1,4 +1,7 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Contact";
 }
 
@@ -27,12 +30,15 @@
                     <div class="inner-column">
                         <div class="text">
                             Please contact us using the information below.
-                            For additional information, view our <strong><a asp-controller="Services" asp-action="Index">Services</a></strong> or book an appointment <strong><a href="https://calendly.com/harsh-rdave/60min">here</a></strong>.
+                            For additional information, view our <strong><a asp-controller="Services" asp-action="Index">Services</a></strong>.
                         </div>
                         <ul class="list-style-five">
-                            <li><span class="icon fa fa-building"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon fa fa-fax"></span> (416) 705 3885</li>
-                            <li><span class="icon fa fa-envelope-o"></span>hpandya247@gmail.com</li>
+                            <li><span class="icon fa fa-user"></span> Hansal Pandya <span class="small">(B. Eng, MBA, PFP, LLQP)</span></li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </div>

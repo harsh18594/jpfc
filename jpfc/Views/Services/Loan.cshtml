@@ -1,4 +1,7 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Pawn Precious Things";
 }
 
@@ -44,9 +47,11 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> (416) 705 3885</li>
-                            <li><span class="icon flaticon-comment"></span> hpandya247@gmail.com</li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -95,7 +100,7 @@
                         @*<li>Interest calculated monthly <span class="text-muted font-italic">(some conditions may apply)</span></li>*@
                         <li>Open loan to payoff the balance without penalty</li>
                         <li>Flexible payment options - Pay interest only or full balance when due in 30 days</li>
-                        <li>We accept Cash or E-Transfer (<a href="mailto:jpfinancechase@gmail.com">jpfinancechase@gmail.com</a>)</li>
+                        <li>We accept Cash or E-Transfer (<a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a>)</li>
                         <li>Applicable service fee and storage fee may apply</li>
                         <li>
                             Government issued photo ID required - driver's license, passpost, citizenship card, PR card, etc <br />

@@ -11,5 +11,6 @@ namespace jpfc.ConfigOptions
         public string Phone { get; set; }
         public string Address { get; set; }
         public string AppointmentLink { get; set; }
+        public string Hours { get; set; }
     }
 }

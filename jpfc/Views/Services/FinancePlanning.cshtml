@@ -1,9 +1,12 @@
-﻿@{
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
     ViewData["Title"] = "Investment & Finance Planning";
 }
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/banner-images/creative-idea-orig.jpg)">
+<section class="page-title" style="background-image:url(../../images/investment-2.png)">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -44,9 +47,11 @@
                             <h4>Contact</h4>
                         </div>
                         <ul>
-                            <li><span class="icon flaticon-map-1"></span> 320 Bayfield St, Suite 106A, <br /> Barrie, ON L4M 3C1</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> (416) 705 3885</li>
-                            <li><span class="icon flaticon-comment"></span> hpandya247@gmail.com</li>
+                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
+                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
+                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
+                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
                         </ul>
                     </div>
                 </aside>
@@ -56,23 +61,60 @@
             <div class="content-side col-lg-8 col-md-8 col-sm-12">
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
+                    <div class="image">
+                        <img src="~/images/investment-1.png" alt="">
+                    </div>
+                    <!-- Services Gallery -->
+                    <div class="services-gallery">
+                        <div class="services-carousel owl-carousel owl-theme">
+                            @*<div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-1.png" alt="">
+                                </div>
+                            </div>*@
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-2.png" alt="" style="height: 350px;">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/investment-6.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="text">
                         <p>
-                            Investment and finance planning have major effect on your bank account. Proper planning can help you boost your bank balance - may be slowly, but steadily.
-                            We specialize in finance management and investment.<br />
-                            Contact us today to get <span class="font-weight-bold font-italic">creative ideas of how to add few zeros to your bank account.</span>
+                            Investment and finance planning have major effects on your financial health.
+                            Every single person wants to reduce financial stress and achieve financial freedom.
+                            We provide financial prescription to improve financial health.
+                            Our customized financial plan will assist you to achieve your financial goals in life.
+                            <br />Contact us for free consultation (1 hour free consultation)
+                            <br /><span class="text-danger">* we do not guarantee any rates of return, ROI (Return On Investment) or promise of performance</span>
                         </p>
                     </div>
-                    <div class="quote">
-                        <blockquote>
-                            <div class="quote-icon flaticon-left-quote"></div>
-                            <div class="quote-text">A penny saved is a penny earned. - Benjamin Franklin</div>
-                        </blockquote>
-                    </div>
-
-                    @*<div class="image">
-                            <img src="~/images/invest.jpg" alt="">
-                        </div>*@
+                    @*<div class="quote">
+            <blockquote>
+                <div class="quote-icon flaticon-left-quote"></div>
+                <div class="quote-text">A penny saved is a penny earned. - Benjamin Franklin</div>
+            </blockquote>
+        </div>*@
                 </div>
             </div>
 
