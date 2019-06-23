@@ -28,6 +28,7 @@ namespace jpfc.Data
                     ClientBelongingId = e.ClientBelongingId,
                     Metal = e.MetalId.HasValue ? e.Metal.Name : e.MetalOther,
                     Karat = e.KaratId.HasValue ? e.Karat.Name : e.KaratOther,
+                    ItemDescription = e.ItemDescription,
                     Weight = e.ItemWeight,
                     ItemPrice = e.ItemPrice,
                     FinalPrice = e.FinalPrice,

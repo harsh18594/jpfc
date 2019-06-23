@@ -184,7 +184,7 @@ namespace jpfc.Services.Reports
             titleRow = _headerTable.AddRow();
             titleRow.Cells[1].Style = "SectionTitle";
             titleRow.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            titleRow.Cells[1].AddParagraph("320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 | hpandya247@gmail.com \n (416) 705 3885 \n BN Number #70648-6511");
+            titleRow.Cells[1].AddParagraph("Bayfield Mall, 320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 \n jpfinancechase@gmail.com | (416) 705-3885 \n BN Number #70648-6511");
 
             // Add horizontal line
             var paragraph = section.Headers.Primary.AddParagraph();
@@ -374,10 +374,17 @@ namespace jpfc.Services.Reports
                     transactionAction = "[L]";
                 }
 
+                // define item description
+                var itemDesc = "";
+                if (!string.IsNullOrEmpty(item.ItemDescription))
+                {
+                    itemDesc = $"\n({item.ItemDescription})";
+                }
+
                 var cellIdx = 0;
                 row.Cells[cellIdx].VerticalAlignment = VerticalAlignment.Center;
                 row.Cells[cellIdx].Format.Alignment = ParagraphAlignment.Left;
-                row.Cells[cellIdx].AddParagraph($"{transactionAction} {item.Metal}");
+                row.Cells[cellIdx].AddParagraph($"{transactionAction} {item.Metal} {itemDesc}");
 
                 cellIdx++;
                 row.Cells[cellIdx].VerticalAlignment = VerticalAlignment.Center;

@@ -319,6 +319,7 @@ namespace jpfc.Services
                         clientBelonging.KaratId = null;
                         clientBelonging.KaratOther = model.KaratOther;
                     }
+                    clientBelonging.ItemDescription = model.ItemDescription;
                     clientBelonging.ItemWeight = model.Weight;
                     clientBelonging.ItemPrice = model.ItemPrice;
                     clientBelonging.FinalPrice = model.FinalPrice;
@@ -394,6 +395,7 @@ namespace jpfc.Services
                         model.MetalOther = belonging.MetalOther;
                         model.KaratId = belonging.KaratId;
                         model.KaratOther = belonging.KaratOther;
+                        model.ItemDescription = belonging.ItemDescription;
                         model.Weight = belonging.ItemWeight;
                         model.ItemPrice = belonging.ItemPrice;
                         model.FinalPrice = belonging.FinalPrice;

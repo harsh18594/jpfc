@@ -18,6 +18,8 @@ namespace jpfc.Models
         public virtual Metal Metal { get; set; }
         public string MetalOther { get; set; }
 
+        public string ItemDescription { get; set; }
+
         public Guid? KaratId { get; set; }
         public virtual Karat Karat { get; set; }
         public string KaratOther { get; set; }

@@ -10,6 +10,7 @@ namespace jpfc.Models.ClientViewModels
         public int ClientBelongingId { get; set; }
         public string Metal { get; set; }
         public string Karat { get; set; }
+        public string ItemDescription { get; set; }
 
         public decimal? Weight { get; set; }
         public string WeightStr => Weight?.ToString("#.00");

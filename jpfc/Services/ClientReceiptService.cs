@@ -307,6 +307,7 @@ namespace jpfc.Services
                                     KaratOther = item.KaratOther,
                                     MetalId = item.MetalId,
                                     MetalOther = item.MetalOther,
+                                    ItemDescription = item.ItemDescription,
                                     ReplacementValue = item.ReplacementValue,
                                     TransactionAction = item.TransactionAction
                                 };

@@ -55,7 +55,14 @@ Jpfc.ClientReceipt = function () {
             },
             "columns": [
                 {
-                    data: "metal"
+                    data: "metal",
+                    render: function (data, type, row) {
+                        var itemDesc = '';
+                        if (row.itemDescription) {
+                            itemDesc = "(" + row.itemDescription + ")";
+                        }
+                        return data + " " + itemDesc;
+                    }
                 },
                 {
                     data: "karat"
@@ -101,6 +108,7 @@ Jpfc.ClientReceipt = function () {
         $('#KaratId').val('');
         $('#MetalOther').val('');
         $('#KaratOther').val('');
+        $('#ItemDescription').val('');
         $('#Weight').val('');
         $('#ItemPrice').val('');
         $('#FinalPrice').val('');
@@ -142,6 +150,7 @@ Jpfc.ClientReceipt = function () {
             $('#MetalId').val(data.metalId);
         }
 
+        $('#ItemDescription').val(data.itemDescription);
         $('#Weight').val(data.weight);
         $('#ItemPrice').val(data.itemPrice);
         $('#FinalPrice').val(data.finalPrice);

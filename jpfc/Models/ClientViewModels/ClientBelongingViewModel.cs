@@ -25,7 +25,7 @@ namespace jpfc.Models.ClientViewModels
         public Guid? MetalId { get; set; }
 
         [RequiredIf(Property = "MetalId", HasValue = "other")]
-        [Display(Name = "Item Description")]
+        [Display(Name = "Item Other")]
         public string MetalOther { get; set; }
 
         [RequiredIf(Property = "MetalId", NotHasValue = "other")]
@@ -35,6 +35,9 @@ namespace jpfc.Models.ClientViewModels
         [RequiredIf(Property = "KaratId", HasValue = "other")]
         [Display(Name = "Purity Other")]
         public string KaratOther { get; set; }
+
+        [Display(Name = "Item Description")]
+        public string ItemDescription { get; set; }
 
         [RequiredIf(Property = "MetalId", NotHasValue = "other")]
         [Display(Name = "Weight in gram")]
