@@ -1,5 +1,6 @@
 ﻿using jpfc.Models;
 using jpfc.Models.ClientViewModels;
+using jpfc.Models.MortgageViewModels;
 using jpfc.Models.UpdatePriceViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -19,14 +20,17 @@ namespace jpfc.Controllers
         private readonly ILogger _logger;
         private readonly IAdminService _adminService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMortgageService _mortgageService;
 
         public AdminController(ILogger<AdminController> logger,
             IAdminService adminService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IMortgageService mortgageService)
         {
             _logger = logger;
             _adminService = adminService;
             _userManager = userManager;
+            _mortgageService = mortgageService;
         }
 
         public async Task<IActionResult> Index()
@@ -138,6 +142,39 @@ namespace jpfc.Controllers
                 error = result.Error,
                 price = result.Price
             });
+        }
+        #endregion
+
+        #region Mortgage Rate
+        public async Task<IActionResult> MortgageRate()
+        {
+            _logger.LogInformation(GetLogDetails());
+            var result = await _mortgageService.GetCreateMortgageRateViewModelAsync();
+            if (result.Success)
+            {
+                return View(result.Model);
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MortgageRate(CreateMortgageRateViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails());
+
+            var userId = _userManager.GetUserId(User);
+            var result = await _mortgageService.SaveMortgageRateAsync(model, userId);
+            if (result.Success)
+            {
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Mortgage rate has been saved successfully.");
+            }
+            else
+            {
+                SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            }
+            return RedirectToAction(nameof(Index));
         }
         #endregion
     }

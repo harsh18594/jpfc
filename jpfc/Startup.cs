@@ -125,6 +125,7 @@ namespace jpfc
             services.AddScoped<IClientIdentificationService, ClientIdentificationService>();
             services.AddScoped<IClientReceiptService, ClientReceiptService>();
             services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddScoped<IMortgageService, MortgageService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
@@ -135,7 +136,8 @@ namespace jpfc
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientBelongingRepository, ClientBelongingRepository>();
             services.AddScoped<IClientIdentificationRepository, ClientIdentificationRepository>();
-            services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();           
+            services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();
+            services.AddScoped<IMortgageRepository, MortgageRepository>();
         }
 
         public void AddConfigOptions(IServiceCollection services)

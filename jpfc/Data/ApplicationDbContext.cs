@@ -19,6 +19,7 @@ namespace jpfc.Data
         public DbSet<IdentificationDocument> IdentificationDocument { get; set; }
         public DbSet<ClientReceipt> ClientReceipt { get; set; }
         public DbSet<ClientIdentification> ClientIdentification { get; set; }
+        public DbSet<MortgageRate> MortgageRate { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -129,6 +130,11 @@ namespace jpfc.Data
                 .WithMany()
                 .HasForeignKey(e => e.IdentificationDocumentId)
                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<MortgageRate>(entity =>
+            {
+                entity.HasKey(e => e.MortgageRateId);
             });
 
             // Seed Data ===========================================

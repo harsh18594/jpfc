@@ -12,12 +12,15 @@ namespace jpfc.Controllers
     {
         private readonly ILogger _logger;
         private readonly IServicesService _serviceService;
+        private readonly IMortgageService _mortgageService;
 
         public ServicesController(ILogger<AdminController> logger,
-            IServicesService serviceService)
+            IServicesService serviceService,
+            IMortgageService mortgageService)
         {
             _logger = logger;
             _serviceService = serviceService;
+            _mortgageService = mortgageService;
         }
 
         public IActionResult Index()
@@ -71,10 +74,11 @@ namespace jpfc.Controllers
             return View();
         }
 
-        public IActionResult Mortgage()
+        public async Task<IActionResult> Mortgage()
         {
             _logger.LogInformation(GetLogDetails());
-            return View();
+            var result = await _mortgageService.FetchMortgageRateAsync();
+            return View(result.Model);
         }
 
         public IActionResult FinancePlanning()

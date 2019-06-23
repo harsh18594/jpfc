@@ -22,33 +22,39 @@
 
             <!-- Services Block -->
             <div class="services-block-three style-two col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                        <span class="icon flaticon-money"></span>
+                <a asp-controller="Admin" asp-action="UpdatePrice">
+                    <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="icon-box">
+                            <span class="icon flaticon-money"></span>
+                        </div>
+                        <h6>Update Price</h6>
+                        <div class="text">Manage Buy &amp; Sell price for Gold, Silver and Other precious metals</div>
                     </div>
-                    <h6><a asp-controller="Admin" asp-action="UpdatePrice">Update Price</a></h6>
-                    <div class="text">Manage Buy &amp; Sell price for Gold, Silver and Other precious metals</div>
-                </div>
+                </a>
             </div>
 
             <div class="services-block-three style-two col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                        <span class="icon flaticon-cooperation"></span>
+                <a asp-controller="Admin" asp-action="MortgageRate">
+                    <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="icon-box">
+                            <span class="icon fa fa-percent"></span>
+                        </div>
+                        <h6>Update Mortgage Rate</h6>
+                        <div class="text">Manage mortgage rate <br />&nbsp;</div>
                     </div>
-                    <h6><a asp-controller="Client" asp-action="Index">Clients</a></h6>
-                    <div class="text">Manage clients' information and receipts</div>
-                </div>
+                </a>
             </div>
 
             <div class="services-block-three style-two col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                        <span class="icon flaticon-settings"></span>
+                <a asp-controller="Client" asp-action="Index">
+                    <div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="icon-box">
+                            <span class="icon flaticon-cooperation"></span>
+                        </div>
+                        <h6>Clients</h6>
+                        <div class="text">Manage clients' information and receipts</div>
                     </div>
-                    <h6><a asp-controller="Account" asp-action="ManageProfile">Manage Account</a></h6>
-                    <div class="text">Manage your site account <br />&nbsp;</div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

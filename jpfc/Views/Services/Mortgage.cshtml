@@ -1,4 +1,5 @@
-﻿@using jpfc.ConfigOptions
+﻿@model jpfc.Models.MortgageViewModels.ViewMortgageRateViewModel
+@using jpfc.ConfigOptions
 @using Microsoft.Extensions.Options
 @inject IOptions<ContactInfoOptions> ContactInfoOptions
 @{
@@ -70,7 +71,11 @@
                         <p>Helping ordinary people to be home owners.</p>
                     </div>
                     <ul class="list-style-four">
-                        <li>Mortgage rate ___% per 5 years fixed <br /><span class="text-danger">(Some conditions may apply)</span></li>
+                        @if (Model.Rate.HasValue)
+                        {
+                            <li>Mortgage rate <strong>@Model.Rate% per 5 years fixed</strong> <br /><span class="text-danger">(Some conditions may apply)</span></li>
+                        }
+
                         <li>Purchase, refinance, home equity line of credit, investment properties, etc.</li>
                         <li>We offer 1<sup>st</sup>, 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages</li>
                         <li>Fast approval for 2<sup>nd</sup> &amp; 3<sup>rd</sup> mortgages</li>
