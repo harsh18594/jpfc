@@ -230,6 +230,10 @@
     color: #3241ff;
 }
 
+.main-footer.style-three .footer-bottom .copyright-column .copyright a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 .main-header .top-right .cart-box .cart-box-btn .total-cart {
     position: absolute;
     right: 16px;
