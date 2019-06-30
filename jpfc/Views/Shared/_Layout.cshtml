@@ -297,21 +297,33 @@
                         <!-- Copyright Column -->
                         <div class="copyright-column col-lg-6 col-md-6 col-sm-12">
                             <div class="copyright">@DateTime.Now.Year &copy; All rights reserved by <a asp-controller="Home" asp-action="Index">J P Finance Chase Ltd</a></div>
-                            <div class="copyright">Developed By: <a href="https://www.linkedin.com/in/harsh-dave-r/" target="_blank">Harsh Dave <i class="fa fa-external-link"></i></a></div>
+                            <div class="copyright">
+                                Developed By:
+                                <a data-toggle="modal" data-target="#developer-info-modal">Harsh Dave <i class="fa fa-external-link"></i></a>
+                            </div>
                         </div>
 
-
-                        <!-- Social Column -->
-                        @*<div class="social-column col-lg-6 col-md-6 col-sm-12">
-                                <ul>
-                                    <li class="follow">Follow us: </li>
-                                    <li><a href="#"><span class="fa fa-facebook-square"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-twitter-square"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-linkedin-square"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-google-plus-square"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-rss-square"></span></a></li>
-                                </ul>
-                            </div>*@
+                        <div class="modal fade" id="developer-info-modal" tabindex="-1" role="dialog" aria-labelledby="developer-info-modal" aria-hidden="true">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-dark">Contact Developer</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span class="icon flaticon-phone-receiver"></span> <a href="tel:6479361205">(647) 936-1205</a> <br />
+                                        <span class="icon flaticon-email"></span> <a href="mailto:harsh.rdave@hotmail.com"><text>harsh.rdave@hotmail.com</text></a>
+                                        <div class="mt-2">
+                                            <div class="LI-profile-badge" data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="harsh-dave-r" data-width="600">
+                                                <a class="LI-simple-link" href='https://ca.linkedin.com/in/harsh-dave-r?trk=profile-badge' target="_blank">Harsh Dave</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         @if (!SignInManager.IsSignedIn(User))
                         {
@@ -350,7 +362,9 @@
     @*<script src="http://maps.google.com/maps/api/js?key=AIzaSyDTPlX-43R1TpcQUyWjFgiSfL_BiGxslZU"></script>
         <script src="~/js/map-script.js"></script>*@
 
-  
+    @* linkedin plugin *@
+    <script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/jpfc-helper.js" asp-append-version="true"></script>
     <script>
