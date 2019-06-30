@@ -3,6 +3,7 @@
 @inject IOptions<ContactInfoOptions> ContactInfoOptions
 @{
     ViewData["Title"] = "Life Insurance";
+    ViewData.AddActivePage(ServicesNavPages.LifeInsurance);
 }
 
 <!--Page Title-->
@@ -23,39 +24,8 @@
     <div class="auto-container">
         <div class="row clearfix">
 
-            <!--Sidebar Side-->
-            <div class="sidebar-side col-lg-4 col-md-4 col-sm-12 d-none d-md-block">
-                <aside class="sidebar default-sidebar">
-
-                    <!--Blog Category Widget-->
-                    <div class="sidebar-widget sidebar-blog-category">
-                        <ul class="blog-cat">
-                            <li><a asp-controller="Services" asp-action="Loan">Pawn Precious Things</a></li>
-                            <li><a asp-controller="Services" asp-action="BuySellGold">Trade Precious Metal Bullion</a></li>
-                            <li><a asp-controller="Services" asp-action="Mortgage">Mortgage</a></li>
-                            <li><a asp-controller="Services" asp-action="HAInsurance">Home &amp; Auto Insurance</a></li>
-                            <li class="active"><a asp-controller="Services" asp-action="LifeInsurance">Life Insurance</a></li>
-                            <li><a asp-controller="Services" asp-action="PersonalLoan">Personal Loan</a></li>
-                            <li><a asp-controller="Services" asp-action="CreditCards">Credit Cards</a></li>
-                            <li><a asp-controller="Services" asp-action="FinancePlanning">Investment &amp; Financial Planning</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Contact Widget-->
-                    <div class="sidebar-widget contact-widget">
-                        <div class="sidebar-title">
-                            <h4>Contact</h4>
-                        </div>
-                        <ul>
-                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
-                            <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
-                            <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
-                            <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>
-                            <li><span class="icon flaticon-calendar"></span> <a href="@ContactInfoOptions.Value.AppointmentLink" target="_blank">Book an appointment</a></li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>
+            @* side bar nav will not appear on mobile device *@
+            <partial name="~/Views/Services/_ServicesNavSideBar.cshtml" />
 
             <!--Content Side-->
             <div class="content-side col-lg-8 col-md-8 col-sm-12">

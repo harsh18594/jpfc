@@ -8,6 +8,7 @@ using jpfc.Models;
 
 namespace jpfc.Controllers
 {
+    // do not apply attribute route on controller level
     public class HomeController : JpfcController
     {
         public IActionResult Index()
@@ -15,11 +16,13 @@ namespace jpfc.Controllers
             return View();
         }
 
+        [Route("about-us")]
         public IActionResult About()
         {
             return View();
         }
 
+        [Route("contact-us")]
         public IActionResult Contact()
         {
             return View();

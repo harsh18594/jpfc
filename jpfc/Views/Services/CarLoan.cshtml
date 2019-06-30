@@ -1,0 +1,94 @@
+﻿@using jpfc.ConfigOptions
+@using Microsoft.Extensions.Options
+@inject IOptions<ContactInfoOptions> ContactInfoOptions
+@{
+    ViewData["Title"] = "Car Loan";
+    ViewData.AddActivePage(ServicesNavPages.CarLoan);
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/car-2.png)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Services" asp-action="Index">Services</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!--Sidebar Page Container-->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            @* side bar nav will not appear on mobile device *@
+            <partial name="~/Views/Services/_ServicesNavSideBar.cshtml" />
+
+            <!--Content Side-->
+            <div class="content-side col-lg-8 col-md-8 col-sm-12">
+                <div class="services-single">
+                    <h4>Loan for luxurious cars</h4>
+
+                    <!-- Services Gallery -->
+                    <div class="services-gallery">
+                        <div class="services-carousel owl-carousel owl-theme">
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-8.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-6.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-1.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="image">
+                                    <img src="~/images/car-7.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-muted small">(Pictures are for presentation purpose only, please contact us for your make and model)</p>
+                    </div>
+                    <div class="text">
+                        <p>We offer instant loan for luxurious cars</p>
+                    </div>
+                    <ul class="list-style-four">
+                        <li>Vehicle must be 2017 or newer</li>
+                        <li>Must be lien free</li>
+                        <li>Owner provides "Used Car Package"</li>
+                        <li>Maximum loan $30,000</li>
+                        <li>Loan period maximum 1 Year</li>
+                        <li>Interest rate will be negotiated</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Sidebar Page Container-->
