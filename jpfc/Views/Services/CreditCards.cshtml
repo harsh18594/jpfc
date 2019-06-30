@@ -6,12 +6,8 @@
     ViewData.AddActivePage(ServicesNavPages.CreditCards);
 }
 
-@section Styles{
-    <link href="~/lib/fancybox/jquery.fancybox.min.css" rel="stylesheet" />
-}
-
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/banner-images/credit-cards.jpg)">
+<section class="page-title" style="background-image:url(../../images/banner-images/credit-cards-min.jpg)">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -59,7 +55,7 @@
                                                 </div>
                                                 <div class="slide">
                                                     <div class="image">
-                                                        <img src="~/images/mastercard-verico.png" alt="">
+                                                        <img src="~/images/mastercard-verico-min.png" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,7 +68,7 @@
 
                                         <ul class="ml-3 list-style-one">
                                             <li>
-                                                <a class="image" href="~/images/cc-grid.png">View product lineup</a>
+                                                <a class="lightbox-image" href="~/images/cc-grid.png">View product lineup</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -95,13 +91,3 @@
     </div>
 </div>
 <!--End Sidebar Page Container-->
-
-@section Scripts{
-    <script src="~/lib/fancybox/jquery.fancybox.min.js"></script>
-    <script src="~/js/pages/services-creditcards.js" asp-append-version="true"></script>
-    <script>
-        $(document).ready(function () {
-            Jpfc.ServicesCreditCards.init();
-        });
-    </script>
-}

@@ -535,27 +535,28 @@
             }
         });
     }
-    //
-    //====================================================================//
-    // Contact Form Validation
-    //====================================================================//
-    //
-    if ($('#contact-form').length) {
-        $('#contact-form').validate({
-            rules: {
-                firstname: {
-                    required: true
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                message: {
-                    required: true
-                }
-            }
-        });
-    }
+    // hd.20190630 - removed as not required
+    ////
+    ////====================================================================//
+    //// Contact Form Validation
+    ////====================================================================//
+    ////
+    //if ($('#contact-form').length) {
+    //    $('#contact-form').validate({
+    //        rules: {
+    //            firstname: {
+    //                required: true
+    //            },
+    //            email: {
+    //                required: true,
+    //                email: true
+    //            },
+    //            message: {
+    //                required: true
+    //            }
+    //        }
+    //    });
+    //}
     //
     //====================================================================//
     // Scroll to a Specific Div
