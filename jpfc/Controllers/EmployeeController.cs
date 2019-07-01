@@ -70,7 +70,42 @@ namespace jpfc.Controllers
             SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, "Please check all the information and submit again.");
             return View(model);
         }
-               
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            _logger.LogInformation(GetLogDetails() + " - id:{@Id}", id);
+            var result = await _employeeService.FetchEmployeeForEditAsync(id);
+            if (result.Success)
+            {
+                return View(result.Model);
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditEmployeeViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", model);
+            if (ModelState.IsValid)
+            {
+                var result = await _employeeService.EditAsync(model);
+                if (!result.Success)
+                {
+                    SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+                    return View(model);
+                }
+
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Employee has been updated successfully");
+                return RedirectToAction(nameof(List));
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, "Please check all the information and submit again.");
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {

@@ -11,5 +11,7 @@ namespace jpfc.Services.Interfaces
         Task<(bool Success, string Error, EmployeeListViewModel Model)> ListAllAsync(EmployeeListViewModel model);
         Task<(bool Success, string Error)> CreateAsync(CreateEmployeeViewModel model);
         Task<(bool Success, string Error)> DeleteAsync(string id);
+        Task<(bool Success, string Error, EditEmployeeViewModel Model)> FetchEmployeeForEditAsync(string id);
+        Task<(bool Success, string Error)> EditAsync(EditEmployeeViewModel model);
     }
 }
