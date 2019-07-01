@@ -1,0 +1,108 @@
+﻿@model jpfc.Models.EmployeeViewModels.EmployeeListViewModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+@section Styles{
+    <link href="~/lib/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.css" rel="stylesheet" />
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/receipt-min.png)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Employee" asp-action="Index">Home</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- Services Section Three-->
+<section class="mt-5 mb-5" id="content-container">
+    <div class="auto-container">
+        <!-- Sec Title -->
+        <div class="sec-title centered">
+            <h2>Employees</h2>
+        </div>
+        <form method="get" asp-controller="Employee" asp-action="List" autocomplete="off">
+            <div class="row clearfix mt-2">
+                <div class="col-12">
+                    <h5>Search</h5>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="font-weight-bold">First Name</label>
+                        <input asp-for="FirstName" type="text" class="form-control search-input" />
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="font-weight-bold">Last Name</label>
+                        <input asp-for="LastName" type="text" class="form-control search-input" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" id="btn-search" class="btn btn-primary">Search <i class="fa fa-spinner fa-spin loading-spinner" style="display: none;"></i></button>
+                    <a asp-controller="Employee" asp-action="Index" class="btn btn-warning">Back</a>
+                    <a asp-controller="Employee" asp-action="Create" class="btn btn-success ml-3"><i class="fa fa-plus"></i> Add Employee</a>
+                </div>
+            </div>
+        </form>
+        <div class="row clearfix mt-3">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="employee-table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th width="200px">First Name</th>
+                                <th width="200px">Last Name</th>
+                                <th width="100px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Employees?.Any() == true)
+                            {
+                                foreach (var e in Model.Employees)
+                                {
+                                    <tr>
+                                        <td>@e.FirstName</td>
+                                        <td>@e.LastName</td>
+                                        <td>
+                                            <a class="btn btn-primary" asp-controller="Employee" asp-action="Edit" asp-route-id="@e.Id"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-danger btn-delete" asp-controller="Employee" asp-action="Delete" asp-route-id="@e.Id"><i class="fa fa-trash"></i></a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No records found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/lib/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script src="~/lib/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/sweetalert/sweetalert2.js"></script>
+
+    <script src="~/js/pages/employee-list.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            Jpfc.EmployeeList.init();
+        });
+    </script>
+}

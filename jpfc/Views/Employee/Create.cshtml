@@ -1,0 +1,102 @@
+﻿@model jpfc.Models.EmployeeViewModels.CreateEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/receipt-min.png)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Employee" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Employee" asp-action="List">Employees</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- Services Section Three-->
+<section class="mt-5 mb-5" id="content-container">
+    <div class="auto-container">
+        <!-- Sec Title -->
+        <div class="sec-title centered">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <form method="post" id="create-employee-form" autocomplete="off">
+            <input asp-for="Id" />
+            <div class="row clearfix">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <h5>Personal Details</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="FirstName" class="form-control" maxlength="255" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="LastName" class="form-control" maxlength="255" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <h5>Login Details</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="EmailAddress" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="EmailAddress" class="form-control" maxlength="255" />
+                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="Password" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="Password" class="form-control" maxlength="100" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="ConfirmPassword" class="form-control" maxlength="100" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="btn-save-employee">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
+                    <a asp-controller="Employee" asp-action="Index" class="btn btn-warning">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+@section Scripts{
+
+}
