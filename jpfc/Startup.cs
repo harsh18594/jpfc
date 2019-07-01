@@ -126,6 +126,7 @@ namespace jpfc
             services.AddScoped<IClientReceiptService, ClientReceiptService>();
             services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IMortgageService, MortgageService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
