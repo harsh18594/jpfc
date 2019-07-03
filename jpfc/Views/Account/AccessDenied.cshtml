@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/access-denied.jpg)">
+    @*<div class="auto-container">
+            <div class="content">
+                <h1>@ViewData["Title"]</h1>
+                <ul class="page-breadcrumb">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li>@ViewData["Title"]</li>
+                </ul>
+            </div>
+        </div>*@
+</section>
+<!--End Page Title-->
+<!-- Contact Page Section -->
+<section class="contact-page-section">
+    <div class="auto-container">
+        <div class="inner-container">
+            <h2>Access Denied</h2>
+            <div class="row clearfix">
+
+                <!-- Info Column -->
+                <div class="info-column col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <div class="text">
+                            Opps! Looks like you do not have access to the requested page.
+                            Please contact the management. <br />
+                            <a asp-controller="Home" asp-action="Index">Click here</a> to go to the home page.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Team Page Section -->
