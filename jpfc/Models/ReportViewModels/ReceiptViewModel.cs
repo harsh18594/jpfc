@@ -20,6 +20,7 @@ namespace jpfc.Models.ReportViewModels
         public decimal PrincipalLoanAmount { get; set; }
         public decimal PurchaseTotal { get; set; }
         public decimal SellTotal { get; set; }
+        public decimal HstTotal { get; set; }
         public ICollection<ClientBelongingListViewModel> Belongings { get; set; }
     }
 }

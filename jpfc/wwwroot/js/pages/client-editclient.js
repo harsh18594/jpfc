@@ -37,9 +37,9 @@ Jpfc.ClientEditClient = function () {
                 {
                     data: "receiptNumber"
                 },
-                {
-                    data: "finalAmountStr"
-                },
+                //{
+                //    data: "finalAmountStr"
+                //},
                 {
                     data: "paymentDateStr"
                 },

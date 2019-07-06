@@ -37,6 +37,9 @@ namespace jpfc.Models.ClientViewModels
         public decimal StorageFee { get; set; }
         public string StorageFeeStr => StorageFee.ToString("C");
 
+        public decimal HstAmount { get; set; }
+        public string HstAmountStr => HstAmount.ToString("C");
+
         public string SummaryBlurb
         {
             get

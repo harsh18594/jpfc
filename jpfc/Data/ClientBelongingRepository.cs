@@ -36,7 +36,8 @@ namespace jpfc.Data
                     CreatedUtc = e.CreatedUtc,
                     BusinessPaysMoney = e.TransactionAction == Constants.TransactionAction.Loan || e.TransactionAction == Constants.TransactionAction.Purchase,
                     BusinessGetsMoney = e.TransactionAction == Constants.TransactionAction.Sell,
-                    TransactionAction = e.TransactionAction
+                    TransactionAction = e.TransactionAction,
+                    HstAmount = e.HstAmount
                 })
                 .OrderByDescending(vm => vm.CreatedUtc)
                 .ToListAsync();

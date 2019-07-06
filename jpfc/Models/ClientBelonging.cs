@@ -28,6 +28,7 @@ namespace jpfc.Models
         public decimal? ItemPrice { get; set; }
         public decimal? FinalPrice { get; set; }
         public decimal? ReplacementValue { get; set; }
+        public decimal? HstAmount { get; set; }
 
         public string CreatedUserId { get; set; }
         public DateTime CreatedUtc { get; set; }

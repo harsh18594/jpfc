@@ -324,6 +324,7 @@ namespace jpfc.Services
                     clientBelonging.ItemPrice = model.ItemPrice;
                     clientBelonging.FinalPrice = model.FinalPrice;
                     clientBelonging.ReplacementValue = model.ReplacementValue;
+                    clientBelonging.HstAmount = model.HstAmount;
 
                     await _clientBelongingRepository.SaveClientBelongingAsync(clientBelonging);
                     success = true;
@@ -401,6 +402,7 @@ namespace jpfc.Services
                         model.FinalPrice = belonging.FinalPrice;
                         model.ReplacementValue = belonging.ReplacementValue;
                         model.ClientReceiptId = belonging.ClientReceiptId;
+                        model.HstAmount = belonging.HstAmount;
 
                         success = true;
                     }

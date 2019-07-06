@@ -77,12 +77,17 @@ Jpfc.ClientReceipt = function () {
                     className: 'font-weight-bold',
                     render: function (data, type, row) {
                         var className = '';
+                        var hstText = "";
                         if (row.businessPaysMoney) {
                             className = 'text-danger';
                         } else if (row.businessGetsMoney) {
                             className = 'text-success bold';
                         }
-                        return '<span class="' + className + '">' + row.finalPriceStr + '</span> <span>' + ' [' + row.replacementValueStr + '] </span> <span class="badge badge-info">' + row.transactionAction + '</span>';
+
+                        if (row.hstAmount > 0) {
+                            hstText = "*";
+                        }
+                        return hstText + ' <span class="' + className + '">' + row.finalPriceStr + '</span> <span>' + ' [' + row.replacementValueStr + '] </span> <span class="badge badge-info">' + row.transactionAction + '</span>';
                     }
                 },
                 {
@@ -113,6 +118,7 @@ Jpfc.ClientReceipt = function () {
         $('#ItemPrice').val('');
         $('#FinalPrice').val('');
         $('#ReplacementValue').val('');
+        $('#HstAmount').val('');
         $('#ClientBelongingId').val('0');
 
         $('#client-belonging-form').find('.field-validation-error').html('');
@@ -155,6 +161,7 @@ Jpfc.ClientReceipt = function () {
         $('#ItemPrice').val(data.itemPrice);
         $('#FinalPrice').val(data.finalPrice);
         $('#ReplacementValue').val(data.replacementValue);
+        $('#HstAmount').val(data.hstAmount);
         $('#ClientBelongingId').val(data.clientBelongingId);
     };
 
@@ -368,6 +375,7 @@ Jpfc.ClientReceipt = function () {
                 $('#interest-amount').html(result.model.interestAmountStr);
                 $('#service-fee-amount').html(result.model.serviceFeeStr);
                 $('#storage-fee-amount').html(result.model.storageFeeStr);
+                $('#hst-amount').html(result.model.hstAmountStr);
                 $('#summary-blurb').html(result.model.summaryBlurb);
             } else {
                 toastr.error(result.error, '', Jpfc.Toastr.config);

@@ -309,7 +309,8 @@ namespace jpfc.Services
                                     MetalOther = item.MetalOther,
                                     ItemDescription = item.ItemDescription,
                                     ReplacementValue = item.ReplacementValue,
-                                    TransactionAction = item.TransactionAction
+                                    TransactionAction = item.TransactionAction,
+                                    HstAmount = item.HstAmount
                                 };
                                 duplicateReceipt.ClientBelongings.Add(duplicateBelonging);
                             }
@@ -371,6 +372,7 @@ namespace jpfc.Services
                     bool clientPaysFinal = false;
                     decimal totalPurchase = 0;
                     decimal totalSell = 0;
+                    decimal hstTotal = 0;
 
                     if (belongingsList?.Any() == true)
                     {
@@ -409,6 +411,8 @@ namespace jpfc.Services
                                 // if business purchases an item, it is sell for client
                                 totalSell += item.FinalPrice ?? 0;
                             }
+
+                            hstTotal += item.HstAmount ?? 0;
                         }
                     }
 
@@ -422,13 +426,16 @@ namespace jpfc.Services
                         Address = Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
                         ContactNumber = Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
                         EmailAddress = receiptInfo.Client.EmailAddress,
-                        BillAmount = billAmount,
                         ClientPaysFinal = clientPaysFinal,
                         PrincipalLoanAmount = loanAmount,
                         PurchaseTotal = totalPurchase,
                         SellTotal = totalSell,
-                        Belongings = belongingsList
+                        Belongings = belongingsList,
+                        HstTotal = hstTotal
                     };
+
+                    // calculate final total
+                    model.BillAmount = (model.HstTotal + model.PrincipalLoanAmount + model.PurchaseTotal) - model.SellTotal;
 
                     // generate receipt
                     var pdfReceipt = new Reports.ClientReceipt(model, _env.WebRootPath);
@@ -651,6 +658,7 @@ namespace jpfc.Services
                     decimal loanDueAmount = 0;
                     decimal totalPurchase = 0;
                     decimal totalSell = 0;
+                    decimal hstTotal = 0;
 
                     if (belongingsList?.Any() == true)
                     {
@@ -677,6 +685,8 @@ namespace jpfc.Services
                                 // if business purchases an item, it is sell for client
                                 totalSell += item.FinalPrice ?? 0;
                             }
+
+                            hstTotal += item.HstAmount ?? 0;
                         }
                     }
 
@@ -710,10 +720,11 @@ namespace jpfc.Services
                         //BrokerageFee = 0,
                         //RetainerFee = 0,
                         Belongings = belongingsList,
-                        PaymentReceived = receiptInfo.PaymentAmount ?? 0
+                        PaymentReceived = receiptInfo.PaymentAmount ?? 0,
+                        HstTotal = hstTotal
                     };
                     // calculate final total
-                    model.FinalTotal = (model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee
+                    model.FinalTotal = (model.HstTotal + model.PrincipalLoanAmount + model.PurchaseTotal + model.InterestAmount + model.ServiceFee
                                         + model.StorageFee /*+ model.BrokerageFee + model.RetainerFee*/) - model.SellTotal;
 
                     var paymentReceipt = new PaymentReceipt(model, _env.WebRootPath);
@@ -773,6 +784,7 @@ namespace jpfc.Services
                     decimal loanDueAmount = 0;
                     decimal totalPurchase = 0;
                     decimal totalSell = 0;
+                    decimal hstTotal = 0;
 
                     //var belongings = await _clientBelongingRepository.ListClientBelongingByReceiptIdAsync(clientReceiptId);
                     if (receiptInfo.ClientBelongings != null && receiptInfo.ClientBelongings.Any())
@@ -796,6 +808,8 @@ namespace jpfc.Services
                             {
                                 totalSell += item.FinalPrice ?? 0;
                             }
+
+                            hstTotal += item.HstAmount ?? 0;
                         }
 
                         // calculate interest rate on loan amount
@@ -813,7 +827,8 @@ namespace jpfc.Services
                         model.PrincipalLoanAmount = principalLoanAmount;
                         model.PurchaseTotal = totalPurchase;
                         model.SellTotal = totalSell;
-                        model.FinalTotal = (model.PrincipalLoanAmount + model.SellTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.PurchaseTotal;
+                        model.HstAmount = hstTotal;
+                        model.FinalTotal = (model.HstAmount + model.PrincipalLoanAmount + model.SellTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.PurchaseTotal;
                     }
 
                     success = true;

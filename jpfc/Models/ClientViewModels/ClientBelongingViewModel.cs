@@ -54,5 +54,8 @@ namespace jpfc.Models.ClientViewModels
         [Required]
         [Display(Name = "Replacement Value")]
         public decimal? ReplacementValue { get; set; }
+
+        [Display(Name = "HST Amount")]
+        public decimal? HstAmount { get; set; }
     }
 }

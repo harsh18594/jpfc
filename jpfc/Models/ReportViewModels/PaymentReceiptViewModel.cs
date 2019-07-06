@@ -28,6 +28,7 @@ namespace jpfc.Models.ReportViewModels
         //public bool ClientPaysFinal { get; set; }
         public string PaymentMethod { get; set; }
         public decimal FinalTotal { get; set; }
+        public decimal HstTotal { get; set; }
         public decimal PaymentReceived { get; set; }
         public ICollection<ClientBelongingListViewModel> Belongings { get; set; }
     }

@@ -29,5 +29,7 @@ namespace jpfc.Models.ClientViewModels
         public bool BusinessPaysMoney { get; set; }
         public bool BusinessGetsMoney { get; set; }
         public string TransactionAction { get; set; }
+        public decimal? HstAmount { get; set; }
+        public string HstAmountStr => HstAmount?.ToString("C");
     }
 }

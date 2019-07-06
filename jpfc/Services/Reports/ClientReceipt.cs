@@ -447,6 +447,16 @@ namespace jpfc.Services.Reports
             _row.Cells[0].MergeRight = 4;
             _row.Cells[5].AddParagraph("-" + _model.PrincipalLoanAmount.ToString("C"));
 
+            // add HST row
+            _row = _table.AddRow();
+            _row.Height = Unit.FromCentimeter(0.50);
+            _row.Format.Alignment = ParagraphAlignment.Right;
+            _row.VerticalAlignment = VerticalAlignment.Center;
+            _row.Format.Font.Bold = true;
+            _row.Cells[0].AddParagraph("HST");
+            _row.Cells[0].MergeRight = 4;
+            _row.Cells[5].AddParagraph(_model.HstTotal.ToString("C"));
+
             // add final price row
             _row = _table.AddRow();
             _row.Height = Unit.FromCentimeter(0.75);
