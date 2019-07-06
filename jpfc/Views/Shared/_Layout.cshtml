@@ -194,9 +194,14 @@
                                         <div class="logo">
                                             <a asp-controller="Home" asp-action="Index"><img src="~/images/logo120X90.png" alt="" /></a>
                                         </div>
-                                        @* <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>*@
+                                        @{
+                                            var query = WebUtility.UrlEncode(ContactInfoOptions.Value.RawAddress);
+                                        }
                                         <ul class="list-style-two">
-                                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                                            <li>
+                                                <span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)
+                                                <br /><u><a class="font-italic" href="https://www.google.com/maps/search/?api=1&query=@query" target="_blank">view on map <i class="fa fa-external-link"></i></a></u>
+                                            </li>
                                             <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
                                             <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
                                             <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>

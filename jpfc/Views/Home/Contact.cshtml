@@ -37,9 +37,15 @@
                             Please contact us using the information below.
                             For additional information, view our <strong><a asp-controller="Services" asp-action="Index">Services</a></strong>.
                         </div>
+                        @{
+                            var query = WebUtility.UrlEncode(ContactInfoOptions.Value.RawAddress);
+                        }
                         <ul class="list-style-five">
                             <li><span class="icon fa fa-user"></span> Hansal Pandya <span class="small">(B. Eng, MBA, PFP, LLQP)</span></li>
-                            <li><span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)</li>
+                            <li>
+                                <span class="icon flaticon-map-1"></span> @Html.Raw(ContactInfoOptions.Value.Address)
+                                <br /><a href="https://www.google.com/maps/search/?api=1&query=@query" target="_blank">view on map <i class="fa fa-external-link"></i></a>
+                            </li>
                             <li><span class="icon flaticon-clock"></span> @Html.Raw(ContactInfoOptions.Value.Hours)</li>
                             <li><span class="icon flaticon-phone-receiver"></span> <a href="tel:@ContactInfoOptions.Value.Phone">@ContactInfoOptions.Value.Phone</a></li>
                             <li><span class="icon flaticon-email"></span> <a href="mailto:@ContactInfoOptions.Value.Email">@ContactInfoOptions.Value.Email</a></li>

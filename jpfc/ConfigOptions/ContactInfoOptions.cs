@@ -10,6 +10,7 @@ namespace jpfc.ConfigOptions
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string RawAddress { get; set; }
         public string AppointmentLink { get; set; }
         public string Hours { get; set; }
     }
