@@ -11,8 +11,16 @@
     <meta name="description" content="Life insurance at competitive price - Take an advantage of our wholesale volume pricing." />
 }
 
+@section Styles{
+    <style>
+        .services-gallery .owl-stage-outer {
+            height: 300px;
+        }
+    </style>
+}
+
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/life-insur-min.jpg)">
+<section class="page-title lazy-image" data-src="/images/life-insur-min.jpg">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -41,12 +49,14 @@
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/life-insur-min.jpg" alt="Life insurance">
+                                    <img class="lazy-image" data-src="/images/life-insur-min.jpg" alt="Life insurance">
+                                    <noscript><img src="~/images/life-insur-min.jpg" alt="Life insurance"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/life-insur-myth-min.jpg" alt="Insurance">
+                                    <img class="lazy-image" data-src="/images/life-insur-myth-min.jpg" alt="Insurance">
+                                    <noscript><img src="~/images/life-insur-myth-min.jpg" alt="Insurance"></noscript>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +72,7 @@
                     <div class="text">
                         <p>
                             Need to protect our loved ones just in case . . .<br />
-                            Contact us for more information.
+                            Contact us or <a href="https://bettermortgageinsurance.ca/ashok" target="_blank">click here <i class="fa fa-external-link"></i></a> for more information.
                         </p>
                     </div>
                 </div>

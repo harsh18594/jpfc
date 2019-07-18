@@ -10,9 +10,16 @@
     <meta name="keywords" content="apply for a mastercard, get mastercard in Canada, get credit card, apply for visa credit card, credit score" />
     <meta name="description" content="Get a credit card at interest rate of as low as 9.90%. We also offer student creidt cards." />
 }
+@section Styles{
+    <style>
+        .services-gallery .owl-stage-outer {
+            height: 270px;
+        }
+    </style>
+}
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/banner-images/credit-cards-min.jpg)">
+<section class="page-title lazy-image" data-src="/images/banner-images/credit-cards-min.jpg">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -55,12 +62,14 @@
                                             <div class="services-carousel owl-carousel owl-theme">
                                                 <div class="slide">
                                                     <div class="image">
-                                                        <img src="~/images/mastercard-logo.png" alt="MasterCard">
+                                                        <img class="lazy-image" data-src="/images/mastercard-logo.png" alt="MasterCard">
+                                                        <noscript><img src="~/images/mastercard-logo.png" alt="MasterCard"></noscript>
                                                     </div>
                                                 </div>
                                                 <div class="slide">
                                                     <div class="image">
-                                                        <img src="~/images/mastercard-verico-min.png" alt="Credit Card">
+                                                        <img class="lazy-image" data-src="/images/mastercard-verico-min.png" alt="Credit Card">
+                                                        <noscript><img src="~/images/mastercard-verico-min.png" alt="Credit Card"></noscript>
                                                     </div>
                                                 </div>
                                             </div>

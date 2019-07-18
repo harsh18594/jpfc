@@ -19,7 +19,7 @@
 }
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/banner-images/gold-bar.jpg)">
+<section class="page-title lazy-image" data-src="/images/banner-images/gold-bar.jpg">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -49,22 +49,26 @@
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/1_oz_platinum_maple_leaf_coin.jpg" alt="Buy Gold">
+                                    <img class="lazy-image" data-src="/images/1_oz_platinum_maple_leaf_coin.jpg" alt="Buy Gold">
+                                    <noscript><img src="~/images/1_oz_platinum_maple_leaf_coin.jpg" alt="Buy Gold"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/jpfc-goldbar-min.jpg" alt="Gold bar" style="height: 450px;">
+                                    <img class="lazy-image" data-src="/images/jpfc-goldbar-min.jpg" alt="Gold bar" style="height: 450px;">
+                                    <noscript><img src="~/images/jpfc-goldbar-min.jpg" alt="Gold bar" style="height: 450px;"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/precious-metal-min.jpg" alt="Precious metal">
+                                    <img class="lazy-image" data-src="/images/precious-metal-min.jpg" alt="Precious metal">
+                                    <noscript><img src="~/images/precious-metal-min.jpg" alt="Precious metal"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/Buying-Platinum-min.jpg" alt="Buy Platinum">
+                                    <img class="lazy-image" data-src="/images/Buying-Platinum-min.jpg" alt="Buy Platinum">
+                                    <noscript> <img src="~/images/Buying-Platinum-min.jpg" alt="Buy Platinum"></noscript>
                                 </div>
                             </div>
                         </div>

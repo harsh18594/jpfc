@@ -7,7 +7,7 @@
     //
     function handlePreloader() {
         if ($('.preloader').length) {
-            $('.preloader').delay(200).fadeOut(500);
+            $('.preloader').delay(0).fadeOut(200);
         }
     }
     //
@@ -231,6 +231,9 @@
                 1200: { items: 2 }
             }
         });
+        $('.services-carousel').on('changed.owl.carousel', function (event) {
+            Jpfc.Site.initLazy();
+        });
     }
     //
     //====================================================================//
@@ -412,6 +415,9 @@
                 800: { items: 4 },
                 1024: { items: 6 }
             }
+        });
+        $('.sponsors-carousel').on('changed.owl.carousel', function (event) {
+            Jpfc.Site.initLazy();
         });
     }
     //

@@ -13,8 +13,16 @@
                             We provide customized financial prescription to improve financial health." />
 }
 
+@section Styles{
+    <style>
+        .services-gallery .owl-stage-outer {
+            height: 270px;
+        }
+    </style>
+}
+
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/investment-2-min.png)">
+<section class="page-title lazy-image" data-src="/images/investment-2-min.png">
     <div class="auto-container">
         <div class="content">
             <h1>@ViewData["Title"]</h1>
@@ -39,29 +47,34 @@
                 <div class="services-single">
                     <h4>@ViewData["Title"]</h4>
                     <div class="image">
-                        <img src="~/images/investment-1-min.png" alt="Invest Money">
+                        <img class="lazy-image" data-src="/images/investment-1-min.png" alt="Invest Money">
+                        <noscript><img src="~/images/investment-1-min.png" alt="Invest Money"></noscript>
                     </div>
                     <!-- Services Gallery -->
                     <div class="services-gallery">
                         <div class="services-carousel owl-carousel owl-theme">
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/financial-stress1-min.png" alt="Best financial advisor">
+                                    <img class="lazy-image" data-src="/images/financial-stress1-min.png" alt="Best financial advisor">
+                                    <noscript><img src="~/images/financial-stress1-min.png" alt="Best financial advisor"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/investment-4-min.png" alt="Increase bank balance">
+                                    <img class="lazy-image" data-src="/images/investment-4-min.png" alt="Increase bank balance">
+                                    <noscript><img src="~/images/investment-4-min.png" alt="Increase bank balance"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/investment-5-min.png" alt="Save money">
+                                    <img class="lazy-image" data-src="/images/investment-5-min.png" alt="Save money">
+                                    <noscript><img src="~/images/investment-5-min.png" alt="Save money"></noscript>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="image">
-                                    <img src="~/images/investment-6-min.png" alt="Invest">
+                                    <img class="lazy-image" data-src="/images/investment-6-min.png" alt="Invest">
+                                    <noscript><img src="~/images/investment-6-min.png" alt="Invest"></noscript>
                                 </div>
                             </div>
                         </div>

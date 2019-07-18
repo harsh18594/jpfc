@@ -20,13 +20,24 @@ Jpfc.Site = function () {
         });
     };
 
+    var initLazy = function () {
+        $('.lazy-image').lazy({
+            effect: "fadeIn",
+            effectTime: 500,
+            threshold: 0
+        });
+        $('.lazy-logo').lazy();
+    };
+
     var init = function () {
         console.log("Jpfc.Site init");
         initTooltip();
         initMarquee();
+        initLazy();
     };
 
     return {
-        init: init
+        init: init,
+        initLazy: initLazy
     };
 }();

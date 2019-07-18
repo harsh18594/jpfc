@@ -8,7 +8,7 @@
 }
 
 <!--Page Title-->
-<section class="page-title" style="background-image:url(../../images/banner-images/about-us.jpg)">
+<section class="page-title lazy-image" data-src="/images/banner-images/about-us.jpg">
     <div class="auto-container">
         <div class="content">
             <h1>About Us</h1>
@@ -66,7 +66,10 @@
             <!-- Content Column -->
             <div class="image-column col-lg-5 col-md-12 col-sm-12">
                 <div class="inner-column">
-                    <div class="image-1"><img src="~/images/jewel_loanpower.png" alt="J P Finanace Chase"></div>
+                    <div class="image-1">
+                        <img class="lazy-image" data-src="/images/jewel_loanpower.png" alt="J P Finanace Chase">
+                        <noscript><img src="~/images/jewel_loanpower.png" alt="J P Finanace Chase"></noscript>
+                    </div>
                 </div>
             </div>
 
