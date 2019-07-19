@@ -24,8 +24,7 @@ Jpfc.Site = function () {
         $('.lazy-image').lazy({
             effect: "fadeIn",
             effectTime: 500,
-            threshold: 0
-        });
+            threshold: 0        });
         $('.lazy-logo').lazy();
     };
 
