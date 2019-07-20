@@ -5,6 +5,10 @@
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
+@section MetaTags{
+    <meta name="robots" content="noindex">
+}
+
 @{
     ViewData["Title"] = "Management Log in";
 }
@@ -27,7 +31,7 @@
         <div class="col-md-4">
             <section>
                 <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                    
+
                     <div class="form-group">
                         <label asp-for="Email"></label>
                         <input asp-for="Email" class="form-control" />
