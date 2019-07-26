@@ -39,6 +39,12 @@ namespace jpfc
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // The Tempdata provider cookie is not essential. Make it essential
+            // so Tempdata is functional when tracking is disabled.
+            services.Configure<CookieTempDataProviderOptions>(options => {
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

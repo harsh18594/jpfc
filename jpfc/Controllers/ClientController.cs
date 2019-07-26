@@ -278,6 +278,7 @@ namespace jpfc.Controllers
                 var result = await _clientReceiptService.SaveClientReceiptAsync(model, userId);
                 if (result.Success)
                 {
+                    SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Receipt has been saved successfully.");
                     return RedirectToAction(nameof(Receipt), routeValues: new { clientId = model.ClientId, receiptId = result.ReceiptId });
                 }
 
