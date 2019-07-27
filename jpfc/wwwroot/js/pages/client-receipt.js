@@ -525,11 +525,16 @@ Jpfc.ClientReceipt = function () {
         });
     };
 
+    var initMask = function () {
+        $('.ca-phone-mask').mask('(000) 000-0000');
+    };
+
     var init = function () {
         initItemsDatatable();
         bindEvents();
         initDatePickers();
         initDropdowns();
+        initMask();
     };
 
     return {

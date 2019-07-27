@@ -129,9 +129,10 @@ namespace jpfc.Services
                 client.Date = model.Date;
                 client.FirstName = model.FirstName;
                 client.LastName = model.LastName;
-                
+
                 // encrypt contact number
-                var contactNumberEncryptionResult = Encryption.Encrypt(model.ContactNumber);
+                var numericNumber = Classes.Helper.StripNonNumericCharacters(model.ContactNumber);
+                var contactNumberEncryptionResult = Encryption.Encrypt(numericNumber);
                 client.ContactNumberEncrypted = contactNumberEncryptionResult.EncryptedString;
                 client.ContactNumberUniqueKey = contactNumberEncryptionResult.UniqueKey;
 
@@ -186,7 +187,8 @@ namespace jpfc.Services
                     client.FirstName = model.FirstName;
                     client.LastName = model.LastName;
                     // encrypt contact number
-                    var contactNumberEncryptionResult = Encryption.Encrypt(model.ContactNumber);
+                    var numericNumber = Classes.Helper.StripNonNumericCharacters(model.ContactNumber);
+                    var contactNumberEncryptionResult = Encryption.Encrypt(numericNumber);
                     client.ContactNumberEncrypted = contactNumberEncryptionResult.EncryptedString;
                     client.ContactNumberUniqueKey = contactNumberEncryptionResult.UniqueKey;
                     client.EmailAddress = model.EmailAddress;

@@ -176,7 +176,7 @@
                                 </tr>
                                 <tr>
                                     <td width="40%"><label class="font-weight-bold">Contact Number</label></td>
-                                    <td>@Model.ContactNumber</td>
+                                    <td><span class="ca-phone-mask">@Model.ContactNumber</span></td>
                                 </tr>
                                 <tr>
                                     <td width="40%"><label class="font-weight-bold">Address</label></td>
@@ -343,6 +343,7 @@
 
 
 @section Scripts{
+    <script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
     <script src="~/lib/moment/moment.js"></script>
     <script src="~/lib/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
     <script src="~/lib/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>

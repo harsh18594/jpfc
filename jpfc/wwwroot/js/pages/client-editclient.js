@@ -250,9 +250,14 @@ Jpfc.ClientEditClient = function () {
         });
     };
 
+    var initMask = function () {
+        $('.ca-phone-mask').mask('(000) 000-0000')
+    };
+
     var init = function () {
         bindEvents();
         initReceiptDataTable();
+        initMask();
     };
 
     return {

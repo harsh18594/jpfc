@@ -134,7 +134,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="ContactNumber" class="font-weight-bold"></label> <span class="text-danger">*</span>
-                                <input asp-for="ContactNumber" type="text" class="form-control" />
+                                <input asp-for="ContactNumber" type="text" class="form-control ca-phone-mask" />
                                 <span asp-validation-for="ContactNumber" class="text-danger"></span>
                             </div>
                         </div>
@@ -212,6 +212,7 @@
 
 
 @section Scripts{
+    <script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
     <script src="~/lib/moment/moment.js"></script>
     <script src="~/lib/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
     <script src="~/lib/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>

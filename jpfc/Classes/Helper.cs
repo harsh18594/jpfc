@@ -17,14 +17,33 @@ namespace jpfc.Classes
                     var strPhoneNumber = phoneNumber.ToString();
                     if (strPhoneNumber?.Length == 10)
                     {
-                        retVal = $"({strPhoneNumber.Substring(0,3)}) {strPhoneNumber.Substring(3, 3)} {strPhoneNumber.Substring(6)}";
+                        retVal = $"({strPhoneNumber.Substring(0, 3)}) {strPhoneNumber.Substring(3, 3)}-{strPhoneNumber.Substring(6)}";
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
+            return retVal;
+        }
+
+        public static string StripNonNumericCharacters(string input)
+        {
+            var retVal = "";
+
+            try
+            {
+                if (!string.IsNullOrEmpty(input))
+                {
+                    retVal = new string(input.Where(c => char.IsDigit(c)).ToArray());
+                }
+            }
+            catch (Exception)
+            {
+                retVal = input;
+            }
+
             return retVal;
         }
     }

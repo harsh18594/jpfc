@@ -29,7 +29,6 @@ Jpfc.Site = function () {
     };
 
     var init = function () {
-        console.log("Jpfc.Site init");
         initTooltip();
         initMarquee();
         initLazy();
