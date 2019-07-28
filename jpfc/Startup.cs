@@ -153,6 +153,7 @@ namespace jpfc
         {
             // config options
             services.Configure<ContactInfoOptions>(Configuration.GetSection("ContactInfo"));
+            services.Configure<GlobalOptions>(Configuration.GetSection("GlobalOptions"));
         }
     }
 }

@@ -40,21 +40,34 @@ namespace jpfc.Models.ClientViewModels
         public decimal HstAmount { get; set; }
         public string HstAmountStr => HstAmount.ToString("C");
 
+
+        public decimal? PaymentAmount { get; set; }
+        public string PaymentAmountStr => PaymentAmount?.ToString("C");
+
+        public DateTime? PaymentDate { get; set; }
+
         public string SummaryBlurb
         {
             get
             {
-                if (FinalTotal > 0)
+                if (PaymentAmount.HasValue && PaymentDate.HasValue)
                 {
-                    return $"Client has to pay total amount of {FinalTotalStr} to JPFC";
-                }
-                else if (FinalTotal < 0)
-                {
-                    return $"JPFC has to pay total amount of {FinalTotalStr} to client";
+                    return $"Payment of {PaymentAmountStr} was made on {PaymentDate?.ToString("MMM d, yyyy")}";
                 }
                 else
                 {
-                    return $"Account is settled with total amount of {FinalTotalStr}";
+                    if (FinalTotal > 0)
+                    {
+                        return $"Client has to pay total amount of {FinalTotalStr} to JPFC";
+                    }
+                    else if (FinalTotal < 0)
+                    {
+                        return $"JPFC has to pay total amount of {FinalTotalStr} to client";
+                    }
+                    else
+                    {
+                        return $"Account is settled with total amount of {FinalTotalStr}";
+                    }
                 }
             }
         }

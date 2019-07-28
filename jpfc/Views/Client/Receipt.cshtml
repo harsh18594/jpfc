@@ -65,7 +65,7 @@
                         {
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="Date" class="font-weight-bold">Date/Time</label>
+                                    <label for="Date" class="font-weight-bold">Date/Time</label> (MM-DD-YYYY HH:MM:SS)
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -108,7 +108,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label asp-for="PaymentDate" class="font-weight-bold"></label>
+                                    <label asp-for="PaymentDate" class="font-weight-bold"></label> (MM-DD-YYYY)
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -274,7 +274,7 @@
                     <div class="alert alert-info">
                         <div class="row">
                             <div class="col-12">
-                                <h5>Summary <i class="fa fa-info-circle" data-toggle="tooltip" title="Summary/action to close this receipt"></i> <i class="fa fa-spinner fa-spin" id="summary-loading-spinner" style="display: none;"></i></h5>
+                                <h5>Summary <i class="fa fa-info-circle" data-toggle="tooltip" title="as of today or upto the payment date - whichever is in the past"></i> <i class="fa fa-spinner fa-spin" id="summary-loading-spinner" style="display: none;"></i></h5>
                             </div>
                         </div>
                         <div class="row">

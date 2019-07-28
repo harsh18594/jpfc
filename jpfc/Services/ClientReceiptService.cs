@@ -1,4 +1,5 @@
 ﻿using jpfc.Classes;
+using jpfc.ConfigOptions;
 using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.ClientViewModels;
@@ -7,6 +8,7 @@ using jpfc.Services.Interfaces;
 using jpfc.Services.Reports;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MigraDoc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,7 @@ namespace jpfc.Services
         public readonly IClientBelongingRepository _clientBelongingRepository;
         public readonly IHostingEnvironment _env;
         public readonly IDateTimeService _dateTimeService;
+        public readonly GlobalOptions _globalOptions;
 
         public ClientReceiptService(ILogger<ClientReceiptService> logger,
             IClientReceiptRepository clientReceiptRepository,
@@ -33,7 +36,8 @@ namespace jpfc.Services
             IClientRepository clientRepository,
             IClientBelongingRepository clientBelongingRepository,
             IHostingEnvironment env,
-            IDateTimeService dateTimeService)
+            IDateTimeService dateTimeService,
+            IOptions<GlobalOptions> globalOptions)
         {
             _logger = logger;
             _clientReceiptRepository = clientReceiptRepository;
@@ -42,6 +46,7 @@ namespace jpfc.Services
             _clientBelongingRepository = clientBelongingRepository;
             _env = env;
             _dateTimeService = dateTimeService;
+            _globalOptions = globalOptions.Value;
         }
 
         public async Task<(bool Success, string Error, CreateClientReceiptViewModel Model)> GetCreateClientReceiptViewModelAsync(int clientId, int? receiptId)
@@ -471,7 +476,7 @@ namespace jpfc.Services
                         clientName: $"{receiptInfo.Client.FirstName} {receiptInfo.Client.LastName}",
                         clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
                         phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
-                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
+                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount, loanPercent: _globalOptions.LoanPercentForCalc);
 
                         // Create the document using MigraDoc.
                         var pdfLoanScheduleDocument = pdfLoanSchedule.CreateDocument();
@@ -594,7 +599,7 @@ namespace jpfc.Services
                         clientName: $"{receiptInfo.Client.FirstName } {receiptInfo.Client.LastName}",
                         clientAddress: Encryption.Decrypt(receiptInfo.Client.AddressEncrypted, receiptInfo.Client.AddressUniqueKey),
                         phoneNumber: Classes.Helper.FormatPhoneNumber(Encryption.Decrypt(receiptInfo.Client.ContactNumberEncrypted, receiptInfo.Client.ContactNumberUniqueKey)),
-                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount);
+                        emailAddress: receiptInfo.Client.EmailAddress, rootPath: _env.WebRootPath, loanAmount: loanAmount, loanPercent: _globalOptions.LoanPercentForCalc);
 
                     // Create the document using MigraDoc.
                     var pdfLoanScheduleDocument = pdfLoanSchedule.CreateDocument();
@@ -695,7 +700,7 @@ namespace jpfc.Services
                     for (var i = receiptDate; i < now; i = i.AddMonths(1))
                     {
                         // prepare due amount
-                        loanDueAmount = loanDueAmount * (decimal)1.04;
+                        loanDueAmount = loanDueAmount * _globalOptions.LoanPercentForCalc;
                     }
 
                     // prepare viewmodel
@@ -815,12 +820,17 @@ namespace jpfc.Services
                         // calculate interest rate on loan amount
                         var timeZone = _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone);
                         var receiptDate = _dateTimeService.ConvertUtcToDateTime(receiptInfo.CreatedUtc, timeZone);
-                        var now = _dateTimeService.ConvertUtcToDateTime(DateTime.UtcNow, timeZone);
+                        // go upto the payment date if payment is made or today
+                        var cutoffDate = _dateTimeService.ConvertUtcToDateTime(DateTime.UtcNow, timeZone);
+                        if (receiptInfo.PaymentDate.HasValue && receiptInfo.PaymentDate.Value.Date < cutoffDate.Date)
+                        {
+                            cutoffDate = receiptInfo.PaymentDate.Value;
+                        }
                         loanDueAmount = principalLoanAmount;
-                        for (var i = receiptDate; i < now; i = i.AddMonths(1))
+                        for (var i = receiptDate; i < cutoffDate; i = i.AddMonths(1))
                         {
                             // prepare due amount
-                            loanDueAmount = loanDueAmount * (decimal)1.04;
+                            loanDueAmount = loanDueAmount * _globalOptions.LoanPercentForCalc;
                         }
 
                         model.InterestAmount = Math.Abs(loanDueAmount - principalLoanAmount);
@@ -831,6 +841,9 @@ namespace jpfc.Services
                         model.FinalTotal = (model.HstAmount + model.PrincipalLoanAmount + model.SellTotal + model.InterestAmount + model.ServiceFee + model.StorageFee) - model.PurchaseTotal;
                     }
 
+                    // determine if payment was maid
+                    model.PaymentDate = receiptInfo.PaymentDate;
+                    model.PaymentAmount = receiptInfo.PaymentAmount;
                     success = true;
                 }
                 else

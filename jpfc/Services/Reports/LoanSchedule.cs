@@ -42,9 +42,10 @@ namespace jpfc.Services.Reports
         private readonly string _emailAddress;
         private readonly decimal _loanAmount;
         private readonly string _rootPath;
+        private readonly decimal _loanPercent;
 
         public LoanSchedule(DateTime billDate, string clientNumber, string receiptNumber, string clientName, string clientAddress,
-            string phoneNumber, string emailAddress, string rootPath, decimal loanAmount)
+            string phoneNumber, string emailAddress, string rootPath, decimal loanAmount, decimal loanPercent)
         {
             _billDate = billDate;
             _clientNumber = clientNumber;
@@ -55,6 +56,7 @@ namespace jpfc.Services.Reports
             _emailAddress = emailAddress;
             _rootPath = rootPath;
             _loanAmount = loanAmount;
+            _loanPercent = loanPercent;
         }
 
         /// <summary>
@@ -318,7 +320,7 @@ namespace jpfc.Services.Reports
                 startDate = startDate.AddMonths(1);
 
                 // prepare due amount
-                dueAmount = dueAmount * (decimal)1.04;
+                dueAmount = dueAmount * _loanPercent;
 
                 Row row = _table.AddRow();
 
