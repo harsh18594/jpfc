@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/error.jpg)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>Oops!</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li>@ViewData["StatusCode"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- Error Section -->
+<section class="error-section">
+    <div class="auto-container">
+        <div class="inner-section">
+            <div class="left-error">@ViewData["StatusCode"]</div>
+            <div class="right-error">@ViewData["StatusCode"]</div>
+            <div class="title">oops! We are sorry</div>
+            <h1>Something doesn't seem right</h1>
+            <a asp-controller="Home" asp-action="Index" class="theme-btn btn-style-sixteen">Go back to home <span class="fa fa-angle-right"></span></a>
+        </div>
+    </div>
+</section>
+<!-- End Error Section -->

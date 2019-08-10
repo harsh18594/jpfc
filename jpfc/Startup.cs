@@ -111,6 +111,8 @@ namespace jpfc
             app.UseCookiePolicy();
             // adding for everleap rewrite
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+            // hd.20190810 - error handling
+            app.UseStatusCodePagesWithReExecute("/Error/StatusCodePage", "?code={0}");
 
             app.UseAuthentication();
 
