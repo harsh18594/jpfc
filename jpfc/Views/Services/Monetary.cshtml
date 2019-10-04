@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Money Transfer/Currency Exchange";
+    ViewData.AddActivePage(ServicesNavPages.Monetary);
+}
+
+@section MetaTags{
+    <meta name="keywords" content="western union, transfer money, wire transfer, exchange rate, send money, currency" />
+    <meta name="description" content="We partnered with Western Union to provide services for exchanging currency or transfer money world-wide." />
+}
+
+<!--Page Title-->
+<section class="page-title lazy-image" data-src="/images/wu-2.png">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Services" asp-action="Index">Services</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!--Sidebar Page Container-->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            @* side bar nav will not appear on mobile device *@
+            <partial name="~/Views/Services/_ServicesNavSideBar.cshtml" />
+
+            <!--Content Side-->
+            <div class="content-side col-lg-8 col-md-8 col-sm-12">
+                <div class="services-single">
+                    <h4>Money Transfer/Currency Exchange</h4>
+                   
+                    <div class="image">
+                        <img class="lazy-image" data-src="/images/wu-1.png" alt="Western Union">
+                        <noscript><img src="~/images/wu-2.png" alt="Western Union"></noscript>
+                    </div>
+
+                    <div class="text mt-3">
+                        <p>We partnered with <a href="https://www.westernunion.com/ca/en/home.html" target="_blank">Western Union&trade;</a> to provide full services for exchanging currency or to transfer money world-wide easily.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Sidebar Page Container-->

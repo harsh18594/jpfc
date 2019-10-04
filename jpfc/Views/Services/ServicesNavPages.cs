@@ -35,6 +35,9 @@ namespace jpfc.Views.Services
         public static string FinancePlanning => "Investment & Finance Planning";
         public static string FinancePlanningNavClass(ViewContext viewContext) => PageNavClass(viewContext, FinancePlanning);
 
+        public static string Monetary => "Money Transfer/Currency Exchange";
+        public static string MonetaryNavClass(ViewContext viewContext) => PageNavClass(viewContext, Monetary);
+
         private static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData[ActivePageKey] as string;

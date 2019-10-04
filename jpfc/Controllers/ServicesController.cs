@@ -103,5 +103,12 @@ namespace jpfc.Controllers
             _logger.LogInformation(GetLogDetails());
             return View();
         }
+
+        [Route("services/monetary")]
+        public IActionResult Monetary()
+        {
+            _logger.LogInformation(GetLogDetails());
+            return View();
+        }
     }
 }
