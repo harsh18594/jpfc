@@ -8,9 +8,11 @@ namespace jpfc.Models
     public class AccessCode
     {
         public Guid AccessCodeId { get; set; }
-        public string Salt { get; set; }
-        public string Hash { get; set; }
-        public string PlainTextCode { get; set; }
+        
+        public string EncryptedValue { get; set; }
+        public string UniqueKey { get; set; }
+
         public DateTime CreateDate { get; set; }
+        public DateTime? AuditUtc { get; set; }
     }
 }

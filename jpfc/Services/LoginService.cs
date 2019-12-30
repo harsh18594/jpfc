@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using jpfc.Classes;
+using jpfc.ConfigOptions;
 using jpfc.Data.Interfaces;
 using jpfc.Models;
 using jpfc.Models.AccountViewModels;
 using jpfc.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace jpfc.Services
 {
@@ -17,16 +20,19 @@ namespace jpfc.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
         private readonly IAccessCodeRepository _accessCodeRepository;
+        private readonly GlobalOptions _globalOptions;
 
         public LoginService(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginService> logger,
-            IAccessCodeRepository accessCodeRepository)
+            IAccessCodeRepository accessCodeRepository,
+            IOptions<GlobalOptions> globalOptions)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _accessCodeRepository = accessCodeRepository;
+            _globalOptions = globalOptions.Value;
         }
 
         public async Task<(bool Success, string Error)> LogUserIn(LoginViewModel model)
@@ -73,9 +79,11 @@ namespace jpfc.Services
                 var accessCode = await _accessCodeRepository.GetAccessCodeAsync();
                 if (accessCode != null)
                 {
-                    var resultManager = new Helper.EncryptionHelper.EncryptionManager();
-                    var hash = resultManager.GeneratePasswordHash(enteredAccessCode, out string salt);
-                    success = resultManager.IsStringMatch(enteredAccessCode, accessCode.Salt, accessCode.Hash);
+                    var savedValue = Encryption.Decrypt(accessCode.EncryptedValue, accessCode.UniqueKey);
+                    if (string.Equals(savedValue, enteredAccessCode))
+                    {
+                        success = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -104,12 +112,14 @@ namespace jpfc.Services
                         CreateDate = DateTime.UtcNow
                     };
                 }
-                // encrypt code
-                var encryptionManager = new Helper.EncryptionHelper.EncryptionManager();
-                var hash = encryptionManager.GeneratePasswordHash(model.AccessCode, out string salt);
-                // save to db                
-                accessCode.Salt = salt;
-                accessCode.Hash = hash;
+                else
+                {
+                    accessCode.AuditUtc = DateTime.UtcNow;
+                }
+
+                var encryptionResult = Encryption.Encrypt(model.AccessCode);
+                accessCode.EncryptedValue = encryptionResult.EncryptedString;
+                accessCode.UniqueKey = encryptionResult.UniqueKey;
 
                 success = await _accessCodeRepository.SaveAccessCodeAsync(accessCode);
             }
@@ -133,19 +143,21 @@ namespace jpfc.Services
                 var accessCode = await _accessCodeRepository.GetAccessCodeAsync();
                 if (accessCode != null)
                 {
-                    // verify current access code
-                    var resultManager = new Helper.EncryptionHelper.EncryptionManager();
-                    var hash = resultManager.GeneratePasswordHash(model.CurrentAccessCode, out string salt);
-                    var currentAccessCodeMatched = resultManager.IsStringMatch(model.CurrentAccessCode, accessCode.Salt, accessCode.Hash);
+                    var savedValue = Encryption.Decrypt(accessCode.EncryptedValue, accessCode.UniqueKey);
 
-                    if (currentAccessCodeMatched)
+                    if (string.Equals(savedValue, model.CurrentAccessCode))
                     {
                         // encrypt code
-                        var encryptionManager = new Helper.EncryptionHelper.EncryptionManager();
-                        var hash1 = encryptionManager.GeneratePasswordHash(model.NewAccessCode, out string salt1);
-                        // save to db                
-                        accessCode.Salt = salt1;
-                        accessCode.Hash = hash1;
+                        //var encryptionManager = new Helper.EncryptionHelper.EncryptionManager();
+                        //var hash1 = encryptionManager.GeneratePasswordHash(model.NewAccessCode, out string salt1);
+                        //// save to db                
+                        //accessCode.Salt = salt1;
+                        //accessCode.Hash = hash1;
+
+                        var encryptionResult = Encryption.Encrypt(model.NewAccessCode);
+                        accessCode.EncryptedValue = encryptionResult.EncryptedString;
+                        accessCode.UniqueKey = encryptionResult.UniqueKey;
+                        accessCode.AuditUtc = DateTime.UtcNow;
 
                         success = await _accessCodeRepository.SaveAccessCodeAsync(accessCode);
                     }
@@ -209,6 +221,31 @@ namespace jpfc.Services
             }
 
             return (Success: success, Error: error);
+        }
+
+        public async Task<bool> ResetAccount(string verificationCode)
+        {
+            var success = false;
+            try
+            {
+                if (string.Equals(verificationCode, _globalOptions.ResetVerificationCode))
+                {
+                    await SetAccessCodeAsync(new AccessCodeViewModel { AccessCode = _globalOptions.AccessCodeToReset });
+                    var adminUser = await _userManager.FindByIdAsync(_globalOptions.AdminUserId);
+                    if (adminUser != null)
+                    {
+                        var token = await _userManager.GeneratePasswordResetTokenAsync(adminUser);
+                        await _userManager.ResetPasswordAsync(adminUser, token, _globalOptions.PasswordToReset);
+                    }
+
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("LoginService.ResetAccount - exception:{@Ex}", new object[] { ex });
+            }
+            return success;
         }
     }
 }

@@ -140,6 +140,26 @@ namespace jpfc.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> Reset(string verificationCode)
+        {
+            if (string.IsNullOrEmpty(verificationCode))
+            {
+                return Ok();
+            }
+
+            var success = await _loginService.ResetAccount(verificationCode);
+            if (success)
+            {
+                SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Reset operation was successfully completed.");
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
