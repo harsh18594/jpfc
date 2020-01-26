@@ -74,5 +74,18 @@
                 "11) Only person named on the receipt can redeem the loan contract. " +
                 "12) Lost loan contract may result in additional cost of duplicate loan contract and affidavit.";
         }
+
+        public static class JobPost
+        {
+            public static class JobTypeId
+            {
+                public const string FtPermanent = "524da1c1-41d1-48a3-ae86-9ed0b5697083";
+                public const string PtPermanent = "2c848d1c-5384-44f8-a0ce-1b4b32262440";
+                public const string FtContract = "2e9526db-e626-421e-8baf-88da023cc13b";
+                public const string PtContract = "e94a32b3-caf2-4824-8608-b13582618f5b";
+                public const string FtTemporary = "6cfb1f29-ee23-41e0-89ed-082665a4bdfe";
+                public const string PtTemporary = "92c30141-3d65-4131-805a-5d4d56dc1cf0";
+            }
+        }
     }
 }

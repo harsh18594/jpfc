@@ -20,6 +20,8 @@ namespace jpfc.Data
         public DbSet<ClientReceipt> ClientReceipt { get; set; }
         public DbSet<ClientIdentification> ClientIdentification { get; set; }
         public DbSet<MortgageRate> MortgageRate { get; set; }
+        public DbSet<JobPost> JobPost { get; set; }
+        public DbSet<JobType> JobType { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -137,10 +139,31 @@ namespace jpfc.Data
                 entity.HasKey(e => e.MortgageRateId);
             });
 
+            builder.Entity<JobType>(entity =>
+            {
+                entity.HasKey(e => e.JobTypeId);
+                entity.Property(e => e.Type).HasMaxLength(255);
+            });
+
+            builder.Entity<JobPost>(entity =>
+            {
+                entity.HasKey(e => e.JobPostId);
+                entity.Property(e => e.JobTitle).HasMaxLength(255);
+                entity.Property(e => e.Length).HasMaxLength(500);
+                entity.Property(e => e.Pay).HasMaxLength(500);
+                entity.Property(e => e.JobLocation).HasMaxLength(500);
+
+                entity.HasOne(e => e.JobType)
+                .WithMany(e => e.JobPosts)
+                .HasForeignKey(e => e.JobTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
             // Seed Data ===========================================
             builder.Entity<Metal>().HasData(MetalSeed.Data);
             builder.Entity<Karat>().HasData(KaratSeed.Data);
             builder.Entity<IdentificationDocument>().HasData(IdentificationDocumentSeed.Data);
+            builder.Entity<JobType>().HasData(JobTypeSeed.Data);
         }
     }
 }

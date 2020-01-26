@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jpfc.Data;
 
 namespace jpfc.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200126035043_create job post table")]
+    partial class createjobposttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,15 +331,6 @@ namespace jpfc.Data.Migrations
                     b.HasKey("JobTypeId");
 
                     b.ToTable("JobType");
-
-                    b.HasData(
-                        new { JobTypeId = new Guid("524da1c1-41d1-48a3-ae86-9ed0b5697083"), Type = "Full-time Permanent" },
-                        new { JobTypeId = new Guid("2c848d1c-5384-44f8-a0ce-1b4b32262440"), Type = "Part-time Permanent" },
-                        new { JobTypeId = new Guid("6cfb1f29-ee23-41e0-89ed-082665a4bdfe"), Type = "Full-time Temporary" },
-                        new { JobTypeId = new Guid("92c30141-3d65-4131-805a-5d4d56dc1cf0"), Type = "Part-time Temporary" },
-                        new { JobTypeId = new Guid("2e9526db-e626-421e-8baf-88da023cc13b"), Type = "Full-time Contract" },
-                        new { JobTypeId = new Guid("e94a32b3-caf2-4824-8608-b13582618f5b"), Type = "Part-time Contract" }
-                    );
                 });
 
             modelBuilder.Entity("jpfc.Models.Karat", b =>

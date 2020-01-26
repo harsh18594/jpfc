@@ -9,5 +9,6 @@ namespace jpfc.Services.Interfaces
     {
         TimeZoneInfo FetchTimeZoneInfo(string timeZoneId);
         DateTime ConvertUtcToDateTime(DateTime utcDateTime, TimeZoneInfo timeZone);
+        DateTime ConvertDateTimeToUtc(DateTime dateTime);
     }
 }

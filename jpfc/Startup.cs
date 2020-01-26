@@ -41,7 +41,8 @@ namespace jpfc
 
             // The Tempdata provider cookie is not essential. Make it essential
             // so Tempdata is functional when tracking is disabled.
-            services.Configure<CookieTempDataProviderOptions>(options => {
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
                 options.Cookie.IsEssential = true;
             });
 
@@ -121,7 +122,7 @@ namespace jpfc
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });           
+            });
         }
 
         public void AddServices(IServiceCollection services)
@@ -137,6 +138,7 @@ namespace jpfc
             services.AddScoped<IClientReceiptService, ClientReceiptService>();
             services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IMortgageService, MortgageService>();
+            services.AddScoped<IJobPostService, JobPostService>();
 
             // repos
             services.AddScoped<IAccessCodeRepository, AccessCodeRepository>();
@@ -149,6 +151,7 @@ namespace jpfc
             services.AddScoped<IClientIdentificationRepository, ClientIdentificationRepository>();
             services.AddScoped<IClientReceiptRepository, ClientReceiptRepository>();
             services.AddScoped<IMortgageRepository, MortgageRepository>();
+            services.AddScoped<IJobRepository, JobRepository>();
         }
 
         public void AddConfigOptions(IServiceCollection services)

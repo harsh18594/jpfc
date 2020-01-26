@@ -17,5 +17,10 @@ namespace jpfc.Services
         {
             return TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, timeZone);
         }
+
+        public DateTime ConvertDateTimeToUtc(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeToUtc(dateTime);
+        }
     }
 }
