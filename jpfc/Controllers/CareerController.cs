@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 namespace jpfc.Controllers
 {
     [Authorize]
-    public class JobPostController : JpfcController
+    public class CareerController : JpfcController
     {
-        private readonly ILogger<JobPostController> _logger;
+        private readonly ILogger<CareerController> _logger;
         private readonly IJobPostService _jobPostService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public JobPostController(ILogger<JobPostController> logger,
+        public CareerController(ILogger<CareerController> logger,
             IJobPostService jobPostService,
             UserManager<ApplicationUser> userManager)
         {
