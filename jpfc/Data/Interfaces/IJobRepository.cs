@@ -1,4 +1,5 @@
 ﻿using jpfc.Models;
+using jpfc.Models.DropdownViewModels;
 using jpfc.Models.JobPostViewModel;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace jpfc.Data.Interfaces
         Task<bool> DeleteAsync<T>(T entity) where T : class;
         Task<ICollection<JobPostListViewModel>> ListJobPostAsync(bool activeOnly = false);
         Task<JobPost> FetchByIdAsync(int id);
+        Task<ICollection<DropdownItemViewModel>> ListJobTypesForDropdownAsync();
     }
 }

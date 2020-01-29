@@ -100,7 +100,7 @@ namespace jpfc.Services
             return (success, error);
         }
 
-        public async Task<(bool Success, string Error, CreateJobPostViewModel Model)> FetchJobPostForEditAsync(int id)
+        public async Task<(bool Success, string Error, CreateJobPostViewModel Model)> FetchJobPostForEditAsync(int? id)
         {
             var success = false;
             var error = string.Empty;
@@ -108,25 +108,60 @@ namespace jpfc.Services
 
             try
             {
-                var jobPost = await _jobRepository.FetchByIdAsync(model.JobPostId.Value);
+                if (id > 0)
+                {
+                    var jobPost = await _jobRepository.FetchByIdAsync(id.Value);
+                    if (jobPost != null)
+                    {
+                        model.JobPostId = jobPost.JobPostId;
+                        model.JobTitle = jobPost.JobTitle;
+                        model.Description = jobPost.Description;
+                        model.Requirements = jobPost.Requirements;
+                        model.JobTypeId = jobPost.JobTypeId;
+                        model.JobStartDate = jobPost.JobStartDate;
+                        model.Length = jobPost.Length;
+                        model.Pay = jobPost.Pay;
+                        model.JobLocation = jobPost.JobLocation;
+                        if (jobPost.JobCloseUtc.HasValue)
+                        {
+                            model.JobCloseDate = _dateTimeService.ConvertUtcToDateTime(jobPost.JobCloseUtc.Value,
+                                _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone));
+                        }
+                        model.IsDraft = jobPost.IsDraft;
+                        model.IsClosed = jobPost.IsClosed;
+
+                        success = true;
+                    }
+                    else
+                    {
+                        error = "Unable to locate job post";
+                    }
+                }
+                else
+                {
+                    error = "Invalid Request";
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "An unexpected error has occurred.";
+                _logger.LogError("JobPostService.FetchJobPostForEditAsync - exception:{@Ex}", ex);
+            }
+
+            return (success, error, model);
+        }
+
+        public async Task<(bool Success, string Error)> DeleteJobPostAsync(int id)
+        {
+            var success = false;
+            string error = string.Empty;
+
+            try
+            {
+                var jobPost = await _jobRepository.FetchByIdAsync(id);
                 if (jobPost != null)
                 {
-                    model.JobTitle = jobPost.JobTitle;
-                    model.Description = jobPost.Description;
-                    model.Requirements = jobPost.Requirements;
-                    model.JobTypeId = jobPost.JobTypeId;
-                    model.JobStartDate = jobPost.JobStartDate;
-                    model.Length = jobPost.Length;
-                    model.Pay = jobPost.Pay;
-                    model.JobLocation = jobPost.JobLocation;
-                    if (jobPost.JobCloseUtc.HasValue)
-                    {
-                        model.JobCloseDate = _dateTimeService.ConvertUtcToDateTime(jobPost.JobCloseUtc.Value,
-                            _dateTimeService.FetchTimeZoneInfo(Constants.System.TimeZone));
-                    }
-                    model.IsDraft = jobPost.IsDraft;
-                    model.IsClosed = jobPost.IsClosed;
-
+                    await _jobRepository.DeleteAsync(jobPost);
                     success = true;
                 }
                 else
@@ -137,10 +172,10 @@ namespace jpfc.Services
             catch (Exception ex)
             {
                 error = "An unexpected error has occurred.";
-                _logger.LogError("JobPostService.FetchJobPostForEditAsync - exception:{@Ex}", ex);
+                _logger.LogError("JobPostService.DeleteJobPostAsync - exception:{@Ex}", ex);
             }
 
-            return (success, error, model);
+            return (success, error);
         }
     }
 }

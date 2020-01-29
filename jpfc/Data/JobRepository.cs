@@ -1,5 +1,6 @@
 ﻿using jpfc.Data.Interfaces;
 using jpfc.Models;
+using jpfc.Models.DropdownViewModels;
 using jpfc.Models.JobPostViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -46,20 +47,20 @@ namespace jpfc.Data
         public async Task<ICollection<JobPostListViewModel>> ListJobPostAsync(bool activeOnly = false)
         {
             return await _context.JobPost
-                .Where(j => !activeOnly || !j.IsClosed)
-                .OrderByDescending(j => j.JobStartDate)
-                .ThenByDescending(j => j.CreatedUtc)
-                .Select(j => new JobPostListViewModel
-                {
-                    JobPostId = j.JobPostId,
-                    Title = j.JobTitle,
-                    Location = j.JobLocation,
-                    StartDate = j.JobStartDate,
-                    Type = j.JobType.Type,
-                    IsDraft = j.IsDraft,
-                    IsClosed = j.IsClosed
-                })
-                .ToListAsync();
+                  .Where(j => !activeOnly || (!j.IsClosed && (!j.JobCloseUtc.HasValue || j.JobCloseUtc > DateTime.UtcNow)))
+                  .OrderByDescending(j => j.JobStartDate)
+                  .ThenByDescending(j => j.CreatedUtc)
+                  .Select(j => new JobPostListViewModel
+                  {
+                      JobPostId = j.JobPostId,
+                      Title = j.JobTitle,
+                      Location = j.JobLocation,
+                      StartDate = j.JobStartDate,
+                      Type = j.JobType.Type,
+                      IsDraft = j.IsDraft,
+                      IsClosed = j.IsClosed || (j.JobCloseUtc.HasValue && j.JobCloseUtc < DateTime.UtcNow)
+                  })
+                  .ToListAsync();
         }
 
         public async Task<JobPost> FetchByIdAsync(int id)
@@ -68,6 +69,17 @@ namespace jpfc.Data
                 .Where(j => j.JobPostId == id)
                 .Include(j => j.JobType)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<ICollection<DropdownItemViewModel>> ListJobTypesForDropdownAsync()
+        {
+            return await _context.JobType
+                .Select(j => new DropdownItemViewModel
+                {
+                    Value = j.JobTypeId.ToString(),
+                    Text = j.Type
+                })
+                .ToListAsync();
         }
     }
 }

@@ -58,14 +58,30 @@ Jpfc.CareerList = function () {
                     data: "type"
                 },
                 {
-                    data: "isDraft"
+                    data: null,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        if (row.isDraft) {
+                            return '<i class="fa fa-check text-success"></i>';
+                        } else {
+                            return '<i class="fa fa-close text-danger"></i>';
+                        }
+                    }
                 },
                 {
-                    data: "isClose"
+                    data: null,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        if (row.isClosed) {
+                            return '<i class="fa fa-check text-success"></i>';
+                        } else {
+                            return '<i class="fa fa-close text-danger"></i>';
+                        }
+                    }
                 },
                 {
                     render: function (data, type, row) {
-                        var html = '<a class="btn btn-primary" title="Edit Job" href="/Career/EditJob/' + row.jobPostId + '"><i class="fa fa-pencil text-white"></i></a>' +
+                        var html = '<a class="btn btn-primary" title="Edit Job" href="/Career/Edit/' + row.jobPostId + '"><i class="fa fa-pencil text-white"></i></a>' +
                             ' <a class="btn btn-danger" title = "Delete Job"  onclick="Jpfc.CareerList.deleteJob(' + row.jobPostId + ')"><i class="fa fa-trash text-white"></i></a>';
                         return html;
                     }
@@ -86,7 +102,7 @@ Jpfc.CareerList = function () {
         }).then(function (result) {
             if (result.value) {
                 $.ajax({
-                    "url": "/Career/DeleteJob",
+                    "url": "/Career/Delete",
                     "method": "post",
                     "data": {
                         id: id

@@ -14,6 +14,6 @@ namespace jpfc.Models.JobPostViewModel
         public bool IsDraft { get; set; }
         public bool IsClosed { get; set; }
         public DateTime? StartDate { get; set; }
-        public string StartDateStr => StartDate?.ToString("MM/dd/yyyy");
+        public string StartDateStr => StartDate?.ToString("MMM dd, yyyy");
     }
 }

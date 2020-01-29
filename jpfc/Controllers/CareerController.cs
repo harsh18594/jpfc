@@ -48,7 +48,7 @@ namespace jpfc.Controllers
             });
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             _logger.LogInformation(GetLogDetails());
 
@@ -75,7 +75,58 @@ namespace jpfc.Controllers
                 }
             }
 
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, "Please review the form and try again.");
             return View(model);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            _logger.LogInformation(GetLogDetails() + " - id:{id}", id);
+
+            var result = await _jobPostService.FetchJobPostForEditAsync(id);
+            if (result.Success)
+            {
+                return View("~/Views/Career/Create.cshtml", result.Model);
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreateJobPostViewModel model)
+        {
+            _logger.LogInformation(GetLogDetails() + " - model:{@Model}", model);
+
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var result = await _jobPostService.SaveJobPostAsync(model, userId);
+                if (result.Success)
+                {
+                    SetSiteMessage(MessageType.Success, DisplayFor.FullRequest, "Job post has been saved successfully");
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, result.Error);
+                }
+            }
+
+            SetSiteMessage(MessageType.Error, DisplayFor.FullRequest, "Please review the form and try again.");
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            _logger.LogInformation(GetLogDetails() + " - id:{id}", id);
+            var result = await _jobPostService.DeleteJobPostAsync(id);
+            return Json(new
+            {
+                success = result.Success,
+                error = result.Error
+            });
         }
     }
 }

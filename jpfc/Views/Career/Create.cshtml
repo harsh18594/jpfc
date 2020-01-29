@@ -1,5 +1,161 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@inject IJobRepository JobRepository
+@model jpfc.Models.JobPostViewModel.CreateJobPostViewModel
+
 @{
+    ViewData["Title"] = "Create Job";
+}
+
+@section MetaTags{
+    <meta name="robots" content="noindex">
+}
+
+@section Styles{
+    <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+}
+
+<!--Page Title-->
+<section class="page-title" style="background-image:url(../../images/banner-images/career-banner.jpg)">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Admin" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Career" asp-action="List">Career</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- Services Section Three-->
+<section class="mt-5 mb-5" id="content-container">
+    <div class="auto-container">
+        <!-- Sec Title -->
+        <div class="sec-title centered">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <form method="post" id="create-job-form" autocomplete="off">
+            <input asp-for="JobPostId" />
+            <div class="row clearfix">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="JobTypeId" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <select asp-for="JobTypeId" class="form-control"
+                                asp-items="@(new SelectList(await JobRepository.ListJobTypesForDropdownAsync(), "Value", "Text"))">
+                            <option value="">-- Select Type --</option>
+                        </select>
+                        <span asp-validation-for="JobTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="JobTitle" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="JobTitle" class="form-control" maxlength="255" placeholder="Sales Manager" />
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="JobLocation" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <input asp-for="JobLocation" class="form-control" maxlength="500" placeholder="Barrie, ON" />
+                        <span asp-validation-for="JobLocation" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="JobStartDate" class="font-weight-bold"></label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input asp-for="JobStartDate" class="form-control" type="text" asp-format="{0:MM/dd/yyyy}" placeholder="@DateTime.Now.ToString("MM/dd/yyyy")" />
+                        </div>
+                        <span asp-validation-for="JobStartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Pay" class="font-weight-bold"></label>
+                        <input asp-for="Pay" class="form-control" maxlength="500" placeholder="CA$20/Hour or $40,000 per Annum" />
+                        <span asp-validation-for="Pay" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Length" class="font-weight-bold"></label>
+                        <input asp-for="Length" class="form-control" maxlength="500" placeholder="6 months with possible extension" />
+                        <span asp-validation-for="Length" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-12 col-lg-8">
+                    <div class="form-group">
+                        <label asp-for="Description" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <textarea asp-for="Description" class="form-control" rows="15"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8">
+                    <div class="form-group">
+                        <label asp-for="Requirements" class="font-weight-bold"></label> <span class="text-danger">*</span>
+                        <textarea asp-for="Requirements" class="form-control" rows="15"></textarea>
+                        <span asp-validation-for="Requirements" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="JobCloseDate" class="font-weight-bold"></label> <i class="fa fa-info-circle" title="If specified, job will not be visible to the public after this date" data-toggle="tooltip"></i>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input asp-for="JobCloseDate" class="form-control" type="text" asp-format="{0:MM/dd/yyyy}" />
+                        </div>
+                        <span asp-validation-for="JobCloseDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <br />
+                        <label asp-for="IsClosed" class="font-weight-bold"></label>
+                        <input asp-for="IsClosed" type="checkbox" />
+                        <i class="fa fa-info-circle" title="If selected, job will not be visible to the public" data-toggle="tooltip"></i>
+                        <span asp-validation-for="IsClosed" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <br />
+                        <label asp-for="IsDraft" class="font-weight-bold"></label>
+                        <input asp-for="IsDraft" type="checkbox" />
+                        <i class="fa fa-info-circle" title="If selected, job will not be visible to the public" data-toggle="tooltip"></i>
+                        <span asp-validation-for="IsDraft" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="btn-save-job">Save <i class="fa fa-spin fa-spinner" style="display: none;"></i></button>
+                    <a asp-controller="Career" asp-action="List" class="btn btn-warning">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script src="~/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/js/pages/career-create.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            Jpfc.CareerCreate.init({});
+        });
+    </script>
 }
