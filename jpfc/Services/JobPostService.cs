@@ -85,6 +85,10 @@ namespace jpfc.Services
                 {
                     jobPost.JobCloseUtc = _dateTimeService.ConvertDateTimeToUtc(model.JobCloseDate.Value);
                 }
+                else
+                {
+                    jobPost.JobCloseUtc = null;
+                }
                 jobPost.IsDraft = model.IsDraft;
                 jobPost.IsClosed = model.IsClosed;
 
