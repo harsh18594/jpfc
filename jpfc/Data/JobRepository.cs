@@ -87,8 +87,9 @@ namespace jpfc.Data
         {
             return await _context.JobPost
                   .Where(j => !j.IsDraft && !j.IsClosed && (!j.JobCloseUtc.HasValue || j.JobCloseUtc > DateTime.UtcNow))
-                  .OrderByDescending(j => j.JobStartDate)
-                  .ThenByDescending(j => j.CreatedUtc)
+                  .OrderBy(j => j.JobStartDate)
+                  .ThenBy(j => j.CreatedUtc)
+                  .ThenBy(j => j.JobTitle)
                   .Select(j => new JobPostDetailViewModel
                   {
                       Id = j.JobPostId,
