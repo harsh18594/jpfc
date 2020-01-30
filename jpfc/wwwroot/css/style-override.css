@@ -383,3 +383,7 @@
     padding: 50px 50px 50px;
     background-color: rgba(0,0,0,0.85);
 }
+
+.job-detail div.text p {
+    margin-bottom: 0px;
+}

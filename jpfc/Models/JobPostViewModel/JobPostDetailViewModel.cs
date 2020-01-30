@@ -7,17 +7,14 @@ namespace jpfc.Models.JobPostViewModel
 {
     public class JobPostDetailViewModel
     {
-        public int JobPostId { get; set; }
-        public string JobTitle { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string Requirements { get; set; }
-        public string JobType { get; set; }
-        public DateTime? JobStartDate { get; set; }
+        public string Type { get; set; }
+        public DateTime? StartDate { get; set; }
         public string Length { get; set; }
         public string Pay { get; set; }
-        public string JobLocation { get; set; }
-        public DateTime? JobCloseUtc { get; set; }
-        public bool IsDraft { get; set; }
-        public bool IsClosed { get; set; }
+        public string Location { get; set; }
     }
 }

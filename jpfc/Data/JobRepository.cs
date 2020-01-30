@@ -74,12 +74,34 @@ namespace jpfc.Data
         public async Task<ICollection<DropdownItemViewModel>> ListJobTypesForDropdownAsync()
         {
             return await _context.JobType
+                .OrderBy(t => t.Type)
                 .Select(j => new DropdownItemViewModel
                 {
                     Value = j.JobTypeId.ToString(),
                     Text = j.Type
                 })
                 .ToListAsync();
+        }
+
+        public async Task<ICollection<JobPostDetailViewModel>> ListJobPostForPublicAsync()
+        {
+            return await _context.JobPost
+                  .Where(j => !j.IsDraft && !j.IsClosed && (!j.JobCloseUtc.HasValue || j.JobCloseUtc > DateTime.UtcNow))
+                  .OrderByDescending(j => j.JobStartDate)
+                  .ThenByDescending(j => j.CreatedUtc)
+                  .Select(j => new JobPostDetailViewModel
+                  {
+                      Id = j.JobPostId,
+                      Title = j.JobTitle,
+                      Location = j.JobLocation,
+                      StartDate = j.JobStartDate,
+                      Type = j.JobType.Type,
+                      Description = j.Description,
+                      Requirements = j.Requirements,
+                      Length = j.Length,
+                      Pay = j.Pay
+                  })
+                  .ToListAsync();
         }
     }
 }

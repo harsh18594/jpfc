@@ -28,6 +28,20 @@ namespace jpfc.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
+        {
+            _logger.LogInformation(GetLogDetails());
+
+            ICollection<JobPostDetailViewModel> model = new List<JobPostDetailViewModel>();
+            var result = await _jobPostService.ListForPublicAsync();
+            if (result.Success)
+            {
+                model = result.Model;
+            }
+            return View(model);
+        }
+
         public IActionResult List()
         {
             _logger.LogInformation(GetLogDetails());

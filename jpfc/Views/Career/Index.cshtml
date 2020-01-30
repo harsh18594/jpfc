@@ -1,0 +1,149 @@
+﻿@model ICollection<jpfc.Models.JobPostViewModel.JobPostDetailViewModel>
+@{
+    ViewData["Title"] = "Career";
+}
+
+@section MetaTags{
+    <meta name="keywords" content="part-time jobs, full time jobs, jobs in barrie, part time job in barrie, full time job in barrie, finance jobs" />
+    <meta name="description" content="Apply today to start an exciting career in finance industry" />
+}
+
+<!--Page Title-->
+<section class="page-title lazy-image" data-src="/images/banner-images/career-banner.jpg">
+    <div class="auto-container">
+        <div class="content">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="page-breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li>@ViewData["Title"]</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!--Sidebar Page Container-->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!--Content Side-->
+            <div class="content-side col-12">
+                <div class="services-single" id="jobpost-container">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var job in Model)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h4 class="mb-1">@job.Title</h4>
+                                    <div class="row job-detail">
+                                        <div class="col-12 col-lg-4 text">
+                                            <table class="mb-2">
+                                                <tr>
+                                                    <td><p><b>Job Type:</b></p></td>
+                                                    <td class="pl-1"><p>@job.Type</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p><b>Location:</b></p></td>
+                                                    <td class="pl-1"><p>@job.Location</p></td>
+                                                </tr>
+                                            </table>
+
+                                            <a href="javascript:void(0)" class="btn-viewmore" data-target=".container-@job.Id">View Details</a>
+                                        </div>
+                                        <div class="col-12 col-lg-4 container-@job.Id" style="display: none;">
+                                            @if (!string.IsNullOrEmpty(job.Length) || !string.IsNullOrEmpty(job.Pay) || job.StartDate.HasValue)
+                                            {
+                                                <div class="text">
+                                                    <table>
+                                                        @if (!string.IsNullOrEmpty(job.Length))
+                                                        {
+                                                            <tr>
+                                                                <td><p><b>Length:</b></p></td>
+                                                                <td class="pl-1"><p>@job.Length</p></td>
+                                                            </tr>
+                                                        }
+                                                        @if (!string.IsNullOrEmpty(job.Pay))
+                                                        {
+                                                            <tr>
+                                                                <td><p><b>Pay:</b></p></td>
+                                                                <td class="pl-1"><p>@job.Pay</p></td>
+                                                            </tr>
+                                                        }
+                                                        @if (job.StartDate.HasValue)
+                                                        {
+                                                            <tr>
+                                                                <td><p><b>Start Date:</b></p></td>
+                                                                <td class="pl-1"><p>@job.StartDate.Value.ToString("MMM dd, yyyy")</p></td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body container-@job.Id" style="display: none;">
+                                    <div class="row job-detail">
+                                        <div class="col-12 text">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="fs-20px"><b>Description</b></p>
+                                                </div>
+                                                <div class="col-12">
+                                                    @Html.Raw(job.Description)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 job-detail">
+                                        <div class="col-12 text">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="fs-20px"><b>Requirements</b></p>
+                                                </div>
+                                                <div class="col-12">
+                                                    @Html.Raw(job.Requirements)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 job-detail">
+                                        <div class="col-12 text">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="fs-20px"><b>How to Apply</b></p>
+                                                </div>
+                                                <div class="col-12">
+                                                    <p>Please send your resume to <a href="mailto:jpfinancechase@gmail.com">jpfinancechase@gmail.com</a> along with a short description about yourself.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h4>We don't have any open career opportunities at this time. Please check back later.</h4>
+                            </div>
+                        </div>
+                    }
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Sidebar Page Container-->
+
+@section Scripts{
+    <script src="~/js/pages/career-index.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            Jpfc.CareerIndex.init();
+        });
+    </script>
+}

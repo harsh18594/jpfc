@@ -81,3 +81,7 @@ td.disabled.day {
 #developer-info-modal .modal-body {
     padding-left: 7px !important;
 }
+
+.fs-20px {
+    font-size: 20px !important;
+}

@@ -15,5 +15,6 @@ namespace jpfc.Data.Interfaces
         Task<ICollection<JobPostListViewModel>> ListJobPostAsync(bool activeOnly = false);
         Task<JobPost> FetchByIdAsync(int id);
         Task<ICollection<DropdownItemViewModel>> ListJobTypesForDropdownAsync();
+        Task<ICollection<JobPostDetailViewModel>> ListJobPostForPublicAsync();
     }
 }

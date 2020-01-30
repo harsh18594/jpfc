@@ -177,5 +177,25 @@ namespace jpfc.Services
 
             return (success, error);
         }
+
+        public async Task<(bool Success, string Error, ICollection<JobPostDetailViewModel> Model)> ListForPublicAsync()
+        {
+            var success = false;
+            var error = string.Empty;
+            var model = new List<JobPostDetailViewModel>();
+
+            try
+            {
+                model = await _jobRepository.ListJobPostForPublicAsync() as List<JobPostDetailViewModel>;
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                error = "An unexpected error has occurred.";
+                _logger.LogError("JobPostService.ListForPublicAsync - exception:{@Ex}", ex);
+            }
+
+            return (success, error, model);
+        }
     }
 }

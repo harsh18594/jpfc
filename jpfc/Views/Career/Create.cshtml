@@ -2,7 +2,7 @@
 @model jpfc.Models.JobPostViewModel.CreateJobPostViewModel
 
 @{
-    ViewData["Title"] = "Create Job";
+    ViewData["Title"] = Model?.JobPostId > 0 ? "Edit Job" : "Create Job";
 }
 
 @section MetaTags{
