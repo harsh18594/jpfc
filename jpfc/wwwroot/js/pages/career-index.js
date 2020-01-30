@@ -2,7 +2,7 @@
 
 Jpfc.CareerIndex = function () {
     var initPage = function () {
-        $('#jobpost-container').find('ul, ol').addClass('list-style-one');
+        $('#jobpost-container').find('ul, ol').addClass('list-style-four');
     };
 
     var bindEvents = function () {
