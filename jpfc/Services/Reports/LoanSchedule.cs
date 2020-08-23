@@ -70,7 +70,7 @@ namespace jpfc.Services.Reports
                 Info =
                 {
                     Title = $"{_clientName} - {_receiptNumber} - Receipt",
-                    Author = "J P Finance Chase Ltd"
+                    Author = "J P Finance Group Ltd"
                 }
             };
 
@@ -193,14 +193,14 @@ namespace jpfc.Services.Reports
             image.Width = Unit.FromPoint(70);
             titleRow.Cells[0].MergeDown = 1;
             titleRow.Cells[1].Style = "ReportTitle";
-            titleRow.Cells[1].AddParagraph("J P Finance Chase Ltd");
+            titleRow.Cells[1].AddParagraph("J P Finance Group Ltd");
             titleRow.Cells[1].VerticalAlignment = VerticalAlignment.Top;
 
             // business details
             titleRow = _headerTable.AddRow();
             titleRow.Cells[1].Style = "SectionTitle";
             titleRow.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            titleRow.Cells[1].AddParagraph("Bayfield Mall, 320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 \n https://jpfinancechase.com/ | (416) 705-3885 | jpfinancechase@gmail.com \n BN Number #70648-6511");
+            titleRow.Cells[1].AddParagraph("Bayfield Mall, 320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 \n https://jpfinancegroup.com/ | (416) 705-3885 | jpfinancechase@gmail.com \n BN Number #70648-6511");
 
             // Add horizontal line
             var paragraph = section.Headers.Primary.AddParagraph();
@@ -269,7 +269,7 @@ namespace jpfc.Services.Reports
 
             // Add document description
             paragraph = section.AddParagraph();
-            paragraph.AddText("Below is the schedule of loan re-payment. Due amounts are calculated based on 4% compound interest rate. Failure to repay loan within 12 months will cause you loose the ownership of all mentioned property(ies).");
+            paragraph.AddText($"Below is the schedule of loan re-payment. Due amounts are calculated based on 5% compound interest rate. Failure to repay loan within 12 months will cause you loose the ownership of all mentioned property(ies).");
             paragraph.Format.SpaceAfter = "1cm";
 
             // Create the item table

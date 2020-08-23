@@ -64,11 +64,11 @@
             public const string TermsConditions = "1) The client hereby acknowledges receipt of loan/sell amount, copy of this contract and payment schedule. " +
                 "2) We agree to return the described property(ies) to the client only upon presentation of this contract and payment of principal loan amount plus applicable interest and service charges. " +
                 "3) Client hereby certifies that he or she is the legal owner of the property(ies) as described above, empowered to sell or dispose of the above property(ies) and is/are free and clear of all liens and encumbrances. " +
-                "4) Client will be responsible for any legal fees incurred by J.P. Finance Chase Ltd. resulting from this transaction. " +
+                "4) Client will be responsible for any legal fees incurred by J.P. Finance Group Ltd. resulting from this transaction. " +
                 "5) All interest charges, service fee, storage fee are calculated per month and due 30 days from the date of this loan contract. " +
                 "6) No credit shall be allowed for redemption in less than 30 days. " +
-                "7) This loan is due in 30 days from the date of this contract and if we do not receive at least minimum interest amount, service fee, and storage fee as mentioned in this contract, you will forfeit your ownership of the above property(ies) and it will be sold at public or private sale by J.P. Finance Chase Ltd. " +
-                "8) Once property(ies) is/are sold to J.P. Finance Chase Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. " +
+                "7) This loan is due in 30 days from the date of this contract and if we do not receive at least minimum interest amount, service fee, and storage fee as mentioned in this contract, you will forfeit your ownership of the above property(ies) and it will be sold at public or private sale by J.P. Finance Group Ltd. " +
+                "8) Once property(ies) is/are sold to J.P. Finance Group Ltd. at agreed upon price, you will forfeit your rights of ownership immediately. " +
                 "9) As per Pawn Broker Law, you allow us to share your information with legal authorities if requested by court order, police department or any other official government authorities. " +
                 "10) Loan contract is non-transferable. " +
                 "11) Only person named on the receipt can redeem the loan contract. " +
