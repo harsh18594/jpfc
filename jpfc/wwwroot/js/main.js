@@ -148,7 +148,7 @@
 
         // need it for refreshing the carousel to display full height image
         $('.main-slider-carousel').trigger('refresh.owl.carousel');
-    }
+        $('.main-slider-carousel').trigger('prev.owl.carousel');    }
     //
     //====================================================================//
     // Area Carousel
