@@ -69,14 +69,15 @@
             <div class="header-upper">
                 <div class="auto-container">
                     <div class="clearfix">
-                        <div class="pull-left logo-box">
-                            <div class="logo">
-                                <a asp-controller="Home" asp-action="Index">
-                                    <img class="lazy-logo" data-src="/images/logo120X90.png" alt="" title="J P Finance Group Ltd">
-                                    <noscript><img src="~/images/logo120X90.png" alt="" title="J P Finance Group Ltd"></noscript>
-                                </a>
-                            </div>
-                        </div>
+                        @* 20200914 - removing logo *@
+                        @*<div class="pull-left logo-box">
+                                <div class="logo">
+                                    <a asp-controller="Home" asp-action="Index">
+                                        <img class="lazy-logo" data-src="/images/logo120X90.png" alt="" title="J P Finance Group Ltd">
+                                        <noscript><img src="~/images/logo120X90.png" alt="" title="J P Finance Group Ltd"></noscript>
+                                    </a>
+                                </div>
+                            </div>*@
 
                         <div class="nav-outer clearfix">
 
@@ -133,13 +134,14 @@
                         Helping Ordinary People Achieving Extra-Ordinary Dreams
                     </div>
                     <!--Logo-->
-                    <div class="logo pull-left">
-                        <a asp-controller="Home" asp-action="Index" class="img-responsive">
-                            <img class="lazy-logo" data-src="/images/logo80X60.jpg" alt="" title="">
-                            <noscript><img src="~/images/logo80X60.jpg" alt="" title=""></noscript>
-                        </a>
-                        <span><a asp-controller="Home" asp-action="Index">J P Finance Group Ltd</a></span>
-                    </div>
+                    @* 20200914 - removing logo *@
+                    @*<div class="logo pull-left">
+                            <a asp-controller="Home" asp-action="Index" class="img-responsive">
+                                <img class="lazy-logo" data-src="/images/logo80X60.jpg" alt="" title="">
+                                <noscript><img src="~/images/logo80X60.jpg" alt="" title=""></noscript>
+                            </a>
+                            <span><a asp-controller="Home" asp-action="Index">J P Finance Group Ltd</a></span>
+                        </div>*@
 
                     <!--Right Col-->
                     <div class="right-col pull-right">
@@ -205,12 +207,12 @@
                                 <!--Footer Column-->
                                 <div class="footer-column col-lg-7 col-md-6 col-sm-12">
                                     <div class="footer-widget logo-widget">
-                                        <div class="logo">
+                                        @*<div class="logo">
                                             <a asp-controller="Home" asp-action="Index">
                                                 <img class="lazy-logo" data-src="/images/logo120X90.png" alt="" />
                                                 <noscript><img src="~/images/logo120X90.png" alt="" /></noscript>
                                             </a>
-                                        </div>
+                                        </div>*@
                                         @{
                                             var query = WebUtility.UrlEncode(ContactInfoOptions.Value.RawAddress);
                                         }

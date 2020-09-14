@@ -339,7 +339,7 @@
 
 /* Main slider on homepage */
 .main-slider.style-four .content .title {
-    color: rgba(212,175,55, 0.8);
+    color: #ffffff;
     font-weight: 600;
 }
 
@@ -352,7 +352,7 @@
     }
 
 .main-slider.style-four .content .text {
-    color: rgb(212,175,55);
+    color: #ffffff;
 }
 
 .main-header .top-left:before {
