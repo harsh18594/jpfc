@@ -184,7 +184,7 @@ namespace jpfc.Services.Reports
             titleRow = _headerTable.AddRow();
             titleRow.Cells[1].Style = "SectionTitle";
             titleRow.Cells[1].Format.Alignment = ParagraphAlignment.Left;
-            titleRow.Cells[1].AddParagraph("Bayfield Mall, 320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 \n https://jpfinancegroup.com/ | (416) 705-3885 | jpfinancegroupltd@gmail.com \n BN Number #70648-6511");
+            titleRow.Cells[1].AddParagraph("Bayfield Mall, 320 Bayfield St, Suite 106A, Barrie, ON L4M 3C1 \n https://jpfinancegroup.com/ | (416) 705-3885 | jpfinancechase@gmail.com \n BN Number #70648-6511");
 
             // Add horizontal line
             var paragraph = section.Headers.Primary.AddParagraph();
